@@ -19,7 +19,7 @@
 
 This project is a selfhosted MVP for realtime notifications in [Ghost CMS](https://ghost.org/). It's my submission to the [2022 MongoDB hackathon on dev.to](https://dev.to/devteam/announcing-the-mongodb-atlas-hackathon-2022-on-dev-2107).
 
-Ghost Notifier built on top of MongoDB ChangeStreams and Ghost webhooks to deliver notifications whenever a new article is published or an existing article is updated.
+Ghost Notifier is built on top of MongoDB ChangeStreams and Ghost webhooks to deliver notifications whenever a new article is published or an existing article is updated.
 
 [![ghost-notifier landing page][product-screenshot]](#)
 
@@ -34,7 +34,7 @@ Ghost Notifier built on top of MongoDB ChangeStreams and Ghost webhooks to deliv
 
 ## Get started
 
-Visualizing serverside sent events + a Ghost instance turned out to be quite a boilerplate. So I've added to alternate ways to give this application a ride:
+I've added to alternate ways for your to give this application a ride:
 
 - Simulate Ghost Webhooks with a HTTP client and check the app logs on localhost:3000/ (the 'Simulation approach')
 - Start a Ghost Instance locally, register webhooks and the frontend library (the 'Ghost approach')
@@ -43,7 +43,20 @@ In the following, I'll explain both in greater detail.
 
 ### Quickstart
 
-Before starting the application, you'll need to create a `.env` file in the project's root directory. Rename the `.env.example` file and add your [MongoDB atlas](https://www.mongodb.com/atlas) credentials.
+Start by cloning this repos into a folder of your choice and renaming the `.env.example` file to `.env`:
+
+```sh
+# http
+git clone https://github.com/tq-bit/ghost-notifier.git
+
+# ssh
+git clone git@github.com:tq-bit/ghost-notifier.git
+
+# Rename env file
+cp .env.example .env
+```
+
+Rename the `.env.example` into `.env` file and add your [MongoDB atlas](https://www.mongodb.com/atlas) credentials.
 
 > You can find the username, password and URL in your MongoDB Atlas console
 
@@ -53,14 +66,14 @@ MONGO_USER=<atlas-user>
 MONGO_PASSWORD=<atlas-password>
 ```
 
-Once these params are in place, open a terminal and type
+Next, open a terminal and type
 
 ```sh
 $ npm install
 $ npm run dev
 ```
 
-This will start the application at http://localhost:3000 by default. When you open your browser, you'll see a log of incoming messages.
+This will start the application at http://localhost:3000. When you open your browser, you'll see a log of incoming messages.
 
 ![](https://raw.githubusercontent.com/tq-bit/ghost-notifier/master/assets/images/ghost-notifier-ui-empty.png)
 
@@ -71,7 +84,7 @@ It's still empty, so let's look how we can fill it up to look more like this:
 
 ### The Simulation approach
 
-For this approach, you'll need an HTTP client. Within VSCode, you can use the [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) plugin from the marketplace.
+For this approach, you'll need an HTTP client. I recommend you to use the [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) VSCode plugin from the marketplace.
 
 Head over to the [`examples/simulation` folder](https://github.com/tq-bit/ghost-notifier/tree/master/examples/simulation/payloads). If you're using the plugin, you can use the `notification.rest` file to send the requests with the matching payload. If you're using a client like Postman, you can grab the create and update paylods from the `payloads` folder:
 
