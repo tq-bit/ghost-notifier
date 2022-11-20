@@ -25,6 +25,11 @@ Ghost Notifier built on top of MongoDB ChangeStreams and Ghost webhooks to deliv
 
 ### Built With
 
+- MongoDB
+- Typescript / Javascript
+- Handlebars
+- feat. Ghost CMS
+
 
 ## Get started
 
@@ -132,6 +137,7 @@ Assuming your Ghost-Notifier runs on post http://localhost:3000/, you can use [G
 - Head to http://localhost:2368/ghost/#/settings/code-injection
 - In the Site Header section, add the following:
 
+
 ```html
 <link href="http://localhost:3000/plugin/ghost-plugin.css" rel="stylesheet">
 ```
@@ -144,6 +150,17 @@ Assuming your Ghost-Notifier runs on post http://localhost:3000/, you can use [G
 
 Open http://localhost:2368/ again. You should see a small bell-icon in the upper right corner. Try and publish a post now and you'll see a small right badge on the top right. Click on the button and you'll receve a list of post update notifications.
 
+
+### Connect to LaMetric (optional & limit to local network)
+
+LaMetric is a smart home device that can receive HTTP calls from inside a network. I've added a small bit of [optional code in the noficiation.listener file](https://github.com/tq-bit/ghost-notifier/blob/master/src/realtime/notification.listener.ts#L93) that connects to LaMEtric and sends a new notification whenever a webhook is triggered. I've also recorded a brief video to showcase its funtionality. You can check it out on Youtube: https://youtube.com/shorts/Mdwa-9BS4W4 or try it yourself if you have the hardware.
+
+To activate this feature, add the following two variables to your `.env` file:
+
+```sh
+LAMETRIC_IP=<la-metric-ip-address>   # e.g. 192.168.1.123:8080
+LAMETRIC_API_KEY=<la-metric-api-key> # See https://developer.lametric.com/ for more info
+```
 
 <!-- LICENSE -->
 ## License
@@ -159,11 +176,10 @@ Licensed under the MIT License. See `LICENSE` for more information.
 
 Please tell me how you liked the submission. You can reach me on Twitter or on [dev.to](https://dev.to/tqbit)
 
-If you've got any suggestions on new features, please do open a new issue.
 
 Mail: [tobi@q-bit.me](mailto:tobi@q-bit.me) - Twitter: [@qbitme](https://twitter.com/qbitme)
 
-Project Link: [https://github.com/tq-bit/ville-de-cuisines](https://github.com/tq-bit/ville-de-cuisines)
+Project Link: [https://github.com/tq-bit/ghost-notifier](https://github.com/tq-bit/ghost-notifier)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
