@@ -19,7 +19,7 @@
 
 This project is a selfhosted MVP for realtime notifications in [Ghost CMS](https://ghost.org/). It's my submission to the [2022 MongoDB hackathon on dev.to](https://dev.to/devteam/announcing-the-mongodb-atlas-hackathon-2022-on-dev-2107).
 
-It's built on top of MongoDB ChangeStreams and Ghost webhooks to deliver notifications whenever a new article is published or an existing article is updated.
+Ghost Notifier built on top of MongoDB ChangeStreams and Ghost webhooks to deliver notifications whenever a new article is published or an existing article is updated.
 
 [![ghost-notifier landing page][product-screenshot]](#)
 
@@ -56,21 +56,21 @@ $ npm run dev
 
 This will start the application at http://localhost:3000 by default. When you open your browser, you'll see a log of incoming messages.
 
-// TODO: Insert screenshot here (empty)
+![](https://raw.githubusercontent.com/tq-bit/ghost-notifier/master/assets/images/ghost-notifier-ui-empty.png)
 
 It's still empty, so let's look how we can fill it up to look more like this:
 
-// TODO: Insert second screenshot here (filled)
+![](https://raw.githubusercontent.com/tq-bit/ghost-notifier/master/assets/images/ghost-notifier-ui.png)
 
 
 ### The Simulation approach
 
-For this approach, you'll need an HTTP client. If you're using VSCode, you can use the [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) plugin from the marketplace.
+For this approach, you'll need an HTTP client. Within VSCode, you can use the [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) plugin from the marketplace.
 
-Head over to the `examples/simulation` folder. If you're using the plugin, you can use the `notification.rest` file to send the requests with the matching payload. If you're using a client like Postman, you can grab the create and update paylods from the `payloads` folder:
+Head over to the [`examples/simulation` folder](https://github.com/tq-bit/ghost-notifier/tree/master/examples/simulation/payloads). If you're using the plugin, you can use the `notification.rest` file to send the requests with the matching payload. If you're using a client like Postman, you can grab the create and update paylods from the `payloads` folder:
 
-- Create a new post (TODO: Add link)
-- Update an existing post (TODO: Add link)
+- [Create a new post](https://github.com/tq-bit/ghost-notifier/blob/master/examples/simulation/payloads/create-post.json)
+- [Update an existing post](https://github.com/tq-bit/ghost-notifier/blob/master/examples/simulation/payloads/update-post.json)
 
 After sending the paylods, check your application at http://localhost:3000/ and you should see a new entry added to the list.
 
@@ -83,10 +83,10 @@ If you want to see the full example, you'll need to start a Ghost instance local
 Open up a terminal and type
 
 ```sh
-# If you're usign the binary
+# Using the binary
 docker-compose up
 
-# If you're using the plugin
+# Using the plugin
 docker compose up
 ```
 
@@ -101,17 +101,17 @@ Ghost can be configured to send HTTP POST requests to a custom URL when an event
 
 Before adding the webhooks, you must create a new custom integration under `http://localhost:2368/ghost/#/settings/integrations`
 
-TODO: Add screenshot here
+![](https://raw.githubusercontent.com/tq-bit/ghost-notifier/master/assets/images/ghost-notifier-create-integration.gif)
 
 Let's add the create - webhook first.
 
-> Ghost is a serverside process in a docker container, so you cannot use http://localhost:3001, but must the IP address of your local machine in your home/work network. If you're unaware of it, you can use `ifconfig` on UNIX systems or `ipconfig` on Windows to find it out.
+> Ghost is a serverside process in a docker container, so you cannot use http://localhost:3000, but must the IP address of your machine in your local network. You can use `ifconfig` on UNIX systems or `ipconfig` on Windows to find it out.
 
 - Name: Ghost-Post-published
 - Event: Post published
 - URL: -IP-address of your computer in your network-:3000/api/article/publish
 
-TODO: Add screenshot here
+![](https://raw.githubusercontent.com/tq-bit/ghost-notifier/master/assets/images/ghost-notifier-create-integration.gif)
 
 Next, add the update - webhook:
 
@@ -119,9 +119,9 @@ Next, add the update - webhook:
 - Event: Post updated
 - URL: -IP-address of your computer in your network-:3000/api/article/update
 
-TODO: add screenshot here
+![](https://raw.githubusercontent.com/tq-bit/ghost-notifier/master/assets/images/ghost-notifier-create-webhook-update.gif)
 
-You can check whether the webhooks work by creating a new post under http://localhost:2368/ghost/#/editor/post and updating it. The log on http://localhost:3000 will start filling with every create/update.
+You can check whether the webhooks work by creating a new post under http://localhost:2368/ghost/#/editor/post and updating it. The log on http://localhost:3000 will receive a new entry with every create/update.
 
 #### Registering the Frontend Library
 
@@ -142,7 +142,7 @@ Assuming your Ghost-Notifier runs on post http://localhost:3000/, you can use [G
 <script src="http://localhost:3000/plugin/ghost-plugin.js"></script>
 ```
 
-If you open http://localhost:2368/ again, you should see the small bell-icon in the upper right corner. Try and publish a post now and you'll see a small red badge, indicating that a new post has been created to the reader in real time.
+Open http://localhost:2368/ again. You should see a small bell-icon in the upper right corner. Try and publish a post now and you'll see a small right badge on the top right. Click on the button and you'll receve a list of post update notifications.
 
 
 <!-- LICENSE -->
