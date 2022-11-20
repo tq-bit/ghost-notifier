@@ -1,0 +1,14 @@
+
+# Create a new post
+POST http://localhost:3000/api/article/publish
+Content-Type: application/json
+
+< ./payloads/create-post.json
+
+###
+
+# Update an existing post
+POST http://localhost:3000/api/article/update
+Content-Type: application/json
+
+< ./payloads/update-post.json

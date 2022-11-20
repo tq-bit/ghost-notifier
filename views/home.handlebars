@@ -1,0 +1,43 @@
+<section class='container'>
+  <div class='row'>
+    <div class='col-1 col-lg-2'></div>
+    <div class='col'>
+
+      <div class='card'>
+        <div class='card-header'>
+          <h2 class="h3 text-center">Ghost Notifier logs</h2>
+        </div>
+        <div class='card-body max-h-800'>
+          <div id="log-list-placeholder">
+            <h3 class="h4 text-center mt-3">No entries yet</h3>
+            <p class="text-center">Try sending a Ghost webhook to <code>/api/article/publish</code></p>
+          </div>
+          <ul id="log-list" class="list-group ">
+
+          </ul>
+
+        </div>
+        <footer class="card-footer text-muted">
+          <div class="container">
+            <div class="row">
+              <div class="col">
+                <div class="mt-2 mb-2">
+                  <svg class="mb-1" height="12" width="12">
+                    <circle id="connection-indicator-sign" cx="6" cy="6" r="6" stroke-width="3" fill="orange" />
+                  </svg>
+                  <span id="connection-indicator-text" class="ms-1">Connecting ...</span>
+                </div>
+
+              </div>
+              <div class="col text-end">
+                <button id="connection-indicator-button" class="btn btn-link d-none">Reconnect</button>
+              </div>
+            </div>
+          </div>
+
+        </footer>
+      </div>
+    </div>
+    <div class='col-1 col-lg-2'></div>
+  </div>
+</section>

@@ -1,0 +1,76 @@
+h5,
+h6 {
+	margin: 0.5rem 0;
+}
+
+.hidden {
+	display: none;
+}
+
+.notification_wrapper {
+	position: relative;
+}
+
+.notification_dropdown__drawer {
+	background-color: #484848;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	border-radius: 0.5rem;
+	position: absolute;
+	right: 0;
+	margin-top: 1.5rem;
+	max-height: 0;
+	transition: max-height 1s;
+	overflow: hidden;
+	width: fit-content;
+}
+
+.notification_dropdown__dropdown {
+	list-style: none;
+	padding: 0 1.25rem;
+	text-align: left;
+}
+
+.notification_dropdown__drawer__item {
+	padding: 1.25rem 0;
+	margin: 0;
+}
+
+.notification_dropdown__drawer__item:not(:nth-child(1)) {
+	border-top: 1px solid #eee;
+}
+
+.notification_button {
+	position: relative;
+	background-color: transparent;
+}
+
+.notification_badge {
+	font-size: 0.5rem;
+	position: absolute;
+	top: -2px;
+	right: -2px;
+	height: 0.75rem;
+	width: 0.75rem;
+	border-radius: 999px;
+	background-color: orangered;
+}
+
+.notification_dropdown__text {
+	margin: 1rem 0;
+}
+
+.notification_dropdown__button {
+	background-color: #fff;
+	color: var(--color-darkgrey);
+	padding: 0.5rem 1rem;
+	border-radius: 0.5rem;
+}
+
+.notification_tag--connected {
+	background-color: green;
+}
+
+.notification_tag--disconnected {
+	background-color: red;
+}

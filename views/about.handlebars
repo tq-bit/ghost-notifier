@@ -1,0 +1,35 @@
+<section class='container'>
+  <article class='row'>
+    <div class='col-1 col-lg-2'></div>
+    <div class='col'>
+      <div class='card'>
+        <div class='card-header bg-light'>
+          <h2 class='h4 text-center'>About this app</h2>
+        </div>
+        <div class='card-body'>
+          <p>
+            {{{packageJson.description}}}
+          </p>
+          <p>
+            <a href='/'>Check out my submission on Github</a>
+          </p>
+        </div>
+        <footer class='card-footer bg-light d-flex justify-content-between'>
+          <small>
+            Version:
+            {{{packageJson.version}}}
+          </small>
+          <small class="text-center">
+            {{{packageJson.license}}}
+            license
+          </small>
+          <small class="text-end">
+            Author:
+            {{{packageJson.author}}}
+          </small>
+        </footer>
+      </div>
+    </div>
+    <div class='col-1 col-lg-2'></div>
+  </article>
+</section>

@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  ghost:
+    image: ghost:latest
+    ports:
+      - 2368:2368
+    environment:
+      url: http://localhost:2368
+      NODE_ENV: 'development'
