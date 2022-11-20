@@ -25,10 +25,11 @@ Ghost Notifier built on top of MongoDB ChangeStreams and Ghost webhooks to deliv
 
 ### Built With
 
-- MongoDB
-- Typescript / Javascript
-- Handlebars
-- feat. Ghost CMS
+- [MongoDB Atlas](https://www.mongodb.com/atlas)
+- [Typescript / Javascript](https://www.typescriptlang.org/)
+- [Handlebars](https://handlebarsjs.com/guide/)
+- feat. [Ghost CMS](https://ghost.org/)
+- feat. [LaMetric](https://lametric.com/)
 
 
 ## Get started
