@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { GhostPost, GhostArticle, NotificationEntry, AppResponseMessage } from '../@types';
+import { GhostPost, GhostArticle, NotificationEntry, AppResponseMessage } from '../../@types';
 
 import NotificationModel from '../model/notification.model';
 import logger from '../util/logger.util';

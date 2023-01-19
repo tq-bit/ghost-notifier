@@ -1,4 +1,4 @@
-import { NotificationEntry } from '../@types/notifier';
+import { NotificationEntry } from '../../@types/notifier';
 import { notificationCollection } from './dbClient';
 
 async function createNotificationEntry(notificationEntry: NotificationEntry) {

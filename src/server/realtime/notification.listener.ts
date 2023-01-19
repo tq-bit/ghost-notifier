@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Request, Response } from 'express';
 import { ChangeStreamDocument, OperationOptions } from 'mongodb';
-import { NotificationEntry } from '../@types';
+import { NotificationEntry } from '../../@types';
 
 import { notificationCollection } from '../model/dbClient';
 import logger from '../util/logger.util';
