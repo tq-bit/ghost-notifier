@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import NotificationController from './notification.controller';
 import NotificationListener from './notification.listener';
-import GhostWebhookValidator from '../../middleware/validator';
+import GhostWebhookValidator from '../../middleware/validator.middleware';
 
 const router: Router = Router();
 
