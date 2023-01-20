@@ -1,7 +1,6 @@
-import axios from 'axios';
-import { Request, Response } from 'express';
-import { ChangeStreamDocument, OperationOptions } from 'mongodb';
 import crypto from 'crypto';
+import { Request, Response } from 'express';
+import { ChangeStreamDocument } from 'mongodb';
 import { Notification } from '../../../@types/notification';
 
 import { notificationCollection } from '../../db/dbClient';
