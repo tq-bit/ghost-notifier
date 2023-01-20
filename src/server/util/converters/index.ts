@@ -1,5 +1,5 @@
 import { Request } from 'express';
-import { GhostPost, GhostArticle, NotificationEntry } from '../../@types';
+import { GhostPost, GhostArticle, NotificationEntry } from '../../../@types';
 
 export default {
 	convertIncomingWebhookToArticle: (req: Request) => {

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-import Converter from '../../converters/index';
+import Converter from '../../util/converters/index';
 import NotificationModel from './notification.model';
 import logger from '../../util/logger.util';
 import NotFoundError from '../../errors/http/NotFoundError';
@@ -26,16 +26,19 @@ export default {
 		} catch (error) {
 			error instanceof ConflictError
 				? res.status(error.options.code).send({ error: error.message })
-				: res.status(500).send({ error });
+				: () => {
+						logger.error(error);
+						res.status(500).send({ error });
+				  };
 		}
 	},
 
 	handleArticleUpdateNotification: async (req: Request, res: Response) => {
 		try {
 			const incomingArticle = Converter.convertIncomingWebhookToArticle(req);
-			const savedEntry = await NotificationModel.getNotificationById(incomingArticle.id);
+			const currentNotification = await NotificationModel.getNotificationById(incomingArticle.id);
 
-			if (!savedEntry) {
+			if (!currentNotification) {
 				throw new NotFoundError(
 					`Attempt to update article ${incomingArticle.id} failed: Entry not found`
 				);
@@ -49,7 +52,10 @@ export default {
 		} catch (error) {
 			error instanceof NotFoundError
 				? res.status(error.options.code).send({ error: error.message })
-				: res.status(500).send({ error });
+				: () => {
+						logger.error(error);
+						res.status(500).send({ error });
+				  };
 		}
 	},
 };
