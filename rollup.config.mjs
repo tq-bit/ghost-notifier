@@ -11,6 +11,7 @@ export default [
 			file: './dist/server.js',
 			format: 'cjs',
 		},
+		external: ['crypto', 'cors', 'dotenv', 'express', 'express-handlebars', 'mongodb', 'winston'],
 		plugins: [typescript()],
 	},
 	{
