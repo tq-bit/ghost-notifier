@@ -12,6 +12,7 @@
 	"author": "tq-bit",
 	"license": "MIT",
 	"dependencies": {
+		"@sinclair/typebox": "^0.25.21",
 		"ajv": "^8.12.0",
 		"axios": "^1.1.3",
 		"cors": "^2.8.5",
