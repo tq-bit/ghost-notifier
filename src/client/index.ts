@@ -68,7 +68,7 @@ function renderListElement(sseMessage: MessageEvent): HTMLElement {
 }
 
 function initEventSource() {
-	const subscription = new EventSource('/api/subscribe/notification');
+	const subscription = new EventSource('/api/notification/subscribe');
 
 	// @ts-ignore
 	subscription.addEventListener('open', (ev: MessageEvent): any => {

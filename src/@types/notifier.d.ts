@@ -1,3 +1,5 @@
+// TODO: Make this interface more generic to also work for authors and pages
+
 export interface NotificationEntry {
 	postId: string;
 	postTitle: string;

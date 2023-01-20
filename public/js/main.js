@@ -51,7 +51,7 @@ function renderListElement(sseMessage) {
     return li;
 }
 function initEventSource() {
-    const subscription = new EventSource('/api/subscribe/notification');
+    const subscription = new EventSource('/api/notification/subscribe');
     // @ts-ignore
     subscription.addEventListener('open', (ev) => {
         _updateConnectionStatus('connected');
