@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-import Converter from '../../util/converters/index';
+import Converter from '../../util/converter.util';
 import NotificationModel from './notification.model';
 import logger from '../../util/logger.util';
 import NotFoundError from '../../errors/http/NotFoundError';
