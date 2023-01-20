@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import NotificationController from './notification.controller';
 import NotificationListener from './notification.listener';
-import GhostWebhookValidator from '../../middleware/validator.middleware';
+import Validator from '../../middleware/validator.middleware';
 
 const router: Router = Router();
 
@@ -9,12 +9,12 @@ router.get('/subscribe', NotificationListener.subscribeToArticleNotifications);
 
 router.post(
 	'/article/create',
-	GhostWebhookValidator.validateGhostWebhook,
+	Validator.validateGhostWebhook,
 	NotificationController.handleArticleCreationNotification
 );
 router.post(
 	'/article/update',
-	GhostWebhookValidator.validateGhostWebhook,
+	Validator.validateGhostWebhook,
 	NotificationController.handleArticleUpdateNotification
 );
 
