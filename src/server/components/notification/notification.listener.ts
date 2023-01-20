@@ -2,7 +2,7 @@ import axios from 'axios';
 import { Request, Response } from 'express';
 import { ChangeStreamDocument, OperationOptions } from 'mongodb';
 import crypto from 'crypto';
-import { NotificationEntry } from '../../../@types';
+import { Notification } from '../../../@types/notification';
 
 import { notificationCollection } from '../../db/dbClient';
 import logger from '../../util/logger.util';
@@ -25,7 +25,7 @@ type EventType =
 	| 'replace'
 	| 'delete';
 
-const writeEventMessage = (res: Response, type: EventType, data: NotificationEntry | string) => {
+const writeEventMessage = (res: Response, type: EventType, data: Notification | string) => {
 	res.write(`event: ${type}\n`);
 	res.write(`data: ${typeof data === 'string' ? data : JSON.stringify(data)}\n`);
 	res.write(`id: ${crypto.randomUUID()}\n\n`);
@@ -49,15 +49,15 @@ export default {
 
 		const notificationStream = notificationCollection.watch();
 
-		notificationStream.on('change', (next: ChangeStreamDocument<NotificationEntry>) => {
+		notificationStream.on('change', (next: ChangeStreamDocument<Notification>) => {
 			// @ts-ignore, fullDocument is not part of 'next'
-			const notificationEntry: NotificationEntry = next.fullDocument;
+			const notification: Notification = next.fullDocument;
 			const operationType = next.operationType;
 			logger.verbose(
-				`Sending article update ${operationType} to client ${req.ip} with articleId ${notificationEntry.postId}`
+				`Sending article update ${operationType} to client ${req.ip} with articleId ${notification.postId}`
 			);
 
-			return writeEventMessage(res, operationType, notificationEntry);
+			return writeEventMessage(res, operationType, notification);
 		});
 
 		req.on('close', () => {

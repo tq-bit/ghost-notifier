@@ -1,17 +1,14 @@
-import { NotificationEntry } from '../../../@types/notifier';
+import { Notification } from '../../../@types';
 import { notificationCollection } from '../../db/dbClient';
 
 export default {
-	createNotification: (notificationEntry: NotificationEntry) => {
-		return notificationCollection.insertOne(notificationEntry);
+	createNotification: (notification: Notification) => {
+		return notificationCollection.insertOne(notification);
 	},
 	getNotificationById: (notificationId: string) => {
 		return notificationCollection.findOne({ postId: notificationId });
 	},
-	updateNotificationById: (notificationEntry: NotificationEntry) => {
-		return notificationCollection.replaceOne(
-			{ postId: notificationEntry.postId },
-			notificationEntry
-		);
+	updateNotificationById: (notification: Notification) => {
+		return notificationCollection.replaceOne({ postId: notification.postId }, Notification);
 	},
 };

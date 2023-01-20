@@ -1,4 +1,4 @@
-import { NotificationEntry } from '../@types/notifier';
+import { Notification } from '../@types';
 
 const logList = document.querySelector('#log-list');
 const logListPlaceholder = document.querySelector('#log-list-placeholder');
@@ -42,7 +42,7 @@ function renderListElement(sseMessage: MessageEvent): HTMLElement {
 	const link = document.createElement('a');
 	const tag = document.createElement('span');
 
-	const ghostNotification: NotificationEntry = JSON.parse(sseMessage.data);
+	const ghostNotification: Notification = JSON.parse(sseMessage.data);
 
 	li.classList.add('list-group-item');
 	li.dataset.postId = ghostNotification.postId;
