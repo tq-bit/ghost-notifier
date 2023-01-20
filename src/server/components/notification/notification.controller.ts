@@ -45,7 +45,7 @@ export default {
 			}
 
 			const notification = Converter.convertArticleToNotification(incomingArticle);
-			await NotificationModel.updateNotificationById(notification);
+			NotificationModel.updateNotificationById(notification);
 			logger.verbose(`Notification updated for article ${incomingArticle.id}`);
 
 			return res.status(200).send('OK');

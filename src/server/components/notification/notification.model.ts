@@ -8,7 +8,7 @@ export default {
 	getNotificationById: (notificationId: string) => {
 		return notificationCollection.findOne({ postId: notificationId });
 	},
-	updateNotificationById: (notification: Notification) => {
-		return notificationCollection.replaceOne({ postId: notification.postId }, Notification);
+	updateNotificationById: async (notification: Notification) => {
+		return notificationCollection.replaceOne({ postId: notification.postId }, notification);
 	},
 };
