@@ -1,4 +1,5 @@
 import './main.scss';
+import './icons.scss';
 
 document.addEventListener('DOMContentLoaded', () => {
 	// Get all "navbar-burger" elements

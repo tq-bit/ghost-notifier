@@ -13,9 +13,9 @@
               <thead>
                 <tr>
                   <th>Domain name</th>
-                  <th>Domain access</th>
+                  <th>Access</th>
                   <th>Status</th>
-                  <th>Action</th>
+                  <th class="text-end">Entry actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -24,15 +24,15 @@
                   <td>{{name}}</td>
                   <td>{{type}}</td>
                   <td>{{status}}</td>
-                  <td class="is-flex is-justify-content-space-between">
-                    <form method="POST" action="/api/domain/{{id}}/toggle-status">
-                      <button title="Enable / disable this domain" class="button">
-                        Status
+                  <td class="is-flex is-justify-content-end">
+                    <form class="mr-1" method="POST" action="/api/domain/{{id}}/toggle-status">
+                      <button title="Enable / disable this domain" class="button is-light">
+                        <i class="gg-calibrate"></i>
                       </button>
                     </form>
                     <form method="POST" action="/api/domain/{{id}}/delete">
-                      <button title="Delete this domain" class="button">
-                        Delete
+                      <button title="Delete this domain" class="button is-danger">
+                        <i class="gg-trash"></i>
                       </button>
                     </form>
                   </td>
