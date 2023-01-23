@@ -6,6 +6,10 @@ export default {
 		return domainCollection.insertOne(domain);
 	},
 
+	getDomainById: (domainId: string) => {
+		return domainCollection.findOne({ id: domainId });
+	},
+
 	getDomainByName: (domainName: string) => {
 		return domainCollection.findOne({ name: domainName });
 	},
@@ -16,5 +20,9 @@ export default {
 		await cursor.forEach((entry) => results.push(entry));
 
 		return Promise.all(results) as Promise<OwnedDomain[]>;
+	},
+
+	updateDomainById: (domainId: string, domainEntry: OwnedDomain) => {
+		return domainCollection.updateOne({ id: domainId }, { $set: domainEntry });
 	},
 };
