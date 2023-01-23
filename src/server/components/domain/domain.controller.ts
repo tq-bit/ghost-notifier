@@ -122,7 +122,6 @@ export default {
 				throw new NotFoundError(`Domain with ID ${req.params.id} not found`);
 			}
 
-			// @ts-ignore
 			await DomainModel.deleteDomainById(req.params.id);
 
 			const status = 'success';
