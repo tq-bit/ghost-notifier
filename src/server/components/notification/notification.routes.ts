@@ -13,11 +13,14 @@ router.post(
 	Validator.validateWebhookDomain,
 	NotificationController.handleArticleCreationNotification
 );
+
 router.post(
 	'/article/update',
 	Validator.validateGhostWebhook,
 	Validator.validateWebhookDomain,
 	NotificationController.handleArticleUpdateNotification
 );
+
+router.post('/article/delete', NotificationController.handleArticleDeletionNotification);
 
 export default router;

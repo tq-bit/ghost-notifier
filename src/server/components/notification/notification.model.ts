@@ -16,4 +16,8 @@ export default {
 	updateNotificationById: async (notification: Notification) => {
 		return notificationCollection.replaceOne({ id: notification.id }, notification);
 	},
+
+	deleteNotificationByGhostId: (ghostId: string) => {
+		return notificationCollection.deleteMany({ ghostId: ghostId });
+	},
 };

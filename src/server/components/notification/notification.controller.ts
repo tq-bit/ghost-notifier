@@ -48,4 +48,31 @@ export default {
 				  };
 		}
 	},
+
+	handleArticleDeletionNotification: async (req: Request, res: Response) => {
+		try {
+			const incomingArticle = Converter.convertIncomingWebhookToArticle(req);
+			const currentNotification = await NotificationModel.getNotificationByGhostId(
+				incomingArticle.id
+			);
+
+			if (!currentNotification) {
+				throw new NotFoundError(
+					`Attempt to delete article ${incomingArticle.id} failed: Entry not found`
+				);
+			}
+
+			NotificationModel.deleteNotificationByGhostId(incomingArticle.id);
+			logger.verbose(`Notification deleted for article ${incomingArticle.id}`);
+
+			return res.status(200).send('OK');
+		} catch (error) {
+			error instanceof NotFoundError
+				? res.status(error.options.code).send({ error: error.message })
+				: () => {
+						logger.error(error);
+						res.status(500).send({ error });
+				  };
+		}
+	},
 };
