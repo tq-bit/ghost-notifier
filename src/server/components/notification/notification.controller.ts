@@ -4,19 +4,11 @@ import Converter from '../../util/converter.util';
 import NotificationModel from './notification.model';
 import logger from '../../util/logger.util';
 import NotFoundError from '../../errors/http/NotFoundError';
-import ConflictError from '../../errors/http/ConflictError';
 
 export default {
 	handleArticleCreationNotification: async (req: Request, res: Response) => {
 		try {
 			const incomingArticle = Converter.convertIncomingWebhookToArticle(req);
-			const duplicatedEntry = await NotificationModel.getNotificationById(incomingArticle.id);
-
-			if (!!duplicatedEntry) {
-				throw new ConflictError(
-					`Attempt to create article ${incomingArticle.id} failed: Duplicated entry`
-				);
-			}
 
 			const notification = Converter.convertArticleToNotification(incomingArticle);
 			await NotificationModel.createNotification(notification);
@@ -24,12 +16,8 @@ export default {
 
 			return res.status(200).send('OK');
 		} catch (error) {
-			error instanceof ConflictError
-				? res.status(error.options.code).send({ error: error.message })
-				: () => {
-						logger.error(error);
-						res.status(500).send({ error });
-				  };
+			logger.error(error);
+			res.status(500).send({ error });
 		}
 	},
 
