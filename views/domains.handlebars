@@ -19,24 +19,18 @@
                 </tr>
               </thead>
               <tbody>
+                {{#each data}}
                 <tr>
-                  <td>blog.q-bit.me</td>
-                  <td>Public</td>
-                  <td>Active</td>
+                  <td>{{name}}</td>
+                  <td>{{type}}</td>
+                  <td>{{status}}</td>
                   <td>
                     <button class="button">Disable</button>
                     <button class="button">Delete</button>
                   </td>
                 </tr>
-                <tr>
-                  <td>tags.q-bit.me</td>
-                  <td>Private</td>
-                  <td>Active</td>
-                  <td>
-                    <button class="button">Disable</button>
-                    <button class="button">Delete</button>
-                  </td>
-                </tr>
+                {{/each}}
+
               </tbody>
             </table>
           </div>
@@ -58,7 +52,6 @@
             <div class="field">
               <label class="field-label is-normal" for="type">Domain access</label>
               <select required name="type" class="input is-light" placeholder="Choose between public and private access">
-                <option selected disabled>Select a domain type</option>
                 <option value="public">Public</option>
                 <option value="private">Private</option>
               </select>

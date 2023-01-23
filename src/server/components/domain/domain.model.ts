@@ -10,7 +10,7 @@ export default {
 		return domainCollection.findOne({ name: domainName });
 	},
 
-	getDomainsByOwner: async (ownerName: string) => {
+	getDomainsByOwner: async (ownerName: string): Promise<OwnedDomain[]> => {
 		const cursor = domainCollection.find({ owner: ownerName });
 		let results: any = [];
 		await cursor.forEach((entry) => results.push(entry));
