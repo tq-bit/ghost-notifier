@@ -24,8 +24,9 @@ export default {
 	handleArticleUpdateNotification: async (req: Request, res: Response) => {
 		try {
 			const incomingArticle = Converter.convertIncomingWebhookToArticle(req);
-			// FIXME: Rewrite update method to look for Ghost ID
-			const currentNotification = await NotificationModel.getNotificationById(incomingArticle.id);
+			const currentNotification = await NotificationModel.getNotificationByGhostId(
+				incomingArticle.id
+			);
 
 			if (!currentNotification) {
 				throw new NotFoundError(
