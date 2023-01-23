@@ -120,7 +120,7 @@ export const GhostArticle = Type.Object({
 export const GhostWebhook = Type.Object({
 	post: Type.Object({
 		current: GhostArticle,
-		previous: Type.Optional(Type.Any()),
+		previous: Type.Optional(GhostArticle),
 	}),
 });
 

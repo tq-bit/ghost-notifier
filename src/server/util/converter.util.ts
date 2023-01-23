@@ -6,14 +6,16 @@ import {
 	NotificationType,
 	DomainForm,
 	OwnedDomain,
-	DomainType,
 } from '../../@types';
 import crypto from 'crypto';
 
 export default {
 	convertIncomingWebhookToArticle: (req: Request) => {
 		const incomingPost = req.body as GhostWebhook;
-		return incomingPost.post.current as GhostArticle;
+		if (!!incomingPost.post.current) {
+			return incomingPost.post.current as GhostArticle;
+		}
+		return incomingPost.post.previous as GhostArticle;
 	},
 
 	convertArticleToNotification: (ghostArticle: GhostArticle): Notification => {
