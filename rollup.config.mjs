@@ -20,6 +20,14 @@ export default [
 		output: {
 			file: './public/js/main.js',
 			format: 'cjs',
+		},
+		plugins: [typescript(), scss()],
+	},
+	{
+		input: 'src/client/styles/styles.main.ts',
+		output: {
+			file: './public/css/main.js',
+			format: 'cjs',
 			assetFileNames: '[name][extname]',
 		},
 		plugins: [typescript(), scss()],
