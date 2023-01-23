@@ -20,6 +20,7 @@ app.use(cors());
 app.use(accessLogger);
 app.use(express.static('public'));
 app.use(express.json());
+app.use(express.urlencoded());
 
 app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');

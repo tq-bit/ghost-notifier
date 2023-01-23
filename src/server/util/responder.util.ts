@@ -1,7 +1,6 @@
 interface ResponderOptions {
 	onJson: () => void;
 	onOther: () => void;
-	onError: (error: unknown) => void;
 }
 
 export default class Responder {
@@ -17,14 +16,10 @@ export default class Responder {
 	}
 
 	public send() {
-		try {
-			if (this.isJson()) {
-				return this.responderOptions.onJson();
-			}
-
-			return this.responderOptions.onOther();
-		} catch (error) {
-			return this.responderOptions.onError(error);
+		if (this.isJson()) {
+			return this.responderOptions.onJson();
 		}
+
+		return this.responderOptions.onOther();
 	}
 }

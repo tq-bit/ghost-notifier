@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { validateGhostWebhook } from '../../@types/ghost';
-import { DomainForm, validateDomainForm } from '../../@types/domain';
+import { validateDomainForm } from '../../@types/domain';
 import ValidationError from '../errors/http/ValidationError';
 
 import logger from '../util/logger.util';
@@ -26,8 +26,7 @@ export default {
 
 	validateDomainEntry: (req: Request, res: Response, next: NextFunction): void => {
 		try {
-			console.log(req.headers);
-			const validation = validateDomainForm(req.query as DomainForm);
+			const validation = validateDomainForm(req.body);
 
 			if (validation.result !== true) {
 				throw new ValidationError(JSON.stringify(validation.errors));

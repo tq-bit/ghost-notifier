@@ -52,15 +52,23 @@
 
           <form method="POST" action="/api/domain/create">
             <div class="field">
-              <label class="field-label is-normal" for="domainName">Domain name</label>
-              <input required name="domainName" class="input is-light" type="url" placeholder="Enter your domain name, e.g. https://my.blog.com">
+              <label class="field-label is-normal" for="name">Domain name</label>
+              <input required name="name" class="input is-light" type="url" placeholder="Enter your domain name, e.g. https://my.blog.com">
             </div>
             <div class="field">
-              <label class="field-label is-normal" for="domainType">Domain access</label>
-              <select required name="domainType" class="input is-light" placeholder="Choose between public and private access">
+              <label class="field-label is-normal" for="type">Domain access</label>
+              <select required name="type" class="input is-light" placeholder="Choose between public and private access">
                 <option selected disabled>Select a domain type</option>
                 <option value="public">Public</option>
                 <option value="private">Private</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label class="field-label is-normal" for="status">Domain status</label>
+              <select required name="status" class="input is-light" placeholder="Choose between public and private access">
+                <option selected value="active">Active</option>
+                <option value="inactive">Inactive</option>
               </select>
             </div>
             <div class="field">
