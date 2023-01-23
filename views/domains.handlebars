@@ -24,9 +24,17 @@
                   <td>{{name}}</td>
                   <td>{{type}}</td>
                   <td>{{status}}</td>
-                  <td>
-                    <button class="button">Disable</button>
-                    <button class="button">Delete</button>
+                  <td class="is-flex is-justify-content-space-between">
+                    <form method="PUT" action="/api/domain/{{id}}/toggle">
+                      <button title="Enable / disable this domain" class="button">
+                        Toggle
+                      </button>
+                    </form>
+                    <form method="DELETE" action="/api/domain/{{id}}/delete">
+                      <button title="Delete this domain" class="button">
+                        Delete
+                      </button>
+                    </form>
                   </td>
                 </tr>
                 {{/each}}

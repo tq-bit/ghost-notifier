@@ -18,6 +18,7 @@ export const DomainForm = Type.Object({
 });
 
 export const OwnedDomain = Type.Object({
+	id: Type.String(),
 	name: Type.String(),
 	type: Type.Enum(DomainType),
 	status: Type.Enum(DomainStatus),

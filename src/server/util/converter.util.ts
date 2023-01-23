@@ -32,6 +32,7 @@ export default {
 
 	convertDomainFormToOwnedDomain: (domain: DomainForm, domainOwner: string): OwnedDomain => {
 		return {
+			id: crypto.randomUUID(),
 			name: domain.name,
 			status: domain.status,
 			type: domain.type,
