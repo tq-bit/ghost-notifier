@@ -10,11 +10,13 @@ router.get('/subscribe', NotificationListener.subscribeToArticleNotifications);
 router.post(
 	'/article/create',
 	Validator.validateGhostWebhook,
+	Validator.validateWebhookDomain,
 	NotificationController.handleArticleCreationNotification
 );
 router.post(
 	'/article/update',
 	Validator.validateGhostWebhook,
+	Validator.validateWebhookDomain,
 	NotificationController.handleArticleUpdateNotification
 );
 
