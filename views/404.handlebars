@@ -1,16 +1,21 @@
 <section class='container'>
   <h1 class='h2 text-center'>404 - Page not found</h1>
-  <article class='row'>
-    <div class='col-1 col-md-2 col-lg-3'></div>
-    <div class='col'>
+  <div class="columns">
+    <div class="column is-one-quarter"></div>
+    <div class="column is-half">
       <img src='/images/404.png' class='img-fluid' alt='' height='1380' width='1840' />
 
       <p class='h5 text-center'>Let's get you back on track</p>
-      <div class='d-flex btn-group' role='group' aria-label='404 navigation'>
-        <button type='button' onclick="window.location = '/'" class='btn btn-outline-primary'>Go to Homepage</button>
-        <button type='button' onclick="history.back()" class='btn btn-outline-secondary'>Go to previous page</button>
+      <div class='field is-grouped is-flex is-justify-content-center' role='group' aria-label='404 navigation'>
+        <p class="control">
+          <button type='button' onclick="window.location = '/'" class='button  is-primary'>Go to home page</button>
+
+        </p>
+        <p class="control">
+
+          <button type='button' onclick="history.back()" class='button is-light'>Go to previous page</button>
+        </p>
       </div>
+      <div class="column is-one-quarter"></div>
     </div>
-    <div class='col-1 col-md-2 col-lg-3'></div>
-  </article>
 </section>
