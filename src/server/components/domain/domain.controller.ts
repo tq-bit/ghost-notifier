@@ -3,34 +3,71 @@ import DomainModel from './domain.model';
 import ConflictError from '../../errors/http/ConflictError';
 import Responder from '../../util/responder.util';
 import Converter from '../../util/converter.util';
+import { OwnedDomain } from '../../../@types';
+import { Domain } from 'domain';
+
+const createDomainEntry = async (req: Request, res: Response) => {
+	const owner = 't.quante@outlook.com';
+	const ownedDomain = Converter.convertDomainFormToOwnedDomain(req.body, owner);
+
+	const existingEntry = await DomainModel.getDomainByName(ownedDomain.name);
+
+	if (existingEntry) {
+		throw new ConflictError(`Domain with name ${ownedDomain.name} already exists`);
+	}
+
+	await DomainModel.createDomain(ownedDomain);
+
+	const status = 'success';
+	const message = `Domain ${ownedDomain.name} created successfully`;
+	const responder = new Responder(req.headers['content-type'] || 'text/html', {
+		onJson: () => res.status(201).send({ status: status, message: message }),
+		onOther: () => res.redirect(`/my-domains?status=${status}&message=${message}`),
+	});
+
+	responder.send();
+};
+
+const handleDomainCreationError = async (req: Request, res: Response, error: unknown) => {
+	const status = 'error';
+
+	if (error instanceof ConflictError) {
+		const {
+			options: { code },
+			message,
+		} = error;
+
+		const responder = new Responder(req.headers['content-type'] || 'text/html', {
+			onJson: () => res.status(code).send({ status: status, error: message }),
+			onOther: () => res.redirect(`my-domains?status=${status}&message=${message}`),
+		});
+		return responder.send();
+	}
+
+	const responder = new Responder(req.headers['content-type'] || 'text/html', {
+		onJson: () => res.status(500).send({ status: status, error }),
+		onOther: () => res.redirect(`my-domains?status=${status}&message=${error}`),
+	});
+	return responder.send();
+};
 
 export default {
 	handleDomainCreation: async (req: Request, res: Response) => {
 		try {
-			const owner = 't.quante@outlook.com';
-			const ownedDomain = Converter.convertDomainFormToOwnedDomain(req.body, owner);
-
-			const existingEntry = await DomainModel.getDomainByName(ownedDomain.name);
-
-			if (existingEntry) {
-				throw new ConflictError(`Domain with name ${ownedDomain.name} already exists`);
-			}
-
-			await DomainModel.createDomain(ownedDomain);
-
-			const successStatus = 'success';
-			const successMessage = `Domain ${ownedDomain.name} created successfully`;
-			const responder = new Responder(req.headers['content-type'] || 'text/html', {
-				onJson: () => res.status(201).send({ status: successStatus, message: successMessage }),
-				onOther: () =>
-					res.redirect(`/my-domains?status=${successStatus}&message=${successMessage}`),
-			});
-
-			responder.send();
+			createDomainEntry(req, res);
 		} catch (error) {
-			error instanceof ConflictError
-				? res.status(error.options.code).send({ error: error.message })
-				: res.status(500).send(error);
+			handleDomainCreationError(req, res, error);
 		}
+	},
+
+	getDomainsByOwner: async (req: Request, res: Response) => {
+		const ownedDomains = await DomainModel.getDomainsByOwner('t.quante@outlook.com');
+
+		const responder = new Responder(req.headers['content-type'] || 'text/html', {
+			onJson: () => res.status(200).send(ownedDomains),
+			onOther: () => res.redirect(`/my-domains`),
+		});
+
+		responder.send();
 	},
 };

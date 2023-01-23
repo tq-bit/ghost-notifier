@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import readPackageJsonFile from '../../util/filesystem.util';
+import DomainModel from '../domain/domain.model';
 
 export default {
 	renderHomePage: (req: Request, res: Response) => {
@@ -13,7 +14,9 @@ export default {
 	},
 
 	renderDomainsPage: async (req: Request, res: Response) => {
-		res.render('domains');
+		const ownedDomains = await DomainModel.getDomainsByOwner('t.quante@outlook.com');
+		console.log(ownedDomains);
+		res.render('domains', { data: ownedDomains });
 	},
 
 	renderNotFoundPage: (req: Request, res: Response) => {
