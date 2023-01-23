@@ -21,6 +21,7 @@
 		"express": "^4.17.1",
 		"express-handlebars": "^6.0.2",
 		"mongodb": "^4.11.0",
+		"vitest": "^0.27.3",
 		"winston": "^3.3.3"
 	},
 	"devDependencies": {
