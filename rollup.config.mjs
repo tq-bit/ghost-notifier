@@ -1,4 +1,5 @@
 import typescript from '@rollup/plugin-typescript';
+import scss from 'rollup-plugin-scss';
 
 /**
  * @type {import('rollup').RollupOptions[]}
@@ -19,7 +20,8 @@ export default [
 		output: {
 			file: './public/js/main.js',
 			format: 'cjs',
+			assetFileNames: '[name][extname]',
 		},
-		plugins: [typescript()],
+		plugins: [typescript(), scss()],
 	},
 ];
