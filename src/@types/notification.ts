@@ -1,11 +1,18 @@
 import { Static, Type } from '@sinclair/typebox';
 
+export enum NotificationType {
+	Post = 'post',
+	Page = 'page',
+}
+
 const Notification = Type.Object({
-	postId: Type.String(),
-	postTitle: Type.String(),
-	postVisibility: Type.String(),
-	postOriginalUrl: Type.String(),
-	postPrimaryTag: Type.String(),
+	id: Type.String(),
+	type: Type.Enum(NotificationType),
+	ghostId: Type.String(),
+	ghostTitle: Type.String(),
+	ghostVisibility: Type.String(),
+	ghostOriginalUrl: Type.String(),
+	ghostPrimaryTag: Type.String(),
 });
 
 export type Notification = Static<typeof Notification>;

@@ -53,7 +53,7 @@ export default {
 			const notification: Notification = next.fullDocument;
 			const operationType = next.operationType;
 			logger.verbose(
-				`Sending article update ${operationType} to client ${req.ip} with articleId ${notification.postId}`
+				`Sending article update ${operationType} to client ${req.ip} with articleId ${notification.ghostId}`
 			);
 
 			return writeEventMessage(res, operationType, notification);

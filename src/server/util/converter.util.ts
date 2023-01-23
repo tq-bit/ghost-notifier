@@ -1,5 +1,6 @@
 import { Request } from 'express';
-import { GhostWebhook, GhostArticle, Notification } from '../../@types';
+import { GhostWebhook, GhostArticle, Notification, NotificationType } from '../../@types';
+import crypto from 'crypto';
 
 export default {
 	convertIncomingWebhookToArticle: (req: Request) => {
@@ -9,11 +10,13 @@ export default {
 
 	convertArticleToNotification: (ghostArticle: GhostArticle): Notification => {
 		return {
-			postId: ghostArticle.id,
-			postOriginalUrl: ghostArticle.url,
-			postPrimaryTag: ghostArticle.primary_tag?.slug || '',
-			postTitle: ghostArticle.title,
-			postVisibility: ghostArticle.visibility,
+			id: crypto.randomUUID(),
+			type: NotificationType.Post,
+			ghostId: ghostArticle.id,
+			ghostOriginalUrl: ghostArticle.url,
+			ghostPrimaryTag: ghostArticle.primary_tag?.slug || '',
+			ghostTitle: ghostArticle.title,
+			ghostVisibility: ghostArticle.visibility,
 		};
 	},
 };
