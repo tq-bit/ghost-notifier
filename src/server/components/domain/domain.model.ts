@@ -25,4 +25,8 @@ export default {
 	updateDomainById: (domainId: string, domainEntry: OwnedDomain) => {
 		return domainCollection.updateOne({ id: domainId }, { $set: domainEntry });
 	},
+
+	deleteDomainById: (domainId: string) => {
+		return domainCollection.deleteOne({ id: domainId });
+	},
 };
