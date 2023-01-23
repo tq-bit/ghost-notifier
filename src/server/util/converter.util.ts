@@ -1,5 +1,13 @@
 import { Request } from 'express';
-import { GhostWebhook, GhostArticle, Notification, NotificationType } from '../../@types';
+import {
+	GhostWebhook,
+	GhostArticle,
+	Notification,
+	NotificationType,
+	DomainForm,
+	OwnedDomain,
+	DomainType,
+} from '../../@types';
 import crypto from 'crypto';
 
 export default {
@@ -17,6 +25,15 @@ export default {
 			ghostPrimaryTag: ghostArticle.primary_tag?.slug || '',
 			ghostTitle: ghostArticle.title,
 			ghostVisibility: ghostArticle.visibility,
+		};
+	},
+
+	convertDomainFormToOwnedDomain: (domain: DomainForm, domainOwner: string): OwnedDomain => {
+		return {
+			name: domain.name,
+			status: domain.status,
+			type: domain.type,
+			owner: domainOwner,
 		};
 	},
 };
