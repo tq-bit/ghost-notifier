@@ -5,6 +5,7 @@ import cors from 'cors';
 import { engine } from 'express-handlebars';
 
 import notificationRouter from './components/notification/notification.routes';
+import domainRouter from './components/domain/domain.routes';
 import viewRouter from './components/views/view.routes';
 
 import logger from './util/logger.util';
@@ -25,6 +26,7 @@ app.set('view engine', 'handlebars');
 app.set('views', './views');
 
 app.use('/api/notification', notificationRouter);
+app.use('/api/domain', domainRouter);
 app.use('/', viewRouter);
 
 app.listen(PORT, () => {

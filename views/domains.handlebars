@@ -1,0 +1,78 @@
+<div class="container-fluid">
+  <h1 class="title is-2">Manage your domains</h1>
+  <p class="subtitle">Domains are your Ghost blog's addresses on the internet. Before sending Webhooks, you must first create at least one new domain your readers can subscribe to. </p>
+  <a class="is-link">Read more about Domains</a>
+  <div class="columns mt-4">
+    <div class="column is-two-third">
+      <div class="card">
+
+        <div class="card-content">
+          <h2 class="title is-4">Active domains</h2>
+          <div class="table-container">
+            <table class="table is-striped ">
+              <thead>
+                <tr>
+                  <th>Domain name</th>
+                  <th>Domain access</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>blog.q-bit.me</td>
+                  <td>Public</td>
+                  <td>Active</td>
+                  <td>
+                    <button class="button">Disable</button>
+                    <button class="button">Delete</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>tags.q-bit.me</td>
+                  <td>Private</td>
+                  <td>Active</td>
+                  <td>
+                    <button class="button">Disable</button>
+                    <button class="button">Delete</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+    <div class="column is-one-third">
+      <div class="card">
+        <div class="card-content">
+          <h2 class="title is-4">Register new domain</h2>
+
+          <form method="POST" action="/api/domain/create">
+            <div class="field">
+              <label class="field-label is-normal" for="domainName">Domain name</label>
+              <input required name="domainName" class="input is-light" type="url" placeholder="Enter your domain name, e.g. https://my.blog.com">
+            </div>
+            <div class="field">
+              <label class="field-label is-normal" for="domainType">Domain access</label>
+              <select required name="domainType" class="input is-light" placeholder="Choose between public and private access">
+                <option selected disabled>Select a domain type</option>
+                <option value="public">Public</option>
+                <option value="private">Private</option>
+              </select>
+            </div>
+            <div class="field">
+              <input class="button is-primary" type="submit" value="Submit">
+            </div>
+
+          </form>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+
+</div>

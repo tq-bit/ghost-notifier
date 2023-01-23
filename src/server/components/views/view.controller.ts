@@ -12,6 +12,10 @@ export default {
 		res.render('about', aboutConfig);
 	},
 
+	renderDomainsPage: async (req: Request, res: Response) => {
+		res.render('domains');
+	},
+
 	renderNotFoundPage: (req: Request, res: Response) => {
 		res.render('404');
 	},
