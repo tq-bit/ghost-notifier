@@ -23,7 +23,7 @@ export default {
 		const domainId = req.params.id;
 		const domain = await DomainModel.getDomainById(domainId);
 		const notifications = await NotificationModel.getNotificationsByDomainName(domain?.name || '');
-		res.render('domain-notifications', { domain, notifications });
+		res.render('domain-notifications', { domain, notifications, count: notifications.length });
 	},
 
 	renderNotFoundPage: (req: Request, res: Response) => {
