@@ -6,25 +6,13 @@ import { Notification } from '../../../@types/notification';
 import { notificationCollection } from '../../db/dbClient';
 import logger from '../../util/logger.util';
 
-type EventType =
-	| 'open'
-	| 'drop'
-	| 'rename'
-	| 'dropDatabase'
-	| 'invalidate'
-	| 'createIndexes'
-	| 'create'
-	| 'modify'
-	| 'dropIndexes'
-	| 'shardCollection'
-	| 'reshardCollection'
-	| 'refineCollectionShardKey'
-	| 'insert'
-	| 'update'
-	| 'replace'
-	| 'delete';
+import { NotificationEventType } from '../../../@types/notification';
 
-const writeEventMessage = (res: Response, type: EventType, data: Notification | string) => {
+const writeEventMessage = (
+	res: Response,
+	type: NotificationEventType,
+	data: Notification | string
+) => {
 	res.write(`event: ${type}\n`);
 	res.write(`data: ${typeof data === 'string' ? data : JSON.stringify(data)}\n`);
 	res.write(`id: ${crypto.randomUUID()}\n\n`);

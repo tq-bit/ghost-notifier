@@ -1,5 +1,23 @@
 import { Static, Type } from '@sinclair/typebox';
 
+export type NotificationEventType =
+	| 'open'
+	| 'drop'
+	| 'rename'
+	| 'dropDatabase'
+	| 'invalidate'
+	| 'createIndexes'
+	| 'create'
+	| 'modify'
+	| 'dropIndexes'
+	| 'shardCollection'
+	| 'reshardCollection'
+	| 'refineCollectionShardKey'
+	| 'insert'
+	| 'update'
+	| 'replace'
+	| 'delete';
+
 export enum NotificationType {
 	Post = 'post',
 	Page = 'page',

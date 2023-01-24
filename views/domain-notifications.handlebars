@@ -51,13 +51,13 @@
               <th>Notification Type</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody id="domain-notification-table-body">
             {{#each notifications}}
             <tr>
               <td>{{ghostTitle}}</td>
               <td>{{ghostOriginalUrl}}</td>
-              <td>{{type}}</td>
               <td>{{ghostVisibility}}</td>
+              <td>{{type}}</td>
             </tr>
             {{/each}}
 

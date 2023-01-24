@@ -1,100 +1,36 @@
-import { Notification } from '../../@types';
+import { Notification, NotificationEventType } from '../../@types';
+type ConnectionStatus = 'disconnected' | 'connecting' | 'connected';
 
-const logList = document.querySelector('#log-list');
-const logListPlaceholder = document.querySelector('#log-list-placeholder');
+export default class Subscriber {
+	eventSource: EventSource;
+	status: ConnectionStatus;
+	constructor(eventSourceUrl: string) {
+		this.eventSource = new EventSource(eventSourceUrl);
+		this.status = 'disconnected';
+		this.init();
+	}
 
-const connectionIndicatorSign: HTMLElement =
-	document.querySelector('#connection-indicator-sign') || new HTMLElement();
+	init(): void {
+		this.eventSource.addEventListener('open', () => {
+			this.status = 'connected';
+		});
 
-const connectionIndicatorText: HTMLElement =
-	document.querySelector('#connection-indicator-text') || new HTMLElement();
+		this.eventSource.addEventListener('close', () => {
+			this.eventSource.close();
+			this.status = 'disconnected';
+		});
+	}
 
-const connectionIndicatorButton: HTMLElement =
-	document.querySelector('#connection-indicator-button') || new HTMLElement();
+	on(eventType: NotificationEventType, cb: (data: Notification) => any) {
+		this.eventSource.addEventListener(eventType, (ev) => {
+			cb(JSON.parse(ev.data));
+		});
+	}
 
-function _removePlaceholder() {
-	if (logListPlaceholder) {
-		logListPlaceholder.remove();
+	onError(cb: (err: unknown) => any) {
+		this.eventSource.addEventListener('error', (err: unknown) => {
+			console.error(err);
+			cb(err);
+		});
 	}
 }
-
-function _updateConnectionStatus(status: 'disconnected' | 'connecting' | 'connected') {
-	if (status === 'connected') {
-		connectionIndicatorSign.style.fill = 'green';
-		connectionIndicatorText.innerText = 'Connected';
-		connectionIndicatorButton.classList.add('d-none');
-	}
-	if (status === 'connecting') {
-		connectionIndicatorSign.style.fill = 'orange';
-		connectionIndicatorText.innerText = 'Connecting ...';
-	}
-	if (status === 'disconnected') {
-		connectionIndicatorSign.style.fill = 'red';
-		connectionIndicatorText.innerText = 'Disconnected';
-		connectionIndicatorButton.classList.remove('d-none');
-	}
-}
-
-function renderListElement(sseMessage: MessageEvent): HTMLElement {
-	const li = document.createElement('li');
-	const title = document.createElement('h4');
-	const text = document.createElement('p');
-	const link = document.createElement('a');
-	const tag = document.createElement('span');
-
-	const ghostNotification: Notification = JSON.parse(sseMessage.data);
-
-	li.classList.add('list-group-item');
-	li.dataset.postId = ghostNotification.ghostId;
-
-	title.textContent = `${new Date().toLocaleTimeString()} - Operation Type: ${sseMessage.type}`;
-
-	text.textContent = ghostNotification.ghostTitle;
-	text.classList.add('mb-0');
-
-	link.href = ghostNotification.ghostOriginalUrl;
-	link.target = '_blank';
-	link.innerText = 'Show article';
-	link.classList.add('d-block');
-
-	tag.classList.add('badge', 'bg-info', 'mb-2');
-	tag.innerText = ghostNotification.ghostPrimaryTag;
-
-	li.append(title);
-	li.append(text);
-	li.append(tag);
-	li.append(link);
-	return li;
-}
-
-function initEventSource() {
-	const subscription = new EventSource('/api/notification/subscribe');
-
-	// @ts-ignore
-	subscription.addEventListener('open', (ev: MessageEvent): any => {
-		_updateConnectionStatus('connected');
-	});
-
-	subscription.addEventListener('error', () => {
-		_updateConnectionStatus('disconnected');
-		subscription.close();
-	});
-
-	subscription.addEventListener('message', (ev: MessageEvent) => {
-		_removePlaceholder();
-		logList?.prepend(renderListElement(ev));
-	});
-
-	window.addEventListener('close', () => subscription.close());
-}
-
-function initUiButtons() {
-	connectionIndicatorButton.addEventListener('click', () => initEventSource());
-}
-
-function main() {
-	initEventSource();
-	initUiButtons();
-}
-
-window.onload = () => main();
