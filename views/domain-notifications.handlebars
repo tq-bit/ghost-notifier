@@ -34,6 +34,8 @@
       <div class="card-content">
         <p class="heading">Notifications</p>
         <p id="domain-notification-count" class="title is-4">{{count}}</p>
+
+
       </div>
     </div>
   </header>
@@ -75,9 +77,37 @@
       <div class="card">
         <div class="card-content">
           <h2 class="title is-4">Connection status</h2>
-          <p>You can use the following URL to subscribe:</p>
+          <div class="block">
+            <svg class="mb-1" height="12" width="12">
+              <circle id="connection-indicator-sign" cx="6" cy="6" r="6" stroke-width="3" fill="orange" />
+            </svg>
+            <span id="connection-indicator-text" class="ms-1">Connecting ...</span>
+          </div>
+          <p><b>Subscription URL:</b></p>
           <pre class="block"><code>/api/notification/subscribe</code></pre>
+
+          <p><b>Actions: </b></p>
+          <div class="is-flex is-justify-content-start">
+            <form class="mr-2" method="POST" action="/api/domain/{{domain.id}}/toggle-status">
+              <button title="Enable / disable this domain" class="button is-warning">
+                <span class="icon">
+                  <i class="gg-log-off"></i>
+                </span>
+              </button>
+            </form>
+            <form method="POST" action="/api/domain/{{domain.id}}/delete">
+              <button title="Delete this domain" class="button is-danger">
+                <span class="icon">
+                  <i class="gg-trash"></i>
+                </span>
+              </button>
+            </form>
+          </div>
         </div>
+      </div>
+
+      <div class="notification mt-4 is-info">
+        Test
       </div>
     </div>
   </div>

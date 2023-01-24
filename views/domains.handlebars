@@ -24,7 +24,7 @@
                   <th>Domain name</th>
                   <th>Access</th>
                   <th>Status</th>
-                  <th class="text-end">Entry actions</th>
+                  <th class="text-end">Details</th>
                 </tr>
               </thead>
               <tbody>
@@ -37,16 +37,6 @@
                     <a href="/my-domains/{{id}}/notifications" class="button is-primary mr-1" title="Open Monitor for this domain" class="">
                       <i class="gg-play-list-search"></i>
                     </a>
-                    <form class="mr-1" method="POST" action="/api/domain/{{id}}/toggle-status">
-                      <button title="Enable / disable this domain" class="button is-light">
-                        <i class="gg-calibrate"></i>
-                      </button>
-                    </form>
-                    <form method="POST" action="/api/domain/{{id}}/delete">
-                      <button title="Delete this domain" class="button is-danger">
-                        <i class="gg-trash"></i>
-                      </button>
-                    </form>
                   </td>
                 </tr>
                 {{/each}}

@@ -1,18 +1,33 @@
 'use strict';
 
 class Subscriber {
-    constructor(eventSourceUrl) {
+    constructor(eventSourceUrl, { statusTextElementSelector, statusIndicatorElementSelector }) {
         this.eventSource = new EventSource(eventSourceUrl);
         this.status = 'disconnected';
+        this.statusTextElement = document.querySelector(statusTextElementSelector);
+        this.statusIndicatorElement = document.querySelector(statusIndicatorElementSelector);
+        if (!this.statusTextElement || !this.statusIndicatorElement) {
+            console.warn('Subscriber: No status text or indicator found');
+        }
         this.init();
     }
     init() {
         this.eventSource.addEventListener('open', () => {
             this.status = 'connected';
+            this.statusTextElement.innerText = 'Connected';
+            this.statusIndicatorElement.style.fill = 'green';
         });
         this.eventSource.addEventListener('close', () => {
             this.eventSource.close();
             this.status = 'disconnected';
+            this.statusTextElement.innerText = 'Disconnected';
+            this.statusIndicatorElement.style.fill = 'red';
+        });
+        this.eventSource.addEventListener('error', () => {
+            this.eventSource.close();
+            this.status = 'disconnected';
+            this.statusTextElement.innerText = 'Error';
+            this.statusIndicatorElement.style.fill = 'red';
         });
     }
     on(eventType, cb) {
@@ -84,7 +99,10 @@ class Table {
     }
 }
 
-const notificationSubscriber = new Subscriber('/api/notification/subscribe');
+const notificationSubscriber = new Subscriber('/api/notification/subscribe', {
+    statusTextElementSelector: '#connection-indicator-text',
+    statusIndicatorElementSelector: '#connection-indicator-sign',
+});
 const notificationTable = new Table('#domain-notification-table-body');
 const notificationCount = document.getElementById('domain-notification-count');
 function main() {
