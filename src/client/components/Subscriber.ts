@@ -30,21 +30,22 @@ export default class Subscriber {
 	init(): void {
 		this.eventSource.addEventListener('open', () => {
 			this.status = 'connected';
-			this.statusTextElement.innerText = 'Connected';
+			this.statusTextElement.innerText = 'Connected to domain subscription endpoint';
 			this.statusIndicatorElement.style.fill = 'green';
 		});
 
 		this.eventSource.addEventListener('close', () => {
 			this.eventSource.close();
 			this.status = 'disconnected';
-			this.statusTextElement.innerText = 'Disconnected';
-			this.statusIndicatorElement.style.fill = 'red';
+			this.statusTextElement.innerText = 'Disconnected from domain subscription endpoint';
+			this.statusIndicatorElement.style.fill = 'orange';
 		});
 
 		this.eventSource.addEventListener('error', () => {
 			this.eventSource.close();
 			this.status = 'disconnected';
-			this.statusTextElement.innerText = 'Error';
+			this.statusTextElement.innerText =
+				'An error occured while connecting, please check the server logs';
 			this.statusIndicatorElement.style.fill = 'red';
 		});
 	}
