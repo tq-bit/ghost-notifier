@@ -4,7 +4,7 @@ type PageInitOptions = {
 	onPageUnload?: () => any;
 };
 
-export default class Page {
+export default class Lifecycle {
 	isDomReady: boolean = false;
 	isPageReady: boolean = false;
 

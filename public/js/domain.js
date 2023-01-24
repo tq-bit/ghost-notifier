@@ -47,7 +47,7 @@ class Alert {
     }
 }
 
-class Page {
+class Lifecycle {
     constructor({ onDomReady, onPageReady, onPageUnload }) {
         this.isDomReady = false;
         this.isPageReady = false;
@@ -81,7 +81,7 @@ class Page {
 }
 
 function main() {
-    new Page({
+    new Lifecycle({
         onPageReady: () => {
             const alert = new Alert('#domain-alert');
             alert.setByUrl();
