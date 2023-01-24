@@ -12,57 +12,72 @@
   <header class="level mt-4 ">
     <div class="card mr-2 level-item has-text-centered">
       <div class="card-content">
-        <h1 class="heading is-2">Domain </h1>
-        <p class="title">{{domain.name}}</p>
+        <h2 class="heading is-2">Domain </h2>
+        <p class="title is-4">{{domain.name}}</p>
       </div>
     </div>
     <div class="card mx-2 level-item has-text-centered">
       <div class="card-content">
-        <h1 class="heading is-2">Status </h1>
-        <p class="title">{{domain.status}}</p>
+        <h2 class="heading is-2">Status </h2>
+        <p class="title is-4">{{domain.status}}</p>
       </div>
     </div>
 
     <div class="card mx-2 level-item has-text-centered">
       <div class="card-content">
-        <h1 class="heading is-2">Access </h1>
-        <p class="title">{{domain.type}}</p>
+        <h2 class="heading is-2">Access </h2>
+        <p class="title is-4">{{domain.type}}</p>
       </div>
     </div>
 
     <div class="card ml-2 level-item has-text-centered">
       <div class="card-content">
         <p class="heading">Notifications</p>
-        <p class="title">{{count}}</p>
+        <p id="domain-notification-count" class="title is-4">{{count}}</p>
       </div>
     </div>
   </header>
 
-  <div class="card block">
-    <div class="card-content">
-      <h2 class="title is-4">Notifications</h2>
-      <div class="table-container">
-        <table class="table is-striped">
-          <thead>
-            <tr>
-              <th>Ghost Title</th>
-              <th>Ghost URL</th>
-              <th>Ghost Visibility</th>
-              <th>Notification Type</th>
-            </tr>
-          </thead>
-          <tbody id="domain-notification-table-body">
-            {{#each notifications}}
-            <tr>
-              <td>{{ghostTitle}}</td>
-              <td>{{ghostOriginalUrl}}</td>
-              <td>{{ghostVisibility}}</td>
-              <td>{{type}}</td>
-            </tr>
-            {{/each}}
+  <div class="columns">
+    <div class="column is-two-third">
+      <div class="card block">
+        <div class="card-content">
+          <h2 class="title is-4">Notifications</h2>
+          <div class="table-container">
+            <table class="table is-striped">
+              <thead>
+                <tr>
+                  <th>Ghost Title</th>
+                  <th>Ghost URL</th>
+                  <th>Ghost Visibility</th>
+                  <th>Notification Type</th>
+                </tr>
+              </thead>
+              <tbody id="domain-notification-table-body">
+                {{#each notifications}}
+                <tr>
+                  <td>{{ghostTitle}}</td>
+                  <td>{{ghostOriginalUrl}}</td>
+                  <td>{{ghostVisibility}}</td>
+                  <td>{{type}}</td>
+                </tr>
+                {{/each}}
 
-          </tbody>
-        </table>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="column is-one-third">
+      <div class="card">
+        <div class="card-content">
+          <h2 class="title is-4">Connection status</h2>
+          <p>You can use the following URL to subscribe:</p>
+          <pre class="block"><code>/api/notification/subscribe</code></pre>
+        </div>
       </div>
     </div>
   </div>

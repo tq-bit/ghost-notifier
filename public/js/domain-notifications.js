@@ -75,6 +75,7 @@ class Table {
                 if (field === key) {
                     const col = document.createElement('td');
                     col.innerText = data[key];
+                    console.log(key, data[key]);
                     row.append(col);
                 }
             }
@@ -84,17 +85,19 @@ class Table {
 }
 
 const notificationSubscriber = new Subscriber('/api/notification/subscribe');
-const notificationTalbe = new Table('#domain-notification-table-body');
+const notificationTable = new Table('#domain-notification-table-body');
+const notificationCount = document.getElementById('domain-notification-count');
 function main() {
     new Lifecycle({
         onPageReady: () => {
             notificationSubscriber.on('insert', (notification) => {
-                notificationTalbe.insertRow(notification, [
+                notificationTable.insertRow(notification, [
                     'ghostTitle',
                     'ghostOriginalUrl',
-                    'ghostVisiblity',
+                    'ghostVisibility',
                     'type',
                 ]);
+                notificationCount.innerText = `${+notificationCount.innerText + 1}`;
             });
         },
     });

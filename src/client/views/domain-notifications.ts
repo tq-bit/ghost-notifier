@@ -3,18 +3,20 @@ import Lifecycle from '../components/Lifecycle';
 import Table from '../components/Table';
 
 const notificationSubscriber = new Subscriber('/api/notification/subscribe');
-const notificationTalbe = new Table('#domain-notification-table-body');
+const notificationTable = new Table('#domain-notification-table-body');
+const notificationCount = document.getElementById('domain-notification-count') as HTMLElement;
 
 function main() {
 	new Lifecycle({
 		onPageReady: () => {
 			notificationSubscriber.on('insert', (notification) => {
-				notificationTalbe.insertRow(notification, [
+				notificationTable.insertRow(notification, [
 					'ghostTitle',
 					'ghostOriginalUrl',
-					'ghostVisiblity',
+					'ghostVisibility',
 					'type',
 				]);
+				notificationCount.innerText = `${+notificationCount.innerText + 1}`;
 			});
 		},
 	});

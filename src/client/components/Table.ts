@@ -17,6 +17,7 @@ export default class Table {
 				if (field === key) {
 					const col = document.createElement('td');
 					col.innerText = data[key];
+					console.log(key, data[key]);
 					row.append(col);
 				}
 			}
