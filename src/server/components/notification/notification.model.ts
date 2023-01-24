@@ -13,6 +13,14 @@ export default {
 		return notificationCollection.findOne({ ghostId: ghostId });
 	},
 
+	getNotificationsByDomainName: async (domainName: string) => {
+		const cursor = notificationCollection.find({ ghostOriginalUrl: { $regex: domainName } });
+		let results: any = [];
+		await cursor.forEach((entry) => results.push(entry));
+
+		return Promise.all(results) as Promise<Notification[]>;
+	},
+
 	updateNotificationById: async (notification: Notification) => {
 		return notificationCollection.replaceOne({ id: notification.id }, notification);
 	},

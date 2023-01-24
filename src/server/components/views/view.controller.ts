@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import readPackageJsonFile from '../../util/filesystem.util';
 import DomainModel from '../domain/domain.model';
+import NotificationModel from '../notification/notification.model';
 
 export default {
 	renderHomePage: (req: Request, res: Response) => {
@@ -21,7 +22,8 @@ export default {
 	renderDomainNotificationsPage: async (req: Request, res: Response) => {
 		const domainId = req.params.id;
 		const domain = await DomainModel.getDomainById(domainId);
-		res.render('domain-notifications', { domain });
+		const notifications = await NotificationModel.getNotificationsByDomainName(domain?.name || '');
+		res.render('domain-notifications', { domain, notifications });
 	},
 
 	renderNotFoundPage: (req: Request, res: Response) => {
