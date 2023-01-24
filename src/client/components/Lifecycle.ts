@@ -1,4 +1,4 @@
-type PageInitOptions = {
+type LifecycleOptions = {
 	onDomReady?: () => any;
 	onPageReady?: () => any;
 	onPageUnload?: () => any;
@@ -8,7 +8,7 @@ export default class Lifecycle {
 	isDomReady: boolean = false;
 	isPageReady: boolean = false;
 
-	constructor({ onDomReady, onPageReady, onPageUnload }: PageInitOptions) {
+	constructor({ onDomReady, onPageReady, onPageUnload }: LifecycleOptions) {
 		if (onDomReady) {
 			this.handleDomReady(onDomReady);
 		}

@@ -47,6 +47,23 @@ class Alert {
     }
 }
 
+class Button {
+    constructor(buttonSelector, { onClick }) {
+        this.buttonElement = document.querySelector(buttonSelector);
+        if (!this.buttonElement) {
+            throw new Error(`Button selector ${buttonSelector} not found!`);
+        }
+        if (onClick) {
+            this.handleClick(onClick);
+        }
+    }
+    handleClick(cb) {
+        this.buttonElement.addEventListener('click', () => {
+            cb();
+        });
+    }
+}
+
 class Lifecycle {
     constructor({ onDomReady, onPageReady, onPageUnload }) {
         this.isDomReady = false;
@@ -84,6 +101,7 @@ function main() {
     new Lifecycle({
         onPageReady: () => {
             const alert = new Alert('#domain-alert');
+            new Button('#domain-hide-button', { onClick: () => alert.hide() });
             alert.setByUrl();
         },
     });

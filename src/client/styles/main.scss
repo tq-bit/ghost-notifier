@@ -12,12 +12,5 @@ $family-sans-serif: 'Nunito', sans-serif;
 $primary: $yellow;
 $secondary: $purple;
 $link: $purple;
-$widescreen-enabled: true;
-$fullhd-enabled: true;
-
-// Update some of Bulma's component variables
-$control-border-width: 2px;
-$input-border-color: transparent;
-$input-shadow: none;
 
 @import '../../../node_modules/bulma/bulma.sass';
