@@ -69,25 +69,38 @@ export default {
 	},
 
 	validateDomainStatus: async (req: Request, res: Response, next: NextFunction) => {
-		const domainId = req?.params?.id;
-		if (!domainId) {
-			throw new ValidationError('Domain must be specified!');
+		try {
+			const domainId = req?.params?.id;
+			if (!domainId) {
+				throw new ValidationError('Domain must be specified!');
+			}
+
+			const domain = await DomainModel.getDomainById(domainId);
+
+			if (!domain) {
+				throw new NotFoundError(`Domain with id ${domainId} not found!`);
+			}
+
+			// @ts-ignore
+			if (domain.status === 'inactive') {
+				throw new NotPermittedError(`Domain with id ${domainId} (${domain.name}) is not active!`);
+			}
+
+			// Append domain to body for usage in notificaiton.listener
+			req.body = domain;
+
+			next();
+		} catch (error) {
+			if (
+				error instanceof ValidationError ||
+				error instanceof NotFoundError ||
+				error instanceof NotPermittedError
+			) {
+				return res.status(error.options.code).send({ error: error.message });
+			}
+
+			logger.error(error);
+			res.status(500).send({ error });
 		}
-
-		const domain = await DomainModel.getDomainById(domainId);
-
-		if (!domain) {
-			throw new NotFoundError(`Domain with id ${domainId} not found!`);
-		}
-
-		// @ts-ignore
-		if (!domain.status === 'active') {
-			throw new NotPermittedError(`Domain with id ${domainId} is not active!`);
-		}
-
-		// Append domain to body for usage in notificaiton.listener
-		req.body = domain;
-
-		next();
 	},
 };

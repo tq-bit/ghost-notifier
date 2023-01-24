@@ -152,7 +152,8 @@ class Button {
     }
 }
 
-const notificationSubscriber = new Subscriber('/api/notification/subscribe', {
+const domainId = location.href.split('/')[4];
+const notificationSubscriber = new Subscriber(`/api/domain/${domainId}/notifications/subscribe`, {
     statusTextElementSelector: '#connection-indicator-text',
     statusIndicatorElementSelector: '#connection-indicator-sign',
 });
