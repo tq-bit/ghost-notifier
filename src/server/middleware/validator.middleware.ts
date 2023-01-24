@@ -6,16 +6,13 @@ import ValidationError from '../errors/http/ValidationError';
 import NotFoundError from '../errors/http/NotFoundError';
 
 import logger from '../util/logger.util';
+import Converter from '../util/converter.util';
 
 export default {
 	validateWebhookDomain: async (req: Request, res: Response, next: NextFunction): Promise<void> => {
 		try {
 			const webhookPath = (req.body as GhostWebhook).post.current.url;
-			const pathPaths = webhookPath.split('/');
-			const protocol = pathPaths[0];
-			const hostname = pathPaths[2];
-			const domainName = `${protocol}//${hostname}`;
-
+			const domainName = Converter.convertUrlToDomainName(webhookPath);
 			const domainEntry = await DomainModel.getDomainByName(domainName);
 
 			if (!domainEntry) {

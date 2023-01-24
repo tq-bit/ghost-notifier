@@ -30,6 +30,13 @@ export default {
 		};
 	},
 
+	convertUrlToDomainName: (url: string): string => {
+		const pathPaths = url.split('/');
+		const protocol = pathPaths[0];
+		const hostname = pathPaths[2];
+		return `${protocol}//${hostname}`;
+	},
+
 	convertDomainFormToOwnedDomain: (domain: DomainForm, domainOwner: string): OwnedDomain => {
 		return {
 			id: crypto.randomUUID(),
