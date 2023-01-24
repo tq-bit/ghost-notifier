@@ -99,12 +99,69 @@ class Table {
     }
 }
 
+class Notification {
+    constructor(alertSelector) {
+        this.notificationElement = document.querySelector(alertSelector);
+        if (!this.notificationElement) {
+            throw new Error(`Element with ID ${alertSelector} does not exist`);
+        }
+        this.message = this.notificationElement.querySelector('p');
+        if (!this.message) {
+            throw new Error('Alert has no header or text section');
+        }
+        this.notificationTypeMap = {
+            success: 'is-success',
+            error: 'is-danger',
+            warning: 'is-warning',
+        };
+    }
+    set({ type, text }) {
+        this.notificationElement.classList.add(this.notificationTypeMap[type]);
+        this.message.innerText = text;
+        return this;
+    }
+    unset() {
+        this.hide();
+        for (let key in this.notificationTypeMap) {
+            this.notificationElement.classList.remove(this.notificationTypeMap[key]);
+        }
+        return this;
+    }
+    show() {
+        this.notificationElement.classList.remove('is-hidden');
+    }
+    hide() {
+        this.notificationElement.classList.add('is-hidden');
+    }
+}
+
+class Button {
+    constructor(buttonSelector, { onClick }) {
+        this.buttonElement = document.querySelector(buttonSelector);
+        if (!this.buttonElement) {
+            throw new Error(`Button selector ${buttonSelector} not found!`);
+        }
+        if (onClick) {
+            this.handleClick(onClick);
+        }
+    }
+    handleClick(cb) {
+        this.buttonElement.addEventListener('click', () => {
+            cb();
+        });
+    }
+}
+
 const notificationSubscriber = new Subscriber('/api/notification/subscribe', {
     statusTextElementSelector: '#connection-indicator-text',
     statusIndicatorElementSelector: '#connection-indicator-sign',
 });
 const notificationTable = new Table('#domain-notification-table-body');
 const notificationCount = document.getElementById('domain-notification-count');
+const connectionNotification = new Notification('#connection-notification');
+new Button('#connection-notification-close', {
+    onClick: () => connectionNotification.unset(),
+});
 function main() {
     new Lifecycle({
         onPageReady: () => {
@@ -116,6 +173,7 @@ function main() {
                     'type',
                 ]);
                 notificationCount.innerText = `${+notificationCount.innerText + 1}`;
+                connectionNotification.set({ type: 'success', text: 'New notification received' }).show();
             });
         },
     });
