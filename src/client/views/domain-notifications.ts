@@ -1,8 +1,8 @@
 import Subscriber from '../components/Subscriber';
 import Lifecycle from '../components/Lifecycle';
 import Table from '../components/Table';
-import Notification from '../components/Notification';
 import Button from '../components/Button';
+import Alert from '../components/Alert';
 
 const domainId = location.href.split('/')[4];
 
@@ -13,14 +13,15 @@ const notificationSubscriber = new Subscriber(`/api/domain/${domainId}/notificat
 const notificationTable = new Table('#domain-notification-table-body');
 const notificationCount = document.getElementById('domain-notification-count') as HTMLElement;
 
-const connectionNotification = new Notification('#connection-notification');
-const connectionNotificationButton = new Button('#connection-notification-close', {
-	onClick: () => connectionNotification.unset(),
+const connectionAlert = new Alert('#connection-alert');
+const connectionAlertButton = new Button('#connection-alert-button', {
+	onClick: () => connectionAlert.unset(),
 });
 
 function main() {
 	new Lifecycle({
 		onPageReady: () => {
+			connectionAlert.setByUrl();
 			notificationSubscriber.on('insert', (notification) => {
 				notificationTable.insertRow(notification, [
 					'ghostTitle',
@@ -29,7 +30,9 @@ function main() {
 					'type',
 				]);
 				notificationCount.innerText = `${+notificationCount.innerText + 1}`;
-				connectionNotification.set({ type: 'success', text: 'New notification received' }).show();
+				connectionAlert
+					.set({ type: 'success', title: 'Success', text: 'New notification received' })
+					.show();
 			});
 		},
 	});

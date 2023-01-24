@@ -100,42 +100,6 @@ class Table {
     }
 }
 
-class Notification {
-    constructor(alertSelector) {
-        this.notificationElement = document.querySelector(alertSelector);
-        if (!this.notificationElement) {
-            throw new Error(`Element with ID ${alertSelector} does not exist`);
-        }
-        this.message = this.notificationElement.querySelector('p');
-        if (!this.message) {
-            throw new Error('Alert has no header or text section');
-        }
-        this.notificationTypeMap = {
-            success: 'is-success',
-            error: 'is-danger',
-            warning: 'is-warning',
-        };
-    }
-    set({ type, text }) {
-        this.notificationElement.classList.add(this.notificationTypeMap[type]);
-        this.message.innerText = text;
-        return this;
-    }
-    unset() {
-        this.hide();
-        for (let key in this.notificationTypeMap) {
-            this.notificationElement.classList.remove(this.notificationTypeMap[key]);
-        }
-        return this;
-    }
-    show() {
-        this.notificationElement.classList.remove('is-hidden');
-    }
-    hide() {
-        this.notificationElement.classList.add('is-hidden');
-    }
-}
-
 class Button {
     constructor(buttonSelector, { onClick }) {
         this.buttonElement = document.querySelector(buttonSelector);
@@ -153,6 +117,53 @@ class Button {
     }
 }
 
+class Alert {
+    constructor(alertSelector) {
+        this.alertElement = document.querySelector(alertSelector);
+        if (!this.alertElement) {
+            throw new Error(`Element with ID ${alertSelector} does not exist`);
+        }
+        this.title = this.alertElement.querySelector('.message-header p');
+        this.message = this.alertElement.querySelector('.message-body p');
+        if (!this.title || !this.message) {
+            throw new Error('Alert has no header or text section');
+        }
+        this.alertTypeMap = {
+            success: 'is-success',
+            error: 'is-danger',
+            warning: 'is-warning',
+        };
+    }
+    setByUrl() {
+        const query = new URLSearchParams(location.search);
+        const status = query.get('status');
+        if (!!status) {
+            const message = query.get('message');
+            const title = `${status.charAt(0).toUpperCase()}${status.substring(1, status.length)}!`;
+            return this.set({ type: status, title: title, text: message }).show();
+        }
+    }
+    set({ type, title, text }) {
+        this.alertElement.classList.add(this.alertTypeMap[type]);
+        this.title.innerText = title;
+        this.message.innerText = text;
+        return this;
+    }
+    unset() {
+        this.hide();
+        for (let key in this.alertTypeMap) {
+            this.alertElement.classList.remove(this.alertTypeMap[key]);
+        }
+        return this;
+    }
+    show() {
+        this.alertElement.classList.remove('is-hidden');
+    }
+    hide() {
+        this.alertElement.classList.add('is-hidden');
+    }
+}
+
 const domainId = location.href.split('/')[4];
 const notificationSubscriber = new Subscriber(`/api/domain/${domainId}/notifications/subscribe`, {
     statusTextElementSelector: '#connection-indicator-text',
@@ -160,13 +171,14 @@ const notificationSubscriber = new Subscriber(`/api/domain/${domainId}/notificat
 });
 const notificationTable = new Table('#domain-notification-table-body');
 const notificationCount = document.getElementById('domain-notification-count');
-const connectionNotification = new Notification('#connection-notification');
-new Button('#connection-notification-close', {
-    onClick: () => connectionNotification.unset(),
+const connectionAlert = new Alert('#connection-alert');
+new Button('#connection-alert-button', {
+    onClick: () => connectionAlert.unset(),
 });
 function main() {
     new Lifecycle({
         onPageReady: () => {
+            connectionAlert.setByUrl();
             notificationSubscriber.on('insert', (notification) => {
                 notificationTable.insertRow(notification, [
                     'ghostTitle',
@@ -175,7 +187,9 @@ function main() {
                     'type',
                 ]);
                 notificationCount.innerText = `${+notificationCount.innerText + 1}`;
-                connectionNotification.set({ type: 'success', text: 'New notification received' }).show();
+                connectionAlert
+                    .set({ type: 'success', title: 'Success', text: 'New notification received' })
+                    .show();
             });
         },
     });

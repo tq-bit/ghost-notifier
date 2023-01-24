@@ -82,10 +82,11 @@ export default {
 		try {
 			const domain = req.body as OwnedDomain;
 
-			await NotificationModel.deleteNotificationsByDomainName(domain.name);
-
+			const dbResponse = await NotificationModel.deleteNotificationsByDomainName(domain.name);
 			const status = 'success';
-			const message = `Domain ${domain.name} deleted`;
+			const message = `${
+				dbResponse.deletedCount > 0 ? dbResponse.deletedCount : 'No'
+			} notifications where deleted for ${domain.name}`;
 
 			const responder = new Responder(req.headers['content-type'] || 'text/html', {
 				onJson: () => res.status(200).send({ status: status, message: message }),

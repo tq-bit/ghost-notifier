@@ -1,5 +1,14 @@
 <div class="container-fluid">
 
+  <div id="connection-alert" class="message is-hidden">
+    <div class="message-header">
+      <p>Success!</p>
+      <button id="connection-alert-button" class="delete" aria-label="delete"></button>
+    </div>
+    <div class="message-body">
+      <p></p>
+    </div>
+  </div>
   <a class="is-link" href="/my-domains">
     <span class="icon-text">
       <span class="icon">
@@ -39,6 +48,7 @@
       </div>
     </div>
   </header>
+
 
   <div class="columns">
     <div class="column is-two-third">
@@ -133,11 +143,6 @@ subscription.addEventListener('open', () => {
             </form>
           </div>
         </div>
-      </div>
-
-      <div id="connection-notification" class="notification mt-4 is-info is-hidden">
-        <button id="connection-notification-close" class="delete"></button>
-        <p></p>
       </div>
     </div>
   </div>
