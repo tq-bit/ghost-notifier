@@ -12,9 +12,21 @@ export default [
 			file: './dist/server.js',
 			format: 'cjs',
 		},
-		external: ['crypto', 'cors', 'dotenv', 'express', 'express-handlebars', 'mongodb', 'winston'],
+		external: [
+			'crypto',
+			'cors',
+			'dotenv',
+			'express',
+			'express-handlebars',
+			'mongodb',
+			'ajv',
+			'@sinclair/typebox',
+			'winston',
+		],
 		plugins: [typescript()],
 	},
+
+	// Common Javascript for all pages
 	{
 		input: 'src/client/index.ts',
 		output: {
@@ -23,6 +35,18 @@ export default [
 		},
 		plugins: [typescript(), scss()],
 	},
+
+	// View components
+	{
+		input: 'src/client/views/domain.view.ts',
+		output: {
+			file: './public/js/domain.js',
+			format: 'cjs',
+		},
+		plugins: [typescript()],
+	},
+
+	// Styles
 	{
 		input: 'src/client/styles/styles.main.ts',
 		output: {
