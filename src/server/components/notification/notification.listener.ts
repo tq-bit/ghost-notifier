@@ -66,7 +66,7 @@ export default {
 			const notification: Notification = next.fullDocument;
 			const operationType = next.operationType;
 
-			if (notification.ghostOriginalUrl.includes(domain.name)) {
+			if (notification?.ghostOriginalUrl.includes(domain.name)) {
 				logger.verbose(
 					`Sending new notification on domain ${domain.name} ${operationType} to client ${req.ip} with articleId ${notification.ghostId}`
 				);

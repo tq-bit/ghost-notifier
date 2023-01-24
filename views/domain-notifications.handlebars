@@ -88,6 +88,13 @@
 
           <p><b>Actions: </b></p>
           <div class="is-flex is-justify-content-start">
+            <form method="POST" action="/api/domain/{{domain.id}}/notifications/delete">
+              <button title="Delete all notifications for this domain" class="button is-danger">
+                <span class="icon">
+                  <i class="gg-trash"></i>
+                </span>
+              </button>
+            </form>
             <form class="mr-2" method="POST" action="/api/domain/{{domain.id}}/toggle-status">
               <button title="Enable / disable this domain" class="button is-warning">
                 <span class="icon">

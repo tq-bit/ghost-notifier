@@ -2,6 +2,7 @@ import { Router } from 'express';
 import Validator from '../../middleware/validator.middleware';
 import DomainController from './domain.controller';
 import NotificationListener from '../notification/notification.listener';
+import notificationController from '../notification/notification.controller';
 
 const router: Router = Router();
 
@@ -13,6 +14,12 @@ router.get(
 	'/:id/notifications/subscribe',
 	Validator.validateDomainStatus,
 	NotificationListener.subscribeToDomainNotifications
+);
+
+router.post(
+	'/:id/notifications/delete',
+	Validator.validateDomainStatus,
+	notificationController.handleNotificationDeletionByDomain
 );
 
 // e.g. /api/domain/:id/notifications/subscribe

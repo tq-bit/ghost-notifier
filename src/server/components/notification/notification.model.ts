@@ -28,4 +28,8 @@ export default {
 	deleteNotificationByGhostId: (ghostId: string) => {
 		return notificationCollection.deleteMany({ ghostId: ghostId });
 	},
+
+	deleteNotificationsByDomainName: (domainName: string) => {
+		return notificationCollection.deleteMany({ ghostOriginalUrl: { $regex: domainName } });
+	},
 };

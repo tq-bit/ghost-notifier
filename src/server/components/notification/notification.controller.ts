@@ -4,6 +4,8 @@ import Converter from '../../util/converter.util';
 import NotificationModel from './notification.model';
 import logger from '../../util/logger.util';
 import NotFoundError from '../../errors/http/NotFoundError';
+import { OwnedDomain } from '../../../@types';
+import Responder from '../../util/responder.util';
 
 export default {
 	handleArticleCreationNotification: async (req: Request, res: Response) => {
@@ -73,6 +75,34 @@ export default {
 						logger.error(error);
 						res.status(500).send({ error });
 				  };
+		}
+	},
+
+	handleNotificationDeletionByDomain: async (req: Request, res: Response) => {
+		try {
+			const domain = req.body as OwnedDomain;
+
+			await NotificationModel.deleteNotificationsByDomainName(domain.name);
+
+			const status = 'success';
+			const message = `Domain ${domain.name} deleted`;
+
+			const responder = new Responder(req.headers['content-type'] || 'text/html', {
+				onJson: () => res.status(200).send({ status: status, message: message }),
+				onOther: () =>
+					res.redirect(
+						`/my-domains/${domain.id}/notifications?status=${status}&message=${message}`
+					),
+			});
+
+			responder.send();
+		} catch (error) {
+			const status = 'error';
+			const responder = new Responder(req.headers['content-type'] || 'text/html', {
+				onJson: () => res.status(500).send({ status: status, error: error }),
+				onOther: () => res.redirect(`/my-domains?status=${status}&message=${error}`),
+			});
+			return responder.send();
 		}
 	},
 };

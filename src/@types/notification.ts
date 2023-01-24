@@ -31,6 +31,7 @@ const Notification = Type.Object({
 	ghostVisibility: Type.String(),
 	ghostOriginalUrl: Type.String(),
 	ghostPrimaryTag: Type.String(),
+	created: Type.Date(),
 });
 
 export type Notification = Static<typeof Notification>;

@@ -27,6 +27,7 @@ export default {
 			ghostPrimaryTag: ghostArticle.primary_tag?.slug || '',
 			ghostTitle: ghostArticle.title,
 			ghostVisibility: ghostArticle.visibility,
+			created: new Date(),
 		};
 	},
 
