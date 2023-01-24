@@ -34,6 +34,9 @@
                   <td>{{type}}</td>
                   <td>{{status}}</td>
                   <td class="is-flex is-justify-content-end">
+                    <a href="/my-domains/{{id}}/notifications" class="button is-primary mr-1" title="Open Monitor for this domain" class="">
+                      <i class="gg-play-list-search"></i>
+                    </a>
                     <form class="mr-1" method="POST" action="/api/domain/{{id}}/toggle-status">
                       <button title="Enable / disable this domain" class="button is-light">
                         <i class="gg-calibrate"></i>
@@ -95,4 +98,4 @@
 
 </div>
 
-<script src="js/domain.js"></script>
+<script src="/js/domain.js"></script>

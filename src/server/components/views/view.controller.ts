@@ -15,8 +15,13 @@ export default {
 
 	renderDomainsPage: async (req: Request, res: Response) => {
 		const ownedDomains = await DomainModel.getDomainsByOwner('t.quante@outlook.com');
-		console.log(ownedDomains);
 		res.render('domains', { data: ownedDomains });
+	},
+
+	renderDomainNotificationsPage: async (req: Request, res: Response) => {
+		const domainId = req.params.id;
+		const domain = await DomainModel.getDomainById(domainId);
+		res.render('domain-notifications', { domain });
 	},
 
 	renderNotFoundPage: (req: Request, res: Response) => {

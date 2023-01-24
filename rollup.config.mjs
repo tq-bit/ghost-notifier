@@ -38,9 +38,18 @@ export default [
 
 	// View components
 	{
-		input: 'src/client/views/domain.view.ts',
+		input: 'src/client/views/domain.ts',
 		output: {
 			file: './public/js/domain.js',
+			format: 'cjs',
+		},
+		plugins: [typescript()],
+	},
+
+	{
+		input: 'src/client/views/domain-notifications.ts',
+		output: {
+			file: './public/js/domain-notifications.js',
 			format: 'cjs',
 		},
 		plugins: [typescript()],
