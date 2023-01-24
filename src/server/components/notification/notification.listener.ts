@@ -7,6 +7,7 @@ import { notificationCollection } from '../../db/dbClient';
 import logger from '../../util/logger.util';
 
 import { NotificationEventType } from '../../../@types/notification';
+import { OwnedDomain } from '../../../@types';
 
 const writeEventMessage = (
 	res: Response,
@@ -51,6 +52,27 @@ export default {
 			logger.http('SSE session with client closed');
 			notificationStream.close();
 			res.end('closed');
+		});
+	},
+
+	subscribeToDomainNotifications(req: Request, res: Response) {
+		writeOpeningMessage(res);
+
+		const domain = req.body as OwnedDomain;
+		const notificationStream = notificationCollection.watch();
+
+		notificationStream.on('change', (next: ChangeStreamDocument<Notification>) => {
+			// @ts-ignore, fullDocument is not part of 'next'
+			const notification: Notification = next.fullDocument;
+			const operationType = next.operationType;
+
+			if (notification.ghostOriginalUrl.includes(domain.name)) {
+				logger.verbose(
+					`Sending new notification on domain ${domain.name} ${operationType} to client ${req.ip} with articleId ${notification.ghostId}`
+				);
+
+				return writeEventMessage(res, operationType, notification);
+			}
 		});
 	},
 };

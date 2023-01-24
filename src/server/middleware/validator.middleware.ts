@@ -7,6 +7,7 @@ import NotFoundError from '../errors/http/NotFoundError';
 
 import logger from '../util/logger.util';
 import Converter from '../util/converter.util';
+import NotPermittedError from '../errors/http/NotPermitted';
 
 export default {
 	validateWebhookDomain: async (req: Request, res: Response, next: NextFunction): Promise<void> => {
@@ -29,6 +30,7 @@ export default {
 				  };
 		}
 	},
+
 	validateGhostWebhook: (req: Request, res: Response, next: NextFunction): void => {
 		try {
 			const validation = validateGhostWebhook(req.body);
@@ -64,5 +66,28 @@ export default {
 						res.status(500).send({ error });
 				  };
 		}
+	},
+
+	validateDomainStatus: async (req: Request, res: Response, next: NextFunction) => {
+		const domainId = req?.params?.id;
+		if (!domainId) {
+			throw new ValidationError('Domain must be specified!');
+		}
+
+		const domain = await DomainModel.getDomainById(domainId);
+
+		if (!domain) {
+			throw new NotFoundError(`Domain with id ${domainId} not found!`);
+		}
+
+		// @ts-ignore
+		if (!domain.status === 'active') {
+			throw new NotPermittedError(`Domain with id ${domainId} is not active!`);
+		}
+
+		// Append domain to body for usage in notificaiton.listener
+		req.body = domain;
+
+		next();
 	},
 };
