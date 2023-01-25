@@ -1,4 +1,6 @@
+import crypto from 'crypto';
 import { Request } from 'express';
+import { DateTime } from 'luxon';
 import {
 	GhostWebhook,
 	GhostArticle,
@@ -7,7 +9,6 @@ import {
 	DomainForm,
 	OwnedDomain,
 } from '../../@types';
-import crypto from 'crypto';
 
 export default {
 	convertIncomingWebhookToArticle: (req: Request) => {
@@ -27,7 +28,7 @@ export default {
 			ghostPrimaryTag: ghostArticle.primary_tag?.slug || '',
 			ghostTitle: ghostArticle.title,
 			ghostVisibility: ghostArticle.visibility,
-			created: new Date(),
+			created: `${DateTime.now().setZone('Europe/Berlin')}`,
 		};
 	},
 

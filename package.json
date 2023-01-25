@@ -22,6 +22,7 @@
 		"dotenv": "^16.0.3",
 		"express": "^4.17.1",
 		"express-handlebars": "^6.0.2",
+		"luxon": "^3.2.1",
 		"mongodb": "^4.11.0",
 		"vitest": "^0.27.3",
 		"winston": "^3.3.3"
@@ -31,6 +32,7 @@
 		"@types/cors": "^2.8.12",
 		"@types/express": "^4.17.13",
 		"@types/express-handlebars": "^6.0.0",
+		"@types/luxon": "^3.2.0",
 		"@types/node": "^17.0.0",
 		"concurrently": "^7.6.0",
 		"nodemon": "^2.0.15",

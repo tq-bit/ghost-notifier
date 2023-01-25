@@ -26,18 +26,9 @@ export default {
 	handleArticleUpdateNotification: async (req: Request, res: Response) => {
 		try {
 			const incomingArticle = Converter.convertIncomingWebhookToArticle(req);
-			const currentNotification = await NotificationModel.getNotificationByGhostId(
-				incomingArticle.id
-			);
-
-			if (!currentNotification) {
-				throw new NotFoundError(
-					`Attempt to update article ${incomingArticle.id} failed: Entry not found`
-				);
-			}
 
 			const notification = Converter.convertArticleToNotification(incomingArticle);
-			NotificationModel.updateNotificationById(notification);
+			NotificationModel.createNotification(notification);
 			logger.verbose(`Notification updated for article ${incomingArticle.id}`);
 
 			return res.status(200).send('OK');

@@ -20,11 +20,13 @@ const connectionAlertButton = new Button('#connection-alert-button', {
 });
 
 function handleInsertNotification(notification: Notification) {
+	console.log(notification);
 	notificationTable.insertRow(notification, [
 		'ghostTitle',
 		'ghostOriginalUrl',
 		'ghostVisibility',
 		'type',
+		'created',
 	]);
 	notificationCount.innerText = `${+notificationCount.innerText + 1}`;
 	connectionAlert

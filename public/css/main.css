@@ -1,5 +1,169 @@
 @charset "UTF-8";
 @import url("https://fonts.googleapis.com/css?family=Nunito:400,700");
+.gg-trash {
+  box-sizing: border-box;
+  position: relative;
+  display: block;
+  transform: scale(var(--ggs, 1));
+  width: 10px;
+  height: 12px;
+  border: 2px solid transparent;
+  box-shadow: 0 0 0 2px, inset -2px 0 0, inset 2px 0 0;
+  border-bottom-left-radius: 1px;
+  border-bottom-right-radius: 1px;
+  margin-top: 4px;
+}
+.gg-trash::after, .gg-trash::before {
+  content: "";
+  display: block;
+  box-sizing: border-box;
+  position: absolute;
+}
+.gg-trash::after {
+  background: currentColor;
+  border-radius: 3px;
+  width: 16px;
+  height: 2px;
+  top: -4px;
+  left: -5px;
+}
+.gg-trash::before {
+  width: 10px;
+  height: 4px;
+  border: 2px solid;
+  border-bottom: transparent;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+  top: -7px;
+  left: -2px;
+}
+
+.gg-calibrate {
+  display: block;
+  box-sizing: border-box;
+  position: relative;
+  transform: scale(var(--ggs, 1));
+  width: 18px;
+  height: 18px;
+  overflow: hidden;
+}
+.gg-calibrate::after {
+  content: "";
+  display: block;
+  box-sizing: border-box;
+  position: absolute;
+  border-radius: 22px;
+}
+.gg-calibrate::before {
+  content: "";
+  display: block;
+  box-sizing: border-box;
+  position: absolute;
+  border-radius: 22px;
+  width: 6px;
+  height: 6px;
+  background: currentColor;
+  top: 10px;
+  left: 6px;
+}
+.gg-calibrate::after {
+  width: 22px;
+  height: 22px;
+  border: 6px solid transparent;
+  border-top: 6px solid;
+  left: -2px;
+  top: 1px;
+}
+
+.gg-play-list-search {
+  box-sizing: border-box;
+  position: relative;
+  display: block;
+  transform: scale(var(--ggs, 1));
+  width: 12px;
+  height: 6px;
+  border-top: 0 solid transparent;
+  border-bottom: 2px solid transparent;
+  box-shadow: inset 0 -2px 0, -2px 4px 0 -2px, 0 -2px 0 0;
+}
+.gg-play-list-search::after, .gg-play-list-search::before {
+  content: "";
+  display: block;
+  box-sizing: border-box;
+  position: absolute;
+  bottom: -7px;
+}
+.gg-play-list-search::after {
+  width: 3px;
+  height: 2px;
+  background: currentColor;
+  transform: rotate(45deg);
+  right: -4px;
+}
+.gg-play-list-search::before {
+  width: 6px;
+  height: 6px;
+  border-radius: 4px;
+  border: 2px solid;
+  right: -3px;
+}
+
+.gg-arrow-left-o {
+  box-sizing: border-box;
+  position: relative;
+  display: block;
+  width: 22px;
+  height: 22px;
+  border: 2px solid;
+  transform: scale(var(--ggs, 1));
+  border-radius: 22px;
+}
+.gg-arrow-left-o::after, .gg-arrow-left-o::before {
+  content: "";
+  display: block;
+  box-sizing: border-box;
+  position: absolute;
+  left: 4px;
+}
+.gg-arrow-left-o::after {
+  width: 6px;
+  height: 6px;
+  border-bottom: 2px solid;
+  border-left: 2px solid;
+  transform: rotate(45deg);
+  bottom: 6px;
+}
+.gg-arrow-left-o::before {
+  width: 10px;
+  height: 2px;
+  bottom: 8px;
+  background: currentColor;
+}
+
+.gg-log-off {
+  box-sizing: border-box;
+  position: relative;
+  display: block;
+  border-radius: 16px;
+  border: 2px solid;
+  transform: scale(var(--ggs, 1));
+  width: 16px;
+  height: 16px;
+  border-top: 2px solid transparent;
+}
+.gg-log-off::before {
+  content: "";
+  display: block;
+  box-sizing: border-box;
+  position: absolute;
+  border-radius: 3px;
+  height: 8px;
+  width: 2px;
+  background: currentColor;
+  left: 5px;
+  bottom: 6px;
+}
+
 /*! bulma.io v0.9.4 | MIT License | github.com/jgthms/bulma */
 /* Bulma Utilities */
 .pagination-previous,
@@ -10280,168 +10444,4 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
 .footer {
   background-color: hsl(0deg, 0%, 98%);
   padding: 3rem 1.5rem 6rem;
-}
-
-.gg-trash {
-  box-sizing: border-box;
-  position: relative;
-  display: block;
-  transform: scale(var(--ggs, 1));
-  width: 10px;
-  height: 12px;
-  border: 2px solid transparent;
-  box-shadow: 0 0 0 2px, inset -2px 0 0, inset 2px 0 0;
-  border-bottom-left-radius: 1px;
-  border-bottom-right-radius: 1px;
-  margin-top: 4px;
-}
-.gg-trash::after, .gg-trash::before {
-  content: "";
-  display: block;
-  box-sizing: border-box;
-  position: absolute;
-}
-.gg-trash::after {
-  background: currentColor;
-  border-radius: 3px;
-  width: 16px;
-  height: 2px;
-  top: -4px;
-  left: -5px;
-}
-.gg-trash::before {
-  width: 10px;
-  height: 4px;
-  border: 2px solid;
-  border-bottom: transparent;
-  border-top-left-radius: 2px;
-  border-top-right-radius: 2px;
-  top: -7px;
-  left: -2px;
-}
-
-.gg-calibrate {
-  display: block;
-  box-sizing: border-box;
-  position: relative;
-  transform: scale(var(--ggs, 1));
-  width: 18px;
-  height: 18px;
-  overflow: hidden;
-}
-.gg-calibrate::after {
-  content: "";
-  display: block;
-  box-sizing: border-box;
-  position: absolute;
-  border-radius: 22px;
-}
-.gg-calibrate::before {
-  content: "";
-  display: block;
-  box-sizing: border-box;
-  position: absolute;
-  border-radius: 22px;
-  width: 6px;
-  height: 6px;
-  background: currentColor;
-  top: 10px;
-  left: 6px;
-}
-.gg-calibrate::after {
-  width: 22px;
-  height: 22px;
-  border: 6px solid transparent;
-  border-top: 6px solid;
-  left: -2px;
-  top: 1px;
-}
-
-.gg-play-list-search {
-  box-sizing: border-box;
-  position: relative;
-  display: block;
-  transform: scale(var(--ggs, 1));
-  width: 12px;
-  height: 6px;
-  border-top: 0 solid transparent;
-  border-bottom: 2px solid transparent;
-  box-shadow: inset 0 -2px 0, -2px 4px 0 -2px, 0 -2px 0 0;
-}
-.gg-play-list-search::after, .gg-play-list-search::before {
-  content: "";
-  display: block;
-  box-sizing: border-box;
-  position: absolute;
-  bottom: -7px;
-}
-.gg-play-list-search::after {
-  width: 3px;
-  height: 2px;
-  background: currentColor;
-  transform: rotate(45deg);
-  right: -4px;
-}
-.gg-play-list-search::before {
-  width: 6px;
-  height: 6px;
-  border-radius: 4px;
-  border: 2px solid;
-  right: -3px;
-}
-
-.gg-arrow-left-o {
-  box-sizing: border-box;
-  position: relative;
-  display: block;
-  width: 22px;
-  height: 22px;
-  border: 2px solid;
-  transform: scale(var(--ggs, 1));
-  border-radius: 22px;
-}
-.gg-arrow-left-o::after, .gg-arrow-left-o::before {
-  content: "";
-  display: block;
-  box-sizing: border-box;
-  position: absolute;
-  left: 4px;
-}
-.gg-arrow-left-o::after {
-  width: 6px;
-  height: 6px;
-  border-bottom: 2px solid;
-  border-left: 2px solid;
-  transform: rotate(45deg);
-  bottom: 6px;
-}
-.gg-arrow-left-o::before {
-  width: 10px;
-  height: 2px;
-  bottom: 8px;
-  background: currentColor;
-}
-
-.gg-log-off {
-  box-sizing: border-box;
-  position: relative;
-  display: block;
-  border-radius: 16px;
-  border: 2px solid;
-  transform: scale(var(--ggs, 1));
-  width: 16px;
-  height: 16px;
-  border-top: 2px solid transparent;
-}
-.gg-log-off::before {
-  content: "";
-  display: block;
-  box-sizing: border-box;
-  position: absolute;
-  border-radius: 3px;
-  height: 8px;
-  width: 2px;
-  background: currentColor;
-  left: 5px;
-  bottom: 6px;
 }

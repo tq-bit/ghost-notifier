@@ -176,11 +176,13 @@ new Button('#connection-alert-button', {
     onClick: () => connectionAlert.unset(),
 });
 function handleInsertNotification(notification) {
+    console.log(notification);
     notificationTable.insertRow(notification, [
         'ghostTitle',
         'ghostOriginalUrl',
         'ghostVisibility',
         'type',
+        'created',
     ]);
     notificationCount.innerText = `${+notificationCount.innerText + 1}`;
     connectionAlert
