@@ -1,3 +1,31 @@
+<div id="domain-notification-modal" class="modal is-active">
+  <div class="modal-background"></div>
+  <div class="modal-content">
+
+    <div class="card block">
+      <div class="card-content">
+        <div class="block">
+          <h2 class="title is-4">Connect your domain </h2>
+          <ol class="block ml-5">
+            <li>Create a new domain (you've just done that)</li>
+            <li>Visit <code>https://&#60;ghost-blog&#62;/ghost/#/settings/integrations/new</code> and create one or more Ghost webhooks</li>
+            <li>Add the <code>key</code> query and your subscription key as value</li>
+            <li>Implement subscription logic in your Ghost theme</li>
+          </ol>
+          <p><b>Subscription URL</b></p>
+          <pre><code>/api/domain/{{domain.id}}/notifications/subscribe</code></pre>
+        </div>
+
+        <div class="block">
+          <p><b>Subscription Key</b></p>
+          <pre><code>{{domain.key}}</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button class="modal-close is-large" aria-label="close"></button>
+</div>
+
 <div class="container-fluid">
 
   <div id="connection-alert" class="message is-hidden">
@@ -43,8 +71,6 @@
       <div class="card-content">
         <p class="heading">Notifications</p>
         <p id="domain-notification-count" class="title is-4">{{count}}</p>
-
-
       </div>
     </div>
   </header>
@@ -122,15 +148,7 @@
             <button id="connection-control-button" class="button is-primary is-hidden is-block">Reconnect</button>
           </div>
 
-          <div class="block">
-            <p><b>Subscription URL</b></p>
-            <pre><code>/api/domain/{{domain.id}}/notifications/subscribe</code></pre>
-          </div>
 
-          <div class="block">
-            <p><b>Subscription Key</b></p>
-            <pre><code>{{domain.key}}</code></pre>
-          </div>
 
           <div class="block">
             <p><b>Domain actions: </b></p>
