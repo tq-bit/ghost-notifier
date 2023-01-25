@@ -4,13 +4,14 @@
 @import url('https://fonts.googleapis.com/css?family=Nunito:400,700');
 
 // Set your brand colors
-$yellow: #ffd522;
-$purple: #711c83;
+$blue: #4693c8;
+$purple: #9e4d90;
+$red: #f01234;
 
 // Update Bulma's global variables
-$family-sans-serif: 'Nunito', sans-serif;
-$primary: $yellow;
-$secondary: $purple;
+// $family-sans-serif: 'Nunito', sans-serif;
+$primary: $blue;
+// $secondary: $purple;
 $link: $purple;
 
 @import '../../../node_modules/bulma/bulma.sass';
