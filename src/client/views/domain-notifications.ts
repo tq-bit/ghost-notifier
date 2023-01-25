@@ -10,7 +10,6 @@ const domainId = location.href.split('/')[4];
 const notificationSubscriber = new Subscriber(`/api/domain/${domainId}/notifications/subscribe`, {
 	statusTextElementSelector: '#connection-indicator-text',
 	statusIndicatorElementSelector: '#connection-indicator-sign',
-	connectionControlButtonSelector: '#connection-control-button',
 });
 const notificationTable = new Table('#domain-notification-table-body');
 const notificationCount = document.getElementById('domain-notification-count') as HTMLElement;
@@ -19,9 +18,15 @@ const connectionAlert = new Alert('#connection-alert');
 const connectionAlertButton = new Button('#connection-alert-button', {
 	onClick: () => connectionAlert.unset(),
 });
+const connectionControlButton = new Button('#connection-control-button', {
+	onClick: () => {
+		connectionControlButton.hide();
+		notificationSubscriber.init();
+		notificationSubscriber.on('insert', handleInsertNotification);
+	},
+});
 
 function handleInsertNotification(notification: Notification) {
-	console.log(notification);
 	notificationTable.insertRow(notification, [
 		'ghostTitle',
 		'ghostOriginalUrl',
@@ -40,6 +45,9 @@ function main() {
 		onPageReady: () => {
 			connectionAlert.setByUrl();
 			notificationSubscriber.on('insert', handleInsertNotification);
+			notificationSubscriber.onError((err) => {
+				connectionControlButton.show();
+			});
 		},
 	});
 }

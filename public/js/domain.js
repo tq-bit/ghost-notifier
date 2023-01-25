@@ -62,6 +62,12 @@ class Button {
             cb();
         });
     }
+    show() {
+        this.buttonElement.classList.remove('is-hidden');
+    }
+    hide() {
+        this.buttonElement.classList.add('is-hidden');
+    }
 }
 
 class Lifecycle {

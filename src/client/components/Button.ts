@@ -21,4 +21,12 @@ export default class Button {
 			cb();
 		});
 	}
+
+	public show() {
+		this.buttonElement.classList.remove('is-hidden');
+	}
+
+	public hide() {
+		this.buttonElement.classList.add('is-hidden');
+	}
 }

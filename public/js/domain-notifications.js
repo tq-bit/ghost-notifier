@@ -1,15 +1,14 @@
 'use strict';
 
 class Subscriber {
-    constructor(eventSourceUrl, { statusTextElementSelector, statusIndicatorElementSelector, connectionControlButtonSelector, }) {
+    constructor(eventSourceUrl, { statusTextElementSelector, statusIndicatorElementSelector, }) {
         this.eventSource = null;
         this.eventSourceUrl = eventSourceUrl;
         this.status = 'disconnected';
         this.statusTextElement = document.querySelector(statusTextElementSelector);
         this.statusIndicatorElement = document.querySelector(statusIndicatorElementSelector);
-        this.connectionControlButton = document.querySelector(connectionControlButtonSelector);
-        if (!this.statusTextElement || !this.statusIndicatorElement || !this.connectionControlButton) {
-            console.warn('Subscriber: No status text, indicator or reconnect button found');
+        if (!this.statusTextElement || !this.statusIndicatorElement) {
+            console.warn('Subscriber: No status text pr indicator found');
         }
         this.init();
     }
@@ -17,14 +16,12 @@ class Subscriber {
         this.eventSource = new EventSource(this.eventSourceUrl);
         this.eventSource.addEventListener('open', () => {
             this.status = 'connected';
-            this.connectionControlButton.classList.add('is-hidden');
             this.statusTextElement.innerText = 'Connected to domain subscription endpoint';
             this.statusIndicatorElement.style.fill = 'green';
         });
         this.eventSource.addEventListener('close', () => {
             var _a;
             (_a = this.eventSource) === null || _a === void 0 ? void 0 : _a.close();
-            this.connectionControlButton.classList.remove('is-hidden');
             this.status = 'disconnected';
             this.statusTextElement.innerText = 'Disconnected from domain subscription endpoint';
             this.statusIndicatorElement.style.fill = 'orange';
@@ -32,13 +29,11 @@ class Subscriber {
         this.eventSource.addEventListener('error', () => {
             var _a;
             (_a = this.eventSource) === null || _a === void 0 ? void 0 : _a.close();
-            this.connectionControlButton.classList.remove('is-hidden');
             this.status = 'disconnected';
             this.statusTextElement.innerText =
                 'An error occured while connecting, please check the server logs';
             this.statusIndicatorElement.style.fill = 'red';
         });
-        this.connectionControlButton.addEventListener('click', () => this.init());
     }
     on(eventType, cb) {
         var _a;
@@ -126,6 +121,12 @@ class Button {
             cb();
         });
     }
+    show() {
+        this.buttonElement.classList.remove('is-hidden');
+    }
+    hide() {
+        this.buttonElement.classList.add('is-hidden');
+    }
 }
 
 class Alert {
@@ -179,7 +180,6 @@ const domainId = location.href.split('/')[4];
 const notificationSubscriber = new Subscriber(`/api/domain/${domainId}/notifications/subscribe`, {
     statusTextElementSelector: '#connection-indicator-text',
     statusIndicatorElementSelector: '#connection-indicator-sign',
-    connectionControlButtonSelector: '#connection-control-button',
 });
 const notificationTable = new Table('#domain-notification-table-body');
 const notificationCount = document.getElementById('domain-notification-count');
@@ -187,8 +187,14 @@ const connectionAlert = new Alert('#connection-alert');
 new Button('#connection-alert-button', {
     onClick: () => connectionAlert.unset(),
 });
+const connectionControlButton = new Button('#connection-control-button', {
+    onClick: () => {
+        connectionControlButton.hide();
+        notificationSubscriber.init();
+        notificationSubscriber.on('insert', handleInsertNotification);
+    },
+});
 function handleInsertNotification(notification) {
-    console.log(notification);
     notificationTable.insertRow(notification, [
         'ghostTitle',
         'ghostOriginalUrl',
@@ -206,6 +212,9 @@ function main() {
         onPageReady: () => {
             connectionAlert.setByUrl();
             notificationSubscriber.on('insert', handleInsertNotification);
+            notificationSubscriber.onError((err) => {
+                connectionControlButton.show();
+            });
         },
     });
 }
