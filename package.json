@@ -22,6 +22,7 @@
 		"dotenv": "^16.0.3",
 		"express": "^4.17.1",
 		"express-handlebars": "^6.0.2",
+		"jsonwebtoken": "^9.0.0",
 		"luxon": "^3.2.1",
 		"mongodb": "^4.11.0",
 		"vitest": "^0.27.3",
