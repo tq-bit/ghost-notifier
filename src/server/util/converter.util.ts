@@ -23,16 +23,14 @@ export default {
 		ghostArticle: GhostArticle,
 		notificationType: NotificationType
 	): Notification => {
-		console.log(notificationType);
 		return {
 			id: crypto.randomUUID(),
 			type: notificationType,
 			ghostId: ghostArticle.id,
-			ghostOriginalUrl: ghostArticle.url,
-			ghostPrimaryTag: ghostArticle.primary_tag?.slug || '',
+			ghostOriginalUrl: ghostArticle.url || '',
 			ghostTitle: ghostArticle.title,
 			ghostVisibility: ghostArticle.visibility,
-			created: `${DateTime.now().setZone('Europe/Berlin')}`,
+			created: ghostArticle.updated_at,
 		};
 	},
 

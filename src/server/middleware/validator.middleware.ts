@@ -13,7 +13,7 @@ export default {
 	validateWebhookDomain: async (req: Request, res: Response, next: NextFunction): Promise<void> => {
 		try {
 			const webhookPath = (req.body as GhostWebhook).post.current.url;
-			const domainName = Converter.convertUrlToDomainName(webhookPath);
+			const domainName = Converter.convertUrlToDomainName(webhookPath || '');
 			const domainEntry = await DomainModel.getDomainByName(domainName);
 
 			if (!domainEntry) {

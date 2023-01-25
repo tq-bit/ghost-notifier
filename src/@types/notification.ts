@@ -31,7 +31,6 @@ const Notification = Type.Object({
 	ghostTitle: Type.String(),
 	ghostVisibility: Type.String(),
 	ghostOriginalUrl: Type.String(),
-	ghostPrimaryTag: Type.String(),
 	created: Type.String(),
 });
 
