@@ -175,22 +175,23 @@ const connectionAlert = new Alert('#connection-alert');
 new Button('#connection-alert-button', {
     onClick: () => connectionAlert.unset(),
 });
+function handleInsertNotification(notification) {
+    notificationTable.insertRow(notification, [
+        'ghostTitle',
+        'ghostOriginalUrl',
+        'ghostVisibility',
+        'type',
+    ]);
+    notificationCount.innerText = `${+notificationCount.innerText + 1}`;
+    connectionAlert
+        .set({ type: 'success', title: 'Success', text: 'New notification received' })
+        .show();
+}
 function main() {
     new Lifecycle({
         onPageReady: () => {
             connectionAlert.setByUrl();
-            notificationSubscriber.on('insert', (notification) => {
-                notificationTable.insertRow(notification, [
-                    'ghostTitle',
-                    'ghostOriginalUrl',
-                    'ghostVisibility',
-                    'type',
-                ]);
-                notificationCount.innerText = `${+notificationCount.innerText + 1}`;
-                connectionAlert
-                    .set({ type: 'success', title: 'Success', text: 'New notification received' })
-                    .show();
-            });
+            notificationSubscriber.on('insert', handleInsertNotification);
         },
     });
 }
