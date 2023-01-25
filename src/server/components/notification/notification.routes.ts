@@ -21,6 +21,4 @@ router.post(
 	NotificationController.handleArticleUpdateNotification
 );
 
-router.post('/article/delete', NotificationController.handleArticleDeletionNotification);
-
 export default router;
