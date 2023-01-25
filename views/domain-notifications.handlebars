@@ -98,52 +98,56 @@
       </div>
     </div>
 
-
     <div class="column is-one-third">
       <div class="card">
         <div class="card-content">
-          <h2 class="title is-4">Live connection status</h2>
-          <p class="block">
-            You can monitor all incoming webhooks from {{domain.name}} here.
-            Use the code example below to connect and receive updates for new
-            incoming webhooks. If necessary, check out the <a href="https://developer.mozilla.org/en-US/docs/Web/API/EventSource">Event Source</a>
-            reference on MDN.
-          </p>
+
+          <div class="block">
+            <h2 class="title is-4">Realtime server status</h2>
+            <p>
+              This page includes a list of the latest realtime notifications for your domaion {{domain.name}}.
+              Whenever a new notification is created, it will be shown to the left.
+              You can find the subscription URL this list uses as a source further below.
+            </p>
+          </div>
+
           <div class="block">
             <p> <b>Connection status: </b> </p>
             <svg class="mb-1" height="12" width="12">
               <circle id="connection-indicator-sign" cx="6" cy="6" r="6" stroke-width="3" fill="orange" />
             </svg>
             <span id="connection-indicator-text" class="ms-1">Connecting ...</span>
+            <button id="connection-control-button" class="button is-primary is-hidden is-block">Reconnect</button>
           </div>
-          <p><b>Code Example: </b></p>
-          <pre class="block"><code>const domainId = "{{domain.id}}"
-const host = "http://localhost:3001";
-const path = `/api/domain/${domainId}/notifications/subscribe`;
+          <div class="block">
 
-const subscription = new EventSource(url);
-
-subscription.addEventListener('open', () => {
-  console.log('Connection opened')
-})</code></pre>
-
-          <p><b>Domain actions: </b></p>
-          <div class="is-flex is-justify-content-start">
-            <form class="mr-2" method="POST" action="/api/domain/{{domain.id}}/toggle-status">
-              <button title="Enable / disable this domain" class="button is-warning">
-                <span class="icon">
-                  <i class="gg-log-off"></i>
-                </span>
-              </button>
-            </form>
-            <form method="POST" action="/api/domain/{{domain.id}}/delete">
-              <button title="Delete this domain" class="button is-danger">
-                <span class="icon">
-                  <i class="gg-trash"></i>
-                </span>
-              </button>
-            </form>
+            <p><b>Subscription URL</b></p>
+            <pre><code>/api/domain/{{domain.id}}/notifications/subscribe</code></pre>
           </div>
+
+          <div class="block">
+            <p><b>Domain actions: </b></p>
+            <div class="is-flex is-justify-content-space-between">
+              <form class="mr-2" method="POST" action="/api/domain/{{domain.id}}/toggle-status">
+                <button title="Enable / disable this domain" class="button is-warning">
+                  <span class="icon">
+                    <i class="gg-log-off"></i>
+                  </span>
+                  <span>On/Off</span>
+                </button>
+              </form>
+              <form method="POST" action="/api/domain/{{domain.id}}/delete">
+                <button title="Delete this domain" class="button is-danger">
+                  <span class="icon">
+                    <i class="gg-trash"></i>
+                  </span>
+                  <span>Delete</span>
+                </button>
+              </form>
+            </div>
+          </div>
+
+
         </div>
       </div>
     </div>

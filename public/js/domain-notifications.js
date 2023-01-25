@@ -1,43 +1,54 @@
 'use strict';
 
 class Subscriber {
-    constructor(eventSourceUrl, { statusTextElementSelector, statusIndicatorElementSelector }) {
-        this.eventSource = new EventSource(eventSourceUrl);
+    constructor(eventSourceUrl, { statusTextElementSelector, statusIndicatorElementSelector, connectionControlButtonSelector, }) {
+        this.eventSource = null;
+        this.eventSourceUrl = eventSourceUrl;
         this.status = 'disconnected';
         this.statusTextElement = document.querySelector(statusTextElementSelector);
         this.statusIndicatorElement = document.querySelector(statusIndicatorElementSelector);
-        if (!this.statusTextElement || !this.statusIndicatorElement) {
-            console.warn('Subscriber: No status text or indicator found');
+        this.connectionControlButton = document.querySelector(connectionControlButtonSelector);
+        if (!this.statusTextElement || !this.statusIndicatorElement || !this.connectionControlButton) {
+            console.warn('Subscriber: No status text, indicator or reconnect button found');
         }
         this.init();
     }
     init() {
+        this.eventSource = new EventSource(this.eventSourceUrl);
         this.eventSource.addEventListener('open', () => {
             this.status = 'connected';
+            this.connectionControlButton.classList.add('is-hidden');
             this.statusTextElement.innerText = 'Connected to domain subscription endpoint';
             this.statusIndicatorElement.style.fill = 'green';
         });
         this.eventSource.addEventListener('close', () => {
-            this.eventSource.close();
+            var _a;
+            (_a = this.eventSource) === null || _a === void 0 ? void 0 : _a.close();
+            this.connectionControlButton.classList.remove('is-hidden');
             this.status = 'disconnected';
             this.statusTextElement.innerText = 'Disconnected from domain subscription endpoint';
             this.statusIndicatorElement.style.fill = 'orange';
         });
         this.eventSource.addEventListener('error', () => {
-            this.eventSource.close();
+            var _a;
+            (_a = this.eventSource) === null || _a === void 0 ? void 0 : _a.close();
+            this.connectionControlButton.classList.remove('is-hidden');
             this.status = 'disconnected';
             this.statusTextElement.innerText =
                 'An error occured while connecting, please check the server logs';
             this.statusIndicatorElement.style.fill = 'red';
         });
+        this.connectionControlButton.addEventListener('click', () => this.init());
     }
     on(eventType, cb) {
-        this.eventSource.addEventListener(eventType, (ev) => {
+        var _a;
+        (_a = this.eventSource) === null || _a === void 0 ? void 0 : _a.addEventListener(eventType, (ev) => {
             cb(JSON.parse(ev.data));
         });
     }
     onError(cb) {
-        this.eventSource.addEventListener('error', (err) => {
+        var _a;
+        (_a = this.eventSource) === null || _a === void 0 ? void 0 : _a.addEventListener('error', (err) => {
             console.error(err);
             cb(err);
         });
@@ -96,7 +107,7 @@ class Table {
                 }
             }
         });
-        this.tableBodyElement.append(row);
+        this.tableBodyElement.prepend(row);
     }
 }
 
@@ -168,6 +179,7 @@ const domainId = location.href.split('/')[4];
 const notificationSubscriber = new Subscriber(`/api/domain/${domainId}/notifications/subscribe`, {
     statusTextElementSelector: '#connection-indicator-text',
     statusIndicatorElementSelector: '#connection-indicator-sign',
+    connectionControlButtonSelector: '#connection-control-button',
 });
 const notificationTable = new Table('#domain-notification-table-body');
 const notificationCount = document.getElementById('domain-notification-count');

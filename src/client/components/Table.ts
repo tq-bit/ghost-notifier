@@ -23,6 +23,6 @@ export default class Table {
 			}
 		});
 
-		this.tableBodyElement.append(row);
+		this.tableBodyElement.prepend(row);
 	}
 }

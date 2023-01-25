@@ -16,6 +16,7 @@ export default {
 	getNotificationsByDomainName: async (domainName: string) => {
 		const cursor = notificationCollection.find({ ghostOriginalUrl: { $regex: domainName } });
 		let results: any = [];
+		cursor.sort({ created: -1 });
 		await cursor.forEach((entry) => results.push(entry));
 
 		return Promise.all(results) as Promise<Notification[]>;

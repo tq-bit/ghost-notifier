@@ -10,6 +10,7 @@ const domainId = location.href.split('/')[4];
 const notificationSubscriber = new Subscriber(`/api/domain/${domainId}/notifications/subscribe`, {
 	statusTextElementSelector: '#connection-indicator-text',
 	statusIndicatorElementSelector: '#connection-indicator-sign',
+	connectionControlButtonSelector: '#connection-control-button',
 });
 const notificationTable = new Table('#domain-notification-table-body');
 const notificationCount = document.getElementById('domain-notification-count') as HTMLElement;
