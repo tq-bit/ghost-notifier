@@ -109,6 +109,8 @@
               Whenever a new notification is created, it will be shown to the left.
               You can find the subscription URL this list uses as a source further below.
             </p>
+
+            <a href="/">Read more about subscriptions and subscription keys</a>
           </div>
 
           <div class="block">
@@ -119,10 +121,15 @@
             <span id="connection-indicator-text" class="ms-1">Connecting ...</span>
             <button id="connection-control-button" class="button is-primary is-hidden is-block">Reconnect</button>
           </div>
-          <div class="block">
 
+          <div class="block">
             <p><b>Subscription URL</b></p>
             <pre><code>/api/domain/{{domain.id}}/notifications/subscribe</code></pre>
+          </div>
+
+          <div class="block">
+            <p><b>Subscription Key</b></p>
+            <pre><code>{{domain.key}}</code></pre>
           </div>
 
           <div class="block">
