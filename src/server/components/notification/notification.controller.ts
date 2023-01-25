@@ -4,7 +4,7 @@ import Converter from '../../util/converter.util';
 import NotificationModel from './notification.model';
 import logger from '../../util/logger.util';
 import NotFoundError from '../../errors/http/NotFoundError';
-import { OwnedDomain } from '../../../@types';
+import { NotificationType, OwnedDomain } from '../../../@types';
 import Responder from '../../util/responder.util';
 
 export default {
@@ -12,7 +12,10 @@ export default {
 		try {
 			const incomingArticle = Converter.convertIncomingWebhookToArticle(req);
 
-			const notification = Converter.convertArticleToNotification(incomingArticle);
+			const notification = Converter.convertArticleToNotification(
+				incomingArticle,
+				NotificationType.PostPublished
+			);
 			await NotificationModel.createNotification(notification);
 			logger.verbose(`Notification created for article ${incomingArticle.id}`);
 
@@ -27,7 +30,10 @@ export default {
 		try {
 			const incomingArticle = Converter.convertIncomingWebhookToArticle(req);
 
-			const notification = Converter.convertArticleToNotification(incomingArticle);
+			const notification = Converter.convertArticleToNotification(
+				incomingArticle,
+				NotificationType.PostUpdated
+			);
 			NotificationModel.createNotification(notification);
 			logger.verbose(`Notification updated for article ${incomingArticle.id}`);
 

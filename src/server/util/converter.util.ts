@@ -19,10 +19,14 @@ export default {
 		return incomingPost.post.previous as GhostArticle;
 	},
 
-	convertArticleToNotification: (ghostArticle: GhostArticle): Notification => {
+	convertArticleToNotification: (
+		ghostArticle: GhostArticle,
+		notificationType: NotificationType
+	): Notification => {
+		console.log(notificationType);
 		return {
 			id: crypto.randomUUID(),
-			type: NotificationType.Post,
+			type: notificationType,
 			ghostId: ghostArticle.id,
 			ghostOriginalUrl: ghostArticle.url,
 			ghostPrimaryTag: ghostArticle.primary_tag?.slug || '',

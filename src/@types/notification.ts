@@ -19,7 +19,8 @@ export type NotificationEventType =
 	| 'delete';
 
 export enum NotificationType {
-	Post = 'post',
+	PostUpdated = 'post-updated',
+	PostPublished = 'post-published',
 	Page = 'page',
 }
 
