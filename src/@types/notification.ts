@@ -21,6 +21,7 @@ export type NotificationEventType =
 export enum NotificationType {
 	PostUpdated = 'post-updated',
 	PostPublished = 'post-published',
+	PostScheduled = 'post-scheduled',
 	Page = 'page',
 }
 

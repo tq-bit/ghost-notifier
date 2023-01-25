@@ -3,7 +3,6 @@ import { Request, Response } from 'express';
 import Converter from '../../util/converter.util';
 import NotificationModel from './notification.model';
 import logger from '../../util/logger.util';
-import NotFoundError from '../../errors/http/NotFoundError';
 import { NotificationType, OwnedDomain } from '../../../@types';
 import Responder from '../../util/responder.util';
 
@@ -17,7 +16,7 @@ export default {
 				NotificationType.PostPublished
 			);
 			await NotificationModel.createNotification(notification);
-			logger.verbose(`Notification created for article ${incomingArticle.id}`);
+			logger.verbose(`Notification created for published article ${incomingArticle.id}`);
 
 			return res.status(200).send('OK');
 		} catch (error) {
@@ -35,16 +34,30 @@ export default {
 				NotificationType.PostUpdated
 			);
 			NotificationModel.createNotification(notification);
-			logger.verbose(`Notification updated for article ${incomingArticle.id}`);
+			logger.verbose(`Notification created for updated article ${incomingArticle.id}`);
 
 			return res.status(200).send('OK');
 		} catch (error) {
-			error instanceof NotFoundError
-				? res.status(error.options.code).send({ error: error.message })
-				: () => {
-						logger.error(error);
-						res.status(500).send({ error });
-				  };
+			logger.error(error);
+			res.status(500).send({ error });
+		}
+	},
+
+	handleArticleScheduleNotification: async (req: Request, res: Response) => {
+		try {
+			const incomingArticle = Converter.convertIncomingWebhookToArticle(req);
+
+			const notification = Converter.convertArticleToNotification(
+				incomingArticle,
+				NotificationType.PostScheduled
+			);
+			NotificationModel.createNotification(notification);
+			logger.verbose(`Notification created for scheduled article ${incomingArticle.id}`);
+
+			return res.status(200).send('OK');
+		} catch (error) {
+			logger.error(error);
+			res.status(500).send({ error });
 		}
 	},
 

@@ -21,4 +21,11 @@ router.post(
 	NotificationController.handleArticleUpdateNotification
 );
 
+router.post(
+	'/article/schedule',
+	Validator.validateGhostWebhook,
+	Validator.validateWebhookDomain,
+	NotificationController.handleArticleScheduleNotification
+);
+
 export default router;
