@@ -1,6 +1,6 @@
 import crypto from 'crypto';
 import { Request } from 'express';
-import { DateTime } from 'luxon';
+import jwt from 'jsonwebtoken';
 import {
 	GhostWebhook,
 	GhostArticle,
@@ -9,6 +9,11 @@ import {
 	DomainForm,
 	OwnedDomain,
 } from '../../@types';
+
+type JwtDomainSignature = {
+	domainName: string;
+	domainOwner: string;
+};
 
 export default {
 	convertIncomingWebhookToArticle: (req: Request) => {
@@ -41,13 +46,22 @@ export default {
 		return `${protocol}//${hostname}`;
 	},
 
-	convertDomainFormToOwnedDomain: (domain: DomainForm, domainOwner: string): OwnedDomain => {
+	convertDomainFormToOwnedDomain(domain: DomainForm, domainOwner: string): OwnedDomain {
 		return {
 			id: crypto.randomUUID(),
 			name: domain.name,
 			status: domain.status,
 			type: domain.type,
 			owner: domainOwner,
+			key: this.signDomainJwt({ domainName: domain.name, domainOwner }),
 		};
+	},
+
+	verifyDomainJwt: (token: string) => {
+		return jwt.verify(token, process.env.JWT_KEY || '');
+	},
+
+	signDomainJwt: ({ domainName, domainOwner }: JwtDomainSignature) => {
+		return jwt.sign({ domainName, domainOwner }, process.env.JWT_KEY || '');
 	},
 };

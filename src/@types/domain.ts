@@ -23,6 +23,7 @@ export const OwnedDomain = Type.Object({
 	type: Type.Enum(DomainType),
 	status: Type.Enum(DomainStatus),
 	owner: Type.String(),
+	key: Type.String(),
 });
 
 export type DomainForm = Static<typeof DomainForm>;
