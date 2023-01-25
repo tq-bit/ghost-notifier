@@ -53,15 +53,7 @@ export default {
 			status: domain.status,
 			type: domain.type,
 			owner: domainOwner,
-			key: this.signDomainJwt({ domainName: domain.name, domainOwner }),
+			key: jwt.sign({ domainName: domain.name, domainOwner }, process.env.JWT_KEY || ''),
 		};
-	},
-
-	verifyDomainJwt: (token: string) => {
-		return jwt.verify(token, process.env.JWT_KEY || '');
-	},
-
-	signDomainJwt: ({ domainName, domainOwner }: JwtDomainSignature) => {
-		return jwt.sign({ domainName, domainOwner }, process.env.JWT_KEY || '');
 	},
 };

@@ -1,18 +1,29 @@
 import { Request, Response, NextFunction } from 'express';
+import jwt, { JsonWebTokenError } from 'jsonwebtoken';
 import { GhostWebhook, validateGhostWebhook } from '../../@types/ghost';
 import { validateDomainForm } from '../../@types/domain';
 import DomainModel from '../components/domain/domain.model';
 import ValidationError from '../errors/http/ValidationError';
 import NotFoundError from '../errors/http/NotFoundError';
-
 import logger from '../util/logger.util';
 import Converter from '../util/converter.util';
 import NotPermittedError from '../errors/http/NotPermitted';
+import NotAuthorizedError from '../errors/http/NotAuthorizedError';
+import { DomainJwtPayload } from '../../@types/authorization';
 
 export default {
 	validateWebhookDomain: async (req: Request, res: Response, next: NextFunction): Promise<void> => {
 		try {
+			if (!req.query.key) {
+				throw new NotAuthorizedError('Webhook URL did not include a key!');
+			}
 			const webhookPath = (req.body as GhostWebhook).post.current.url;
+			const webhookKey = req.query.key as string;
+			const domainKeyPayload = jwt.verify(
+				webhookKey,
+				process.env.JWT_KEY || ''
+			) as DomainJwtPayload;
+
 			const domainName = Converter.convertUrlToDomainName(webhookPath || '');
 			const domainEntry = await DomainModel.getDomainByName(domainName);
 
@@ -20,14 +31,31 @@ export default {
 				throw new NotFoundError(`Domain with ${domainName} not maintained!`);
 			}
 
+			if (domainEntry.name !== domainKeyPayload.domainName) {
+				throw new NotPermittedError(
+					`${domainKeyPayload.domainName} is not permitted to create notifications for ${domainEntry.name}`
+				);
+			}
+
 			next();
 		} catch (error) {
-			error instanceof NotFoundError
-				? res.status(error.options.code).send({ error: error.message })
-				: () => {
-						logger.error(error);
-						res.status(500).send({ error });
-				  };
+			if (
+				error instanceof NotAuthorizedError ||
+				error instanceof NotPermittedError ||
+				error instanceof NotFoundError
+			) {
+				res.status(error.options.code).send({ error: error.message });
+				return;
+			}
+
+			if (error instanceof JsonWebTokenError) {
+				logger.error(error);
+				res.status(401).send({ error: error.message });
+				return;
+			}
+
+			logger.error(error);
+			res.status(500).send({ error });
 		}
 	},
 
