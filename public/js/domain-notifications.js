@@ -180,18 +180,21 @@ class Modal {
     constructor(modalSelector) {
         this.modalElement = document.querySelector(modalSelector);
         this.modalCloseButton = this.modalElement.querySelector('.modal-close');
+        this.modalBackground = this.modalElement.querySelector('.modal-background');
         if (!this.modalElement) {
             throw new Error(`Modal selector ${modalSelector} not found!`);
         }
         if (!this.modalCloseButton) {
             throw new Error(`Modal selector ${modalSelector} has no close button with class 'modal-close'!`);
         }
+        if (!this.modalBackground) {
+            throw new Error(`Modal selector ${modalSelector} has no close button with class 'modal-close'!`);
+        }
         this.registerOnClickCloseButton();
     }
     registerOnClickCloseButton() {
-        this.modalCloseButton.addEventListener('click', () => {
-            this.hide();
-        });
+        this.modalCloseButton.addEventListener('click', () => this.hide());
+        this.modalBackground.addEventListener('click', () => this.hide());
     }
     show() {
         this.modalElement.classList.add('is-active');
