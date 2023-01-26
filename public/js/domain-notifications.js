@@ -176,16 +176,48 @@ class Alert {
     }
 }
 
+class Modal {
+    constructor(modalSelector) {
+        this.modalElement = document.querySelector(modalSelector);
+        this.modalCloseButton = this.modalElement.querySelector('.modal-close');
+        if (!this.modalElement) {
+            throw new Error(`Modal selector ${modalSelector} not found!`);
+        }
+        if (!this.modalCloseButton) {
+            throw new Error(`Modal selector ${modalSelector} has no close button with class 'modal-close'!`);
+        }
+        this.registerOnClickCloseButton();
+    }
+    registerOnClickCloseButton() {
+        this.modalCloseButton.addEventListener('click', () => {
+            this.hide();
+        });
+    }
+    show() {
+        this.modalElement.classList.add('is-active');
+    }
+    hide() {
+        this.modalElement.classList.remove('is-active');
+    }
+}
+
 const domainId = location.href.split('/')[4];
+/**
+ * Elements for domain and notification info
+ * - Header info bar elements
+ * - Notification table
+ */
+const notificationCount = document.getElementById('domain-notification-count');
+const notificationTable = new Table('#domain-notification-table-body');
+/**
+ * Elements for the connection card
+ * - Subsciber
+ * - Domain action buttons
+ * - Modal Element
+ */
 const notificationSubscriber = new Subscriber(`/api/domain/${domainId}/notifications/subscribe`, {
     statusTextElementSelector: '#connection-indicator-text',
     statusIndicatorElementSelector: '#connection-indicator-sign',
-});
-const notificationTable = new Table('#domain-notification-table-body');
-const notificationCount = document.getElementById('domain-notification-count');
-const connectionAlert = new Alert('#connection-alert');
-new Button('#connection-alert-button', {
-    onClick: () => connectionAlert.unset(),
 });
 const connectionControlButton = new Button('#connection-control-button', {
     onClick: () => {
@@ -194,6 +226,21 @@ const connectionControlButton = new Button('#connection-control-button', {
         notificationSubscriber.on('insert', handleInsertNotification);
     },
 });
+const connectionModal = new Modal('#domain-notification-modal');
+new Button('#connection-modal-button', {
+    onClick: () => connectionModal.show(),
+});
+/**
+ * Other elements
+ * - Alert
+ */
+const connectionAlert = new Alert('#connection-alert');
+new Button('#connection-alert-button', {
+    onClick: () => connectionAlert.unset(),
+});
+/**
+ * Custom functions & main function
+ */
 function handleInsertNotification(notification) {
     notificationTable.insertRow(notification, [
         'ghostTitle',

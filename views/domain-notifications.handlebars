@@ -1,33 +1,50 @@
-<div id="domain-notification-modal" class="modal is-active">
+<div id="domain-notification-modal" class="modal ">
   <div class="modal-background"></div>
   <div class="modal-content">
 
-    <div class="card block">
+    <button class="modal-close is-large" aria-label="close"></button>
+    <section class="card block">
       <div class="card-content">
-        <div class="block">
-          <h2 class="title is-4">Connect your domain </h2>
-          <ol class="block ml-5">
-            <li>Create a new domain (you've just done that)</li>
-            <li>Visit <code>https://&#60;ghost-blog&#62;/ghost/#/settings/integrations/new</code> and create one or more Ghost webhooks</li>
-            <li>Add the <code>key</code> query and your subscription key as value</li>
-            <li>Implement subscription logic in your Ghost theme</li>
-          </ol>
-          <p><b>Subscription URL</b></p>
-          <pre><code>/api/domain/{{domain.id}}/notifications/subscribe</code></pre>
-        </div>
+        <h2 class="title is-4">Quickly connect your domain</h2>
+        <ol class="block ml-5">
+          <li class="block">
+            Visit <code>https://&#60;ghost-blog&#62;/ghost/#/settings/integrations/new</code> and create a new integration
+          </li>
+          <li class="block">
+            Click on the new integration and then on <b>Add Webhook</b>. Depending on what notifications you would
+            like your readers to receive, add the following entries:
+          </li>
+          <ul class="block">
+            <li>
+              For Event <b>Post scheduled</b>, add the following URL:
+              <pre><code>/api/notificiation/schedule?key={{domain.key}}</code></pre>
+            </li>
+            <li>
+              For Event <b>Post published</b>, add the following URL:
+              <pre><code>/api/notificiation/create?key={{domain.key}}</code></pre>
+            </li>
+            <li>
+              For Event <b>Published post updated</b>, add the following URL:
+              <pre><code>/api/notificiation/update?key={{domain.key}}</code></pre>
+            </li>
 
-        <div class="block">
-          <p><b>Subscription Key</b></p>
-          <pre><code>{{domain.key}}</code></pre>
-        </div>
+          </ul>
+          <li class="block">
+            Use the <code>ghost-notifier</code> library or build your own logic to
+            subscribe to realtime notifications.
+            <div class="block">
+              <p><b>Subscription URL</b></p>
+              <pre><code>/api/domain/{{domain.id}}/notifications/subscribe</code></pre>
+            </div>
+          </li>
+        </ol>
+
       </div>
-    </div>
+    </section>
   </div>
-  <button class="modal-close is-large" aria-label="close"></button>
 </div>
 
 <div class="container-fluid">
-
   <div id="connection-alert" class="message is-hidden">
     <div class="message-header">
       <p>Success!</p>
@@ -152,7 +169,13 @@
 
           <div class="block">
             <p><b>Domain actions: </b></p>
-            <div class="is-flex is-justify-content-space-between">
+            <div class="is-flex">
+              <button id="connection-modal-button" title="Show how to connect to this domain" class="button is-primary mr-2">
+                <span class="icon">
+                  <i class="gg-log-off"></i>
+                </span>
+                <span>Connect</span>
+              </button>
               <form class="mr-2" method="POST" action="/api/domain/{{domain.id}}/toggle-status">
                 <button title="Enable / disable this domain" class="button is-warning">
                   <span class="icon">

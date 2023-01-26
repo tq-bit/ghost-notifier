@@ -4,20 +4,30 @@ import Lifecycle from '../components/Lifecycle';
 import Table from '../components/Table';
 import Button from '../components/Button';
 import Alert from '../components/Alert';
+import Modal from '../components/Modal';
 
 const domainId = location.href.split('/')[4];
 
+/**
+ * Elements for domain and notification info
+ * - Header info bar elements
+ * - Notification table
+ */
+
+const notificationCount = document.getElementById('domain-notification-count') as HTMLElement;
+const notificationTable = new Table('#domain-notification-table-body');
+
+/**
+ * Elements for the connection card
+ * - Subsciber
+ * - Domain action buttons
+ * - Modal Element
+ */
 const notificationSubscriber = new Subscriber(`/api/domain/${domainId}/notifications/subscribe`, {
 	statusTextElementSelector: '#connection-indicator-text',
 	statusIndicatorElementSelector: '#connection-indicator-sign',
 });
-const notificationTable = new Table('#domain-notification-table-body');
-const notificationCount = document.getElementById('domain-notification-count') as HTMLElement;
 
-const connectionAlert = new Alert('#connection-alert');
-const connectionAlertButton = new Button('#connection-alert-button', {
-	onClick: () => connectionAlert.unset(),
-});
 const connectionControlButton = new Button('#connection-control-button', {
 	onClick: () => {
 		connectionControlButton.hide();
@@ -25,6 +35,25 @@ const connectionControlButton = new Button('#connection-control-button', {
 		notificationSubscriber.on('insert', handleInsertNotification);
 	},
 });
+
+const connectionModal = new Modal('#domain-notification-modal');
+const openConnectionModalButton = new Button('#connection-modal-button', {
+	onClick: () => connectionModal.show(),
+});
+
+/**
+ * Other elements
+ * - Alert
+ */
+
+const connectionAlert = new Alert('#connection-alert');
+const connectionAlertButton = new Button('#connection-alert-button', {
+	onClick: () => connectionAlert.unset(),
+});
+
+/**
+ * Custom functions & main function
+ */
 
 function handleInsertNotification(notification: Notification) {
 	notificationTable.insertRow(notification, [
