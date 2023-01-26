@@ -16,14 +16,14 @@ export default {
 
 	renderDomainsPage: async (req: Request, res: Response) => {
 		const ownedDomains = await DomainModel.getDomainsByOwner('t.quante@outlook.com');
-		res.render('domains', { data: ownedDomains });
+		res.render('my-domains/home', { data: ownedDomains });
 	},
 
 	renderDomainNotificationsPage: async (req: Request, res: Response) => {
 		const domainId = req.params.id;
 		const domain = await DomainModel.getDomainById(domainId);
 		const notifications = await NotificationModel.getNotificationsByDomainName(domain?.name || '');
-		res.render('domain-notifications', { domain, notifications, count: notifications.length });
+		res.render('my-domains/notifications', { domain, notifications, count: notifications.length });
 	},
 
 	renderNotFoundPage: (req: Request, res: Response) => {
