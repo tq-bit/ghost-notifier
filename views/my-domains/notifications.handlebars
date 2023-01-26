@@ -5,7 +5,7 @@
     <button class="modal-close is-large" aria-label="close"></button>
     <section class="card block">
       <div class="card-content">
-        <h2 class="title is-4">Quickly connect your domain</h2>
+        <h2 class="title is-4">Add realtime notifications to your domain</h2>
         <ol class="block ml-5">
           <li class="block">
             Visit <code>{{domain.name}}/ghost/#/settings/integrations/new</code> and click on <b>Add custom integration</b>.
@@ -166,16 +166,14 @@
             <button id="connection-control-button" class="button is-primary is-hidden is-block">Reconnect</button>
           </div>
 
-
-
           <div class="block">
             <p><b>Domain actions: </b></p>
             <div class="is-flex">
-              <button id="connection-modal-button" title="Show how to connect to this domain" class="button is-primary mr-2">
+              <button id="connection-modal-button" title="Quick overview of how to connect to this domain" class="button is-primary mr-2">
                 <span class="icon">
-                  <i class="gg-log-off"></i>
+                  <i class="gg-calibrate"></i>
                 </span>
-                <span>Connect</span>
+                <span>Get started</span>
               </button>
               <form class="mr-2" method="POST" action="/api/domain/{{domain.id}}/toggle-status">
                 <button title="Enable / disable this domain" class="button is-warning">
