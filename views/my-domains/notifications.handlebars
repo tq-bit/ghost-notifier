@@ -8,11 +8,12 @@
         <h2 class="title is-4">Quickly connect your domain</h2>
         <ol class="block ml-5">
           <li class="block">
-            Visit <code>https://&#60;ghost-blog&#62;/ghost/#/settings/integrations/new</code> and create a new integration
+            Visit <code>{{domain.name}}/ghost/#/settings/integrations/new</code> and click on <b>Add custom integration</b>.
+            Give it a name of your choice
           </li>
           <li class="block">
             Click on the new integration and then on <b>Add Webhook</b>. Depending on what notifications you would
-            like your readers to receive, add the following entries:
+            like your readers to receive, add one or many of the following entries (*)
           </li>
           <ul class="block">
             <li>
@@ -24,7 +25,7 @@
               <pre><code>/api/notificiation/create?key={{domain.key}}</code></pre>
             </li>
             <li>
-              For Event <b>Published post updated</b>, add the following URL:
+              For Event <b>Published post updated</b>, add the following relative URL:
               <pre><code>/api/notificiation/update?key={{domain.key}}</code></pre>
             </li>
 
@@ -38,7 +39,7 @@
             </div>
           </li>
         </ol>
-
+        <p class="block">(*) paths are relative to your hostname, <a href="/help#hostname">read more about it here</a></p>
       </div>
     </section>
   </div>
