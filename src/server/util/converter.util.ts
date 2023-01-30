@@ -10,6 +10,7 @@ import {
 	DomainForm,
 	OwnedDomain,
 } from '../../@types';
+import { UserJwtPayload } from '../../@types/authorization';
 import { User } from '../../@types/user';
 
 type JwtDomainSignature = {
@@ -61,5 +62,9 @@ export default {
 
 	convertUserToUserToken(user: User): string {
 		return jwt.sign({ email: user.email }, process.env.JWT_KEY || '');
+	},
+
+	convertUserTokenToUserPayload(token: string) {
+		return jwt.verify(token, process.env.JWT_KEY || '') as UserJwtPayload;
 	},
 };
