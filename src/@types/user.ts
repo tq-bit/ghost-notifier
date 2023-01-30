@@ -10,6 +10,7 @@ export const UserForm = Type.Object({
 });
 
 export const User = Type.Object({
+	id: Type.String(),
 	email: Type.String(),
 	passwordHash: Type.String(),
 	role: Type.Enum(UserRole),

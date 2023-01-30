@@ -1,7 +1,6 @@
 import crypto from 'crypto';
 import { Request } from 'express';
 import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
 
 import {
 	GhostWebhook,
@@ -11,7 +10,6 @@ import {
 	DomainForm,
 	OwnedDomain,
 } from '../../@types';
-import { UserForm, User, UserRole } from '../../@types/user';
 
 type JwtDomainSignature = {
 	domainName: string;
@@ -57,17 +55,6 @@ export default {
 			type: domain.type,
 			owner: domainOwner,
 			key: jwt.sign({ domainName: domain.name, domainOwner }, process.env.JWT_KEY || ''),
-		};
-	},
-
-	async convertIncomingUserCreationFormToNewUser(userForm: UserForm): Promise<User> {
-		const salt = await bcrypt.genSalt();
-		const hash = await bcrypt.hash(userForm.password, salt);
-
-		return {
-			email: userForm.email,
-			passwordHash: hash,
-			role: UserRole.Admin,
 		};
 	},
 };
