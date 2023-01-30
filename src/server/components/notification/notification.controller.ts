@@ -5,6 +5,7 @@ import NotificationModel from './notification.model';
 import logger from '../../util/logger.util';
 import { NotificationType, OwnedDomain } from '../../../@types';
 import Responder from '../../util/responder.util';
+import { GN_ERROR_STATUS, GN_SUCCESS_STATUS } from '../../constants';
 
 export default {
 	handleArticleCreationNotification: async (req: Request, res: Response) => {
@@ -66,27 +67,22 @@ export default {
 			const domain = req.body as OwnedDomain;
 
 			const dbResponse = await NotificationModel.deleteNotificationsByDomainName(domain.name);
-			const status = 'success';
 			const message = `${
 				dbResponse.deletedCount > 0 ? dbResponse.deletedCount : 'No'
 			} notifications where deleted for ${domain.name}`;
 
-			const responder = new Responder(req.headers['content-type'] || 'text/html', {
-				onJson: () => res.status(200).send({ status: status, message: message }),
+			return new Responder(req.headers['content-type'] || 'text/html', {
+				onJson: () => res.status(200).send({ status: GN_SUCCESS_STATUS, message: message }),
 				onOther: () =>
 					res.redirect(
-						`/my-domains/${domain.id}/notifications?status=${status}&message=${message}`
+						`/my-domains/${domain.id}/notifications?status=${GN_SUCCESS_STATUS}&message=${message}`
 					),
-			});
-
-			responder.send();
+			}).send();
 		} catch (error) {
-			const status = 'error';
-			const responder = new Responder(req.headers['content-type'] || 'text/html', {
-				onJson: () => res.status(500).send({ status: status, error: error }),
-				onOther: () => res.redirect(`/my-domains?status=${status}&message=${error}`),
-			});
-			return responder.send();
+			return new Responder(req.headers['content-type'] || 'text/html', {
+				onJson: () => res.status(500).send({ status: GN_ERROR_STATUS, error: error }),
+				onOther: () => res.redirect(`/my-domains?status=${GN_ERROR_STATUS}&message=${error}`),
+			}).send();
 		}
 	},
 };
