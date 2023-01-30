@@ -6,6 +6,7 @@ import { engine } from 'express-handlebars';
 
 import notificationRouter from './components/notification/notification.routes';
 import domainRouter from './components/domain/domain.routes';
+import userRouter from './components/user/user.routes';
 import viewRouter from './components/views/view.routes';
 
 import logger from './util/logger.util';
@@ -28,6 +29,7 @@ app.set('views', './views');
 
 app.use('/api/notification', notificationRouter);
 app.use('/api/domain', domainRouter);
+app.use('/api/user', userRouter);
 app.use('/', viewRouter);
 
 app.listen(PORT, () => {
