@@ -5,7 +5,6 @@ export enum UserRole {
 }
 
 export const UserCreationForm = Type.Object({
-	name: Type.String(),
 	email: Type.String(),
 	password: Type.String(),
 });

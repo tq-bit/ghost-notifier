@@ -26,6 +26,14 @@ export default {
 		res.render('my-domains/notifications', { domain, notifications, count: notifications.length });
 	},
 
+	renderLoginPage: (req: Request, res: Response) => {
+		res.render('user/login');
+	},
+
+	renderSignupPage: (req: Request, res: Response) => {
+		res.render('user/signup');
+	},
+
 	renderNotFoundPage: (req: Request, res: Response) => {
 		res.render('404');
 	},
