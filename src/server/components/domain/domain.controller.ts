@@ -22,12 +22,10 @@ export default {
 			await DomainModel.createDomain(ownedDomain);
 
 			const message = `Domain ${ownedDomain.name} created successfully`;
-			const responder = new Responder(req.headers['content-type'] || 'text/html', {
+			return new Responder(req.headers['content-type'] || 'text/html', {
 				onJson: () => res.status(201).send({ status: GN_SUCCESS_STATUS, message: message }),
 				onOther: () => res.redirect(`/my-domains?status=${GN_SUCCESS_STATUS}&message=${message}`),
-			});
-
-			responder.send();
+			}).send();
 		} catch (error) {
 			if (error instanceof ConflictError) {
 				const {
@@ -35,18 +33,16 @@ export default {
 					message,
 				} = error;
 
-				const responder = new Responder(req.headers['content-type'] || 'text/html', {
+				return new Responder(req.headers['content-type'] || 'text/html', {
 					onJson: () => res.status(code).send({ status: GN_ERROR_STATUS, error: message }),
 					onOther: () => res.redirect(`/my-domains?status=${GN_ERROR_STATUS}&message=${message}`),
-				});
-				return responder.send();
+				}).send();
 			}
 
-			const responder = new Responder(req.headers['content-type'] || 'text/html', {
+			return new Responder(req.headers['content-type'] || 'text/html', {
 				onJson: () => res.status(500).send({ status: GN_ERROR_STATUS, error }),
 				onOther: () => res.redirect(`my-domains?status=${GN_ERROR_STATUS}&message=${error}`),
-			});
-			return responder.send();
+			}).send();
 		}
 	},
 
@@ -70,12 +66,10 @@ export default {
 
 			const message = `Domain ${domainEntry.name} set to ${updatedDomainEntry.status}`;
 
-			const responder = new Responder(req.headers['content-type'] || 'text/html', {
+			return new Responder(req.headers['content-type'] || 'text/html', {
 				onJson: () => res.status(200).send({ status: GN_SUCCESS_STATUS, message: message }),
 				onOther: () => res.redirect(`/my-domains?status=${GN_SUCCESS_STATUS}&message=${message}`),
-			});
-
-			responder.send();
+			}).send();
 		} catch (error) {
 			if (error instanceof NotFoundError) {
 				const {
@@ -83,30 +77,26 @@ export default {
 					message,
 				} = error;
 
-				const responder = new Responder(req.headers['content-type'] || 'text/html', {
+				return new Responder(req.headers['content-type'] || 'text/html', {
 					onJson: () => res.status(code).send({ status: GN_ERROR_STATUS, error: message }),
 					onOther: () => res.redirect(`/my-domains?status=${GN_ERROR_STATUS}&message=${message}`),
-				});
-				return responder.send();
+				}).send();
 			}
 
-			const responder = new Responder(req.headers['content-type'] || 'text/html', {
+			return new Responder(req.headers['content-type'] || 'text/html', {
 				onJson: () => res.status(500).send({ status: GN_ERROR_STATUS, error }),
 				onOther: () => res.redirect(`my-domains?status=${GN_ERROR_STATUS}&message=${error}`),
-			});
-			return responder.send();
+			}).send();
 		}
 	},
 
 	getDomainsByOwner: async (req: Request, res: Response) => {
 		const ownedDomains = await DomainModel.getDomainsByOwner('t.quante@outlook.com');
 
-		const responder = new Responder(req.headers['content-type'] || 'text/html', {
+		return new Responder(req.headers['content-type'] || 'text/html', {
 			onJson: () => res.status(200).send(ownedDomains),
 			onOther: () => res.redirect(`/my-domains`),
-		});
-
-		responder.send();
+		}).send();
 	},
 
 	handleDomainDeletion: async (req: Request, res: Response) => {
@@ -120,13 +110,10 @@ export default {
 			await DomainModel.deleteDomainById(req.params.id);
 
 			const message = `Domain ${domainEntry.name} deleted`;
-
-			const responder = new Responder(req.headers['content-type'] || 'text/html', {
+			return new Responder(req.headers['content-type'] || 'text/html', {
 				onJson: () => res.status(200).send({ status: GN_SUCCESS_STATUS, message: message }),
 				onOther: () => res.redirect(`/my-domains?status=${GN_SUCCESS_STATUS}&message=${message}`),
-			});
-
-			responder.send();
+			}).send();
 		} catch (error) {
 			if (error instanceof NotFoundError) {
 				const {
@@ -134,18 +121,16 @@ export default {
 					message,
 				} = error;
 
-				const responder = new Responder(req.headers['content-type'] || 'text/html', {
+				return new Responder(req.headers['content-type'] || 'text/html', {
 					onJson: () => res.status(code).send({ status: GN_ERROR_STATUS, error: message }),
 					onOther: () => res.redirect(`/my-domains?status=${GN_ERROR_STATUS}&message=${message}`),
-				});
-				return responder.send();
+				}).send();
 			}
 
-			const responder = new Responder(req.headers['content-type'] || 'text/html', {
+			return new Responder(req.headers['content-type'] || 'text/html', {
 				onJson: () => res.status(500).send({ status: GN_ERROR_STATUS, error }),
 				onOther: () => res.redirect(`my-domains?status=${GN_ERROR_STATUS}&message=${error}`),
-			});
-			return responder.send();
+			}).send();
 		}
 	},
 };
