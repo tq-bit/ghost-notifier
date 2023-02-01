@@ -9,8 +9,6 @@ import Panel from '../components/Panel';
 
 const panel = new Panel('#connection-panel');
 
-console.log(panel);
-
 const domainId = location.href.split('/')[4];
 
 /**
@@ -50,9 +48,9 @@ const openConnectionModalButton = new Button('#connection-modal-button', {
  * - Alert
  */
 
-const connectionAlert = new Alert('#connection-alert');
-const connectionAlertButton = new Button('#connection-alert-button', {
-	onClick: () => connectionAlert.unset(),
+const appAlert = new Alert('#app-alert');
+const appAlertButton = new Button('#app-alert-hide-button', {
+	onClick: () => appAlert.unset(),
 });
 
 /**
@@ -68,15 +66,13 @@ function handleInsertNotification(notification: Notification) {
 		'created',
 	]);
 	notificationCount.innerText = `${+notificationCount.innerText + 1}`;
-	connectionAlert
-		.set({ type: 'success', title: 'Success', text: 'New notification received' })
-		.show();
+	appAlert.set({ type: 'success', title: 'Success', text: 'New notification received' }).show();
 }
 
 function main() {
 	new Lifecycle({
 		onPageReady: () => {
-			connectionAlert.setByUrl();
+			appAlert.setByUrl();
 			notificationSubscriber.on('insert', handleInsertNotification);
 			notificationSubscriber.onError((err) => {
 				connectionControlButton.show();

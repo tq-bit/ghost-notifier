@@ -232,8 +232,7 @@ class Panel {
     }
 }
 
-const panel = new Panel('#connection-panel');
-console.log(panel);
+new Panel('#connection-panel');
 const domainId = location.href.split('/')[4];
 /**
  * Elements for domain and notification info
@@ -266,9 +265,9 @@ new Button('#connection-modal-button', {
  * Other elements
  * - Alert
  */
-const connectionAlert = new Alert('#connection-alert');
-new Button('#connection-alert-button', {
-    onClick: () => connectionAlert.unset(),
+const appAlert = new Alert('#app-alert');
+new Button('#app-alert-hide-button', {
+    onClick: () => appAlert.unset(),
 });
 /**
  * Custom functions & main function
@@ -282,14 +281,12 @@ function handleInsertNotification(notification) {
         'created',
     ]);
     notificationCount.innerText = `${+notificationCount.innerText + 1}`;
-    connectionAlert
-        .set({ type: 'success', title: 'Success', text: 'New notification received' })
-        .show();
+    appAlert.set({ type: 'success', title: 'Success', text: 'New notification received' }).show();
 }
 function main() {
     new Lifecycle({
         onPageReady: () => {
-            connectionAlert.setByUrl();
+            appAlert.setByUrl();
             notificationSubscriber.on('insert', handleInsertNotification);
             notificationSubscriber.onError((err) => {
                 connectionControlButton.show();
