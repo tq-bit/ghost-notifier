@@ -143,31 +143,32 @@
     </div>
 
     <div class="column is-one-third">
-      <div class="card">
-        <div class="card-content">
 
+      <div class="panel">
+        <header class="panel-heading is-light">
+          <h2 class="title is-4">Realtime Server Status</h2>
+        </header>
+
+        <ul class="panel-tabs">
+          <li class="mx-2 my-1"><a class="is-active">Connection status</a></li>
+          <li class="mx-2 my-1"><a>Domain actions</a></li>
+          <li class="mx-2 my-1"><a>Danger Zone</a></li>
+        </ul>
+
+        <section class="panel-block">
           <div class="block">
-            <h2 class="title is-4">Realtime server status</h2>
-            <p>
-              This page includes a list of the latest realtime notifications for your domaion {{domain.name}}.
-              Whenever a new notification is created, it will be shown to the left.
-              You can find the subscription URL this list uses as a source further below.
-            </p>
-
-            <a href="/">Read more about subscriptions and subscription keys</a>
-          </div>
-
-          <div class="block">
-            <p> <b>Connection status: </b> </p>
+            <h3 class="h5"> Connection status:</h3>
             <svg class="mb-1" height="12" width="12">
               <circle id="connection-indicator-sign" cx="6" cy="6" r="6" stroke-width="3" fill="orange" />
             </svg>
             <span id="connection-indicator-text" class="ms-1">Connecting ...</span>
             <button id="connection-control-button" class="button is-primary is-hidden is-block">Reconnect</button>
           </div>
+        </section>
 
+        <section class="panel-block">
           <div class="block">
-            <p><b>Domain actions: </b></p>
+            <h3 class="h5">Domain actions:</h3>
             <div class="is-flex">
               <button id="connection-modal-button" title="Quick overview of how to connect to this domain" class="button is-primary mr-2">
                 <span class="icon">
@@ -175,6 +176,14 @@
                 </span>
                 <span>Get started</span>
               </button>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel-block">
+          <div class="block">
+            <h3 class="h5">Danger Zone</h3>
+            <div class="is-flex">
               <form class="mr-2" method="POST" action="/api/domain/{{domain.id}}/toggle-status">
                 <button title="Enable / disable this domain" class="button is-warning">
                   <span class="icon">
@@ -193,9 +202,7 @@
               </form>
             </div>
           </div>
-
-
-        </div>
+        </section>
       </div>
     </div>
   </div>
