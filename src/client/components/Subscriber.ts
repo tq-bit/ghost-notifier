@@ -5,27 +5,21 @@ export default class Subscriber {
 	eventSourceUrl: string;
 	status: ConnectionStatus;
 	statusTextElement: HTMLElement;
-	statusIndicatorElement: HTMLElement;
 
 	constructor(
 		eventSourceUrl: string,
 		{
 			statusTextElementSelector,
-			statusIndicatorElementSelector,
 		}: {
 			statusTextElementSelector: string;
-			statusIndicatorElementSelector: string;
 		}
 	) {
 		this.eventSource = null;
 		this.eventSourceUrl = eventSourceUrl;
 		this.status = 'disconnected';
 		this.statusTextElement = document.querySelector(statusTextElementSelector) as HTMLElement;
-		this.statusIndicatorElement = document.querySelector(
-			statusIndicatorElementSelector
-		) as HTMLElement;
 
-		if (!this.statusTextElement || !this.statusIndicatorElement) {
+		if (!this.statusTextElement) {
 			console.warn('Subscriber: No status text pr indicator found');
 		}
 		this.init();
@@ -36,23 +30,38 @@ export default class Subscriber {
 
 		this.eventSource.addEventListener('open', () => {
 			this.status = 'connected';
-			this.statusTextElement.innerText = 'Connected to domain subscription endpoint';
-			this.statusIndicatorElement.style.fill = 'green';
+			this.statusTextElement.innerText = 'Connected';
+
+			this.statusTextElement.setAttribute('title', "You are connected to your domain's endpoint");
+			this.statusTextElement.classList.add('is-success');
+			this.statusTextElement.classList.remove('is-danger');
 		});
 
 		this.eventSource.addEventListener('close', () => {
 			this.eventSource?.close();
 			this.status = 'disconnected';
-			this.statusTextElement.innerText = 'Disconnected from domain subscription endpoint';
-			this.statusIndicatorElement.style.fill = 'orange';
+			this.statusTextElement.innerText = 'Disconnected';
+
+			this.statusTextElement.setAttribute(
+				'title',
+				"You are disconnected from your domain's endpoint"
+			);
+			this.statusTextElement.classList.remove('is-success');
+			this.statusTextElement.classList.add('is-danger');
 		});
 
 		this.eventSource.addEventListener('error', () => {
 			this.eventSource?.close();
 			this.status = 'disconnected';
-			this.statusTextElement.innerText =
-				'An error occured while connecting, please check the server logs';
-			this.statusIndicatorElement.style.fill = 'red';
+			this.statusTextElement.innerText = 'Disconnected';
+
+			this.statusTextElement.setAttribute(
+				'title',
+				"You are disconnected from your domain's endpoint"
+			);
+
+			this.statusTextElement.classList.remove('is-success');
+			this.statusTextElement.classList.add('is-danger');
 		});
 	}
 

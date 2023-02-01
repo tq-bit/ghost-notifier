@@ -151,33 +151,38 @@
 
         <ul class="panel-tabs">
           <li class="mx-2 my-1"><a class="is-active">Connection status</a></li>
-          <li class="mx-2 my-1"><a>Domain actions</a></li>
           <li class="mx-2 my-1"><a>Danger Zone</a></li>
         </ul>
 
-        <section class="panel-block">
-          <div class="block">
-            <h3 class="h5"> Connection status:</h3>
-            <svg class="mb-1" height="12" width="12">
-              <circle id="connection-indicator-sign" cx="6" cy="6" r="6" stroke-width="3" fill="orange" />
-            </svg>
-            <span id="connection-indicator-text" class="ms-1">Connecting ...</span>
-            <button id="connection-control-button" class="button is-primary is-hidden is-block">Reconnect</button>
+        <section class="panel-block is-justify-content-space-between">
+
+          <p>Connection status</p>
+          <div class="is-flex">
+            <span id="connection-indicator-text" class="tag">Connecting </>
           </div>
         </section>
 
-        <section class="panel-block">
-          <div class="block">
-            <h3 class="h5">Domain actions:</h3>
-            <div class="is-flex">
-              <button id="connection-modal-button" title="Quick overview of how to connect to this domain" class="button is-primary mr-2">
-                <span class="icon">
-                  <i class="gg-calibrate"></i>
-                </span>
-                <span>Get started</span>
-              </button>
-            </div>
-          </div>
+
+
+        <section class="panel-block is-justify-content-space-between">
+          <p>Connect to your domain</p>
+          <button id="connection-modal-button" title="Quick overview of how to connect to this domain" class="button is-primary is-small">
+            <span class="icon">
+              <i class="gg-check"></i>
+            </span>
+            <span>Get started</span>
+          </button>
+
+        </section>
+
+        <section id="connection-control-button" class="panel-block is-hidden is-justify-content-space-between">
+          <p><b>Lost connection</b></p>
+          <button class="button is-primary is-small is-block">
+            <span class="icon">
+              <i class="gg-calibrate"></i>
+            </span>
+            <span>Reconnect</span>
+          </button>
         </section>
 
         <section class="panel-block">
