@@ -98,21 +98,7 @@
     <div class="column is-two-third">
       <div class="card block">
         <div class="card-content">
-          <div class="is-flex is-justify-content-space-between">
-
-            <h2 class="title is-4">Notifications</h2>
-            <div>
-              <form method="POST" action="/api/domain/{{domain.id}}/notifications/delete">
-                <button title="Delete all notifications for this domain" class="button">
-                  <span class="icon">
-                    <i class="gg-trash"></i>
-                  </span>
-                </button>
-              </form>
-            </div>
-
-          </div>
-
+          <h2 class="title is-4">Notifications</h2>
           <div class="table-container">
             <table class="table is-striped">
               <thead>
@@ -144,13 +130,12 @@
 
     <div class="column is-one-third">
 
-      <div id="connection-panel" class="panel">
-        <header class="panel-heading is-light">
-          <h2 class="title is-4">Realtime Server Status</h2>
+      <div id="connection-panel" class="panel is-dark">
+        <header class="panel-heading">
+          Actions
         </header>
-
         <ul class="panel-tabs">
-          <li class="mx-2 my-1"><a data-panel-tab="1" class="is-active">Connection status</a></li>
+          <li class="mx-2 my-1"><a data-panel-tab="1" class="is-active">Realtime notifications</a></li>
           <li class="mx-2 my-1"><a data-panel-tab="2">Danger Zone</a></li>
         </ul>
 
@@ -163,7 +148,7 @@
           </section>
 
           <section class="panel-block is-justify-content-space-between">
-            <p>Connect to your domain</p>
+            <p>Learn how to connect manually</p>
             <button id="connection-modal-button" title="Quick overview of how to connect to this domain" class="button is-primary is-small">
               <span class="icon">
                 <i class="gg-check"></i>
@@ -184,29 +169,43 @@
         </div>
 
         <div data-panel-tab-item="2" class="is-hidden">
-          <section class="panel-block">
-            <div class="block">
-              <h3 class="h5">Danger Zone</h3>
-              <div class="is-flex">
-                <form class="mr-2" method="POST" action="/api/domain/{{domain.id}}/toggle-status">
-                  <button title="Enable / disable this domain" class="button is-warning">
-                    <span class="icon">
-                      <i class="gg-log-off"></i>
-                    </span>
-                    <span>On/Off</span>
-                  </button>
-                </form>
-                <form method="POST" action="/api/domain/{{domain.id}}/delete">
-                  <button title="Delete this domain" class="button is-danger">
-                    <span class="icon">
-                      <i class="gg-trash"></i>
-                    </span>
-                    <span>Delete</span>
-                  </button>
-                </form>
-              </div>
-            </div>
+          <section class="panel-block is-justify-content-space-between">
+
+            <p>Delete notification log</p>
+            <form method="POST" action="/api/domain/{{domain.id}}/notifications/delete">
+              <button title="Deletes all notifications for this domain" class="button is-danger is-small">
+                <span class="icon">
+                  <i class="gg-trash"></i>
+                </span>
+                <span>Delete notifications</span>
+              </button>
+            </form>
+
           </section>
+          <section class="panel-block is-justify-content-space-between">
+            <p>Enable/disable notification sending</p>
+            <form method="POST" action="/api/domain/{{domain.id}}/toggle-status">
+              <button title="Changes whether your readers receive realtime notifications or not" class="button is-danger is-small">
+                <span class="icon">
+                  <i class="gg-log-off"></i>
+                </span>
+                <span>Switch notifications</span>
+              </button>
+            </form>
+          </section>
+
+          <section class="panel-block is-justify-content-space-between">
+            <p>Delete domain (this cannot be undone!)</p>
+            <form method="POST" action="/api/domain/{{domain.id}}/delete">
+              <button title="Deletes this domain. This action cannot be undone!" class="button is-danger is-small">
+                <span class="icon">
+                  <i class="gg-trash"></i>
+                </span>
+                <span>Delete this domain</span>
+              </button>
+            </form>
+          </section>
+
         </div>
 
       </div>

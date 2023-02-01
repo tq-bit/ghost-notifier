@@ -32,7 +32,10 @@ export default class Subscriber {
 			this.status = 'connected';
 			this.statusTextElement.innerText = 'Connected';
 
-			this.statusTextElement.setAttribute('title', "You are connected to your domain's endpoint");
+			this.statusTextElement.setAttribute(
+				'title',
+				'Your readers are able to receive realtime notifications from this domain'
+			);
 			this.statusTextElement.classList.add('is-success');
 			this.statusTextElement.classList.remove('is-danger');
 		});
@@ -44,7 +47,7 @@ export default class Subscriber {
 
 			this.statusTextElement.setAttribute(
 				'title',
-				"You are disconnected from your domain's endpoint"
+				'Your readers cannot receive realtime notifications'
 			);
 			this.statusTextElement.classList.remove('is-success');
 			this.statusTextElement.classList.add('is-danger');
@@ -57,7 +60,7 @@ export default class Subscriber {
 
 			this.statusTextElement.setAttribute(
 				'title',
-				"You are disconnected from your domain's endpoint"
+				'Your readers cannot receive realtime notifications'
 			);
 
 			this.statusTextElement.classList.remove('is-success');

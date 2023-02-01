@@ -16,7 +16,7 @@ class Subscriber {
         this.eventSource.addEventListener('open', () => {
             this.status = 'connected';
             this.statusTextElement.innerText = 'Connected';
-            this.statusTextElement.setAttribute('title', "You are connected to your domain's endpoint");
+            this.statusTextElement.setAttribute('title', 'Your readers are able to receive realtime notifications from this domain');
             this.statusTextElement.classList.add('is-success');
             this.statusTextElement.classList.remove('is-danger');
         });
@@ -25,7 +25,7 @@ class Subscriber {
             (_a = this.eventSource) === null || _a === void 0 ? void 0 : _a.close();
             this.status = 'disconnected';
             this.statusTextElement.innerText = 'Disconnected';
-            this.statusTextElement.setAttribute('title', "You are disconnected from your domain's endpoint");
+            this.statusTextElement.setAttribute('title', 'Your readers cannot receive realtime notifications');
             this.statusTextElement.classList.remove('is-success');
             this.statusTextElement.classList.add('is-danger');
         });
@@ -34,7 +34,7 @@ class Subscriber {
             (_a = this.eventSource) === null || _a === void 0 ? void 0 : _a.close();
             this.status = 'disconnected';
             this.statusTextElement.innerText = 'Disconnected';
-            this.statusTextElement.setAttribute('title', "You are disconnected from your domain's endpoint");
+            this.statusTextElement.setAttribute('title', 'Your readers cannot receive realtime notifications');
             this.statusTextElement.classList.remove('is-success');
             this.statusTextElement.classList.add('is-danger');
         });
