@@ -12,6 +12,7 @@ export default {
 	},
 
 	getUserByEmail: (userMail: string) => {
-		return userCollection.findOne({ email: userMail });
+		const user: unknown = userCollection.findOne({ email: userMail });
+		return user as User;
 	},
 };
