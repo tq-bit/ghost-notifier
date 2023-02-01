@@ -38,3 +38,5 @@ app.listen(PORT, () => {
 	});
 	logger.verbose(`Server listening on http://${HOST}:${PORT}`);
 });
+
+import Config from './config/app.config';

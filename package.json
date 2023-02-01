@@ -4,7 +4,7 @@
 	"description": "Powered by MongoDB ChangeStreams, this application provides a simple realtime notification service for Ghost CMS blogging websites. It is my submission for the dev.to 2022 MongoDB Hackathon.",
 	"main": "src/index.ts",
 	"scripts": {
-		"dev": "concurrently \"nodemon src/server/index.ts\" \"rollup --config rollup.config.mjs --watch\"",
+		"dev": "concurrently \"nodemon --ignore ./src/server/config/config.json src/server/index.ts\" \"rollup --config rollup.config.mjs --watch\"",
 		"build": "rimraf -r dist && rollup --config rollup.config.mjs",
 		"start": "node dist/index.js",
 		"serve": "npm run build && npm run start"

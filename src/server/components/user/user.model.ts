@@ -11,8 +11,7 @@ export default {
 		return userCollection.findOne({ id: userId });
 	},
 
-	getUserByEmail: (userMail: string) => {
-		const user: unknown = userCollection.findOne({ email: userMail });
-		return user as User;
+	getUserByEmail: async (userMail: string) => {
+		return userCollection.findOne({ email: userMail });
 	},
 };
