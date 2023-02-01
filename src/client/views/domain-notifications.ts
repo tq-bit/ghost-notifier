@@ -5,6 +5,11 @@ import Table from '../components/Table';
 import Button from '../components/Button';
 import Alert from '../components/Alert';
 import Modal from '../components/Modal';
+import Panel from '../components/Panel';
+
+const panel = new Panel('#connection-panel');
+
+console.log(panel);
 
 const domainId = location.href.split('/')[4];
 

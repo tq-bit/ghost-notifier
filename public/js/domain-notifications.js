@@ -208,6 +208,32 @@ class Modal {
     }
 }
 
+class Panel {
+    constructor(panelElementSelector) {
+        this.panelElement = document.querySelector(panelElementSelector);
+        this.init();
+    }
+    init() {
+        const tabNavItems = this.panelElement.querySelectorAll('[data-panel-tab]');
+        const tabBlockItems = this.panelElement.querySelectorAll('[data-panel-tab-item]');
+        if (tabNavItems.length !== tabBlockItems.length) {
+            console.warn('Tabs and its items do not have the same length!');
+        }
+        tabNavItems.forEach((tabNavItem) => {
+            tabNavItem.addEventListener('click', () => {
+                const tabId = tabNavItem.getAttribute('data-panel-tab');
+                const tabBlockItem = this.panelElement.querySelector(`[data-panel-tab-item="${tabId}"]`);
+                tabNavItems.forEach((tab) => tab.classList.remove('is-active'));
+                tabBlockItems.forEach((tab) => tab.classList.add('is-hidden'));
+                tabNavItem.classList.add('is-active');
+                tabBlockItem === null || tabBlockItem === void 0 ? void 0 : tabBlockItem.classList.remove('is-hidden');
+            });
+        });
+    }
+}
+
+const panel = new Panel('#connection-panel');
+console.log(panel);
 const domainId = location.href.split('/')[4];
 /**
  * Elements for domain and notification info

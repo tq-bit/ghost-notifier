@@ -144,70 +144,71 @@
 
     <div class="column is-one-third">
 
-      <div class="panel">
+      <div id="connection-panel" class="panel">
         <header class="panel-heading is-light">
           <h2 class="title is-4">Realtime Server Status</h2>
         </header>
 
         <ul class="panel-tabs">
-          <li class="mx-2 my-1"><a class="is-active">Connection status</a></li>
-          <li class="mx-2 my-1"><a>Danger Zone</a></li>
+          <li class="mx-2 my-1"><a data-panel-tab="1" class="is-active">Connection status</a></li>
+          <li class="mx-2 my-1"><a data-panel-tab="2">Danger Zone</a></li>
         </ul>
 
-        <section class="panel-block is-justify-content-space-between">
-
-          <p>Connection status</p>
-          <div class="is-flex">
-            <span id="connection-indicator-text" class="tag">Connecting </>
-          </div>
-        </section>
-
-
-
-        <section class="panel-block is-justify-content-space-between">
-          <p>Connect to your domain</p>
-          <button id="connection-modal-button" title="Quick overview of how to connect to this domain" class="button is-primary is-small">
-            <span class="icon">
-              <i class="gg-check"></i>
-            </span>
-            <span>Get started</span>
-          </button>
-
-        </section>
-
-        <section id="connection-control-button" class="panel-block is-hidden is-justify-content-space-between">
-          <p><b>Lost connection</b></p>
-          <button class="button is-primary is-small is-block">
-            <span class="icon">
-              <i class="gg-calibrate"></i>
-            </span>
-            <span>Reconnect</span>
-          </button>
-        </section>
-
-        <section class="panel-block">
-          <div class="block">
-            <h3 class="h5">Danger Zone</h3>
+        <div data-panel-tab-item="1">
+          <section class="panel-block is-justify-content-space-between">
+            <p>Connection status</p>
             <div class="is-flex">
-              <form class="mr-2" method="POST" action="/api/domain/{{domain.id}}/toggle-status">
-                <button title="Enable / disable this domain" class="button is-warning">
-                  <span class="icon">
-                    <i class="gg-log-off"></i>
-                  </span>
-                  <span>On/Off</span>
-                </button>
-              </form>
-              <form method="POST" action="/api/domain/{{domain.id}}/delete">
-                <button title="Delete this domain" class="button is-danger">
-                  <span class="icon">
-                    <i class="gg-trash"></i>
-                  </span>
-                  <span>Delete</span>
-                </button>
-              </form>
+              <span id="connection-indicator-text" class="tag">Connecting </>
             </div>
-          </div>
-        </section>
+          </section>
+
+          <section class="panel-block is-justify-content-space-between">
+            <p>Connect to your domain</p>
+            <button id="connection-modal-button" title="Quick overview of how to connect to this domain" class="button is-primary is-small">
+              <span class="icon">
+                <i class="gg-check"></i>
+              </span>
+              <span>Get started</span>
+            </button>
+          </section>
+
+          <section id="connection-control-button" class="panel-block is-hidden is-justify-content-space-between">
+            <p><b>Lost connection</b></p>
+            <button class="button is-primary is-small">
+              <span class="icon">
+                <i class="gg-calibrate"></i>
+              </span>
+              <span>Reconnect</span>
+            </button>
+          </section>
+        </div>
+
+        <div data-panel-tab-item="2" class="is-hidden">
+          <section class="panel-block">
+            <div class="block">
+              <h3 class="h5">Danger Zone</h3>
+              <div class="is-flex">
+                <form class="mr-2" method="POST" action="/api/domain/{{domain.id}}/toggle-status">
+                  <button title="Enable / disable this domain" class="button is-warning">
+                    <span class="icon">
+                      <i class="gg-log-off"></i>
+                    </span>
+                    <span>On/Off</span>
+                  </button>
+                </form>
+                <form method="POST" action="/api/domain/{{domain.id}}/delete">
+                  <button title="Delete this domain" class="button is-danger">
+                    <span class="icon">
+                      <i class="gg-trash"></i>
+                    </span>
+                    <span>Delete</span>
+                  </button>
+                </form>
+              </div>
+            </div>
+          </section>
+        </div>
+
       </div>
     </div>
   </div>
