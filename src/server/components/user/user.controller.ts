@@ -93,13 +93,13 @@ export default {
 
 				return new Responder(req.headers['content-type'] || 'text/html', {
 					onJson: () => res.status(code).send({ status: GN_ERROR_STATUS, error: message }),
-					onOther: () => res.redirect(`/signup?status=${GN_ERROR_STATUS}&message=${message}`),
+					onOther: () => res.redirect(`/login?status=${GN_ERROR_STATUS}&message=${message}`),
 				}).send();
 			}
 
 			return new Responder(req.headers['content-type'] || 'text/html', {
 				onJson: () => res.status(500).send({ status: GN_ERROR_STATUS, error }),
-				onOther: () => res.redirect(`/signup?status=${GN_ERROR_STATUS}&message=${error}`),
+				onOther: () => res.redirect(`/login?status=${GN_ERROR_STATUS}&message=${error}`),
 			}).send();
 		}
 	},
