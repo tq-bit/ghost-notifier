@@ -55,6 +55,24 @@ export default [
 		plugins: [typescript()],
 	},
 
+	{
+		input: 'src/client/views/login.ts',
+		output: {
+			file: './public/js/login.js',
+			format: 'cjs',
+		},
+		plugins: [typescript()],
+	},
+
+	{
+		input: 'src/client/views/signup.ts',
+		output: {
+			file: './public/js/signup.js',
+			format: 'cjs',
+		},
+		plugins: [typescript()],
+	},
+
 	// Styles
 	{
 		input: 'src/client/styles/styles.main.ts',
