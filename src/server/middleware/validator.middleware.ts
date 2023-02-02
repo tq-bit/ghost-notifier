@@ -31,7 +31,7 @@ export default {
 			logger.error(error);
 			return new Responder(req.headers['content-type'] || 'text/html', {
 				onJson: () => res.status(500).send({ status: GN_ERROR_STATUS, error: error }),
-				onOther: () => res.redirect(`/signup/status=${GN_ERROR_STATUS}&message=${error}`),
+				onOther: () => res.redirect(`/signup?status=${GN_ERROR_STATUS}&message=${error}`),
 			}).send();
 		}
 	},
@@ -59,7 +59,7 @@ export default {
 			logger.error(error);
 			return new Responder(req.headers['content-type'] || 'text/html', {
 				onJson: () => res.status(500).send({ status: GN_ERROR_STATUS, error: error }),
-				onOther: () => res.redirect(`/signup/status=${GN_ERROR_STATUS}&message=${error}`),
+				onOther: () => res.redirect(`/signup?status=${GN_ERROR_STATUS}&message=${error}`),
 			}).send();
 		}
 	},
