@@ -10,6 +10,7 @@ import Converter from '../util/converter.util';
 import NotPermittedError from '../errors/http/NotPermitted';
 import NotAuthorizedError from '../errors/http/NotAuthorizedError';
 import { DomainJwtPayload } from '../../@types/authorization';
+import AppConfig from '../config/app.config';
 
 export default {
 	validateWebhookDomain: async (req: Request, res: Response, next: NextFunction): Promise<void> => {
@@ -125,6 +126,25 @@ export default {
 				error instanceof NotFoundError ||
 				error instanceof NotPermittedError
 			) {
+				return res.status(error.options.code).send({ error: error.message });
+			}
+
+			logger.error(error);
+			res.status(500).send({ error });
+		}
+	},
+
+	validateUserCreationIsEnabled: async (req: Request, res: Response, next: NextFunction) => {
+		try {
+			const appConfig = await AppConfig.getAppConfig();
+			if (!appConfig.admin.users.enableUserCreation) {
+				throw new NotPermittedError(
+					'User creation is disabled! Enable it in your admin settings before attemtping to create a new user'
+				);
+			}
+			return next();
+		} catch (error) {
+			if (error instanceof NotPermittedError) {
 				return res.status(error.options.code).send({ error: error.message });
 			}
 

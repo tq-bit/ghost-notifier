@@ -4,7 +4,7 @@ import UserController from './user.controller';
 
 const router: Router = Router();
 
-router.post('/create', UserController.handleUserCreation);
+router.post('/create', Validator.validateUserCreationIsEnabled, UserController.handleUserCreation);
 router.post('/login', UserController.handleUserLogin);
 router.post('/logout', UserController.handleUserLogout);
 

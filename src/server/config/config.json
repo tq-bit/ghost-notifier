@@ -1,7 +1,7 @@
 {
 	"admin": {
 		"users": {
-			"enableUserCreation": true,
+			"enableUserCreation": false,
 			"initialUserWasCreated": false
 		}
 	}

@@ -5,7 +5,7 @@ import { AppConfig } from '../../@types/app';
 export default {
 	getAppConfig: async () => {
 		const buffer = await fs.readFile(path.join(__dirname, 'config.json'));
-		return JSON.parse(Buffer.from(buffer).toString());
+		return JSON.parse(Buffer.from(buffer).toString()) as AppConfig;
 	},
 
 	setAppConfig: async (appConfig: AppConfig) => {
