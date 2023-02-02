@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { AuthorizedRequest } from '../../../@types/authorization';
 import readPackageJsonFile from '../../util/filesystem.util';
 import DomainModel from '../domain/domain.model';
 import NotificationModel from '../notification/notification.model';
@@ -15,13 +16,15 @@ export default {
 	},
 
 	renderDomainsPage: async (req: Request, res: Response) => {
-		const ownedDomains = await DomainModel.getDomainsByOwner('t.quante@outlook.com');
-		res.render('my-domains/home', { data: ownedDomains });
+		const domainOwner = (req as AuthorizedRequest).userJwtPayload?.email;
+		const ownedDomains = await DomainModel.getDomainsByOwner(domainOwner);
+		res.render('my-domains/home', { data: ownedDomains, user: domainOwner });
 	},
 
 	renderDomainNotificationsPage: async (req: Request, res: Response) => {
+		const domainOwner = (req as AuthorizedRequest).userJwtPayload?.email;
 		const domainId = req.params.id;
-		const domain = await DomainModel.getDomainById(domainId);
+		const domain = await DomainModel.getDomainByIdAndOwner(domainId, domainOwner);
 		const notifications = await NotificationModel.getNotificationsByDomainName(domain?.name || '');
 		res.render('my-domains/notifications', { domain, notifications, count: notifications.length });
 	},

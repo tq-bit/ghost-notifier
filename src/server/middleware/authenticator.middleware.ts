@@ -15,7 +15,7 @@ export default {
 		try {
 			const userToken = extractUserTokenFromRequest(req);
 			const userJwtPayload = jwt.verify(userToken, process.env.JWT_KEY || '') as UserJwtPayload;
-			req = { ...req, userJwtPayload } as AuthorizedRequest;
+			(req as AuthorizedRequest).userJwtPayload = userJwtPayload;
 			next();
 		} catch (error) {
 			logger.error(error);

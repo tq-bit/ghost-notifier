@@ -43,12 +43,24 @@
       <div class="navbar-end">
         <div class="navbar-item">
           <div class="buttons">
-            <a href="/signup" class="button is-primary">
-              <strong>Sign up</strong>
-            </a>
-            <a href="/login" class="button is-light">
-              Log in
-            </a>
+
+            <div id="buttons-user-logged-in" class="is-hidden">
+              <form method="POST" action="/api/user/logout">
+                <button title="End the current user session" class="button">
+                  <span>Logout</span>
+                </button>
+              </form>
+            </div>
+
+            <div id="buttons-user-logged-out">
+              <a href="/signup" class="button is-primary">
+                <strong>Sign up</strong>
+              </a>
+              <a href="/login" class="button is-light">
+                Log in
+              </a>
+            </div>
+
           </div>
         </div>
       </div>
