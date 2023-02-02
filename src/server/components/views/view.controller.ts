@@ -36,6 +36,9 @@ export default {
 	renderSignupPage: (req: Request, res: Response) => {
 		res.render('user/signup');
 	},
+	renderSuSignupPage: (req: Request, res: Response) => {
+		res.render('user/su-signup');
+	},
 
 	renderNotFoundPage: (req: Request, res: Response) => {
 		res.render('404');

@@ -1,0 +1,33 @@
+<div class="container">
+  <div class="columns">
+    <div class="column"></div>
+
+    <div class="column is-half">
+      <div class="card mt-6">
+        <div class="card-content">
+          <h1 class="h2 text-center">Create Superuser</h1>
+          <form method="POST" action="/api/user/create/su">
+            <div class="field">
+              <label for="email" class="label">Email</label>
+              <input required id="email" name="email" placeholder="Please enter your Email address" type="email" class="input">
+            </div>
+
+            <div class="field">
+              <label for="password" class="label">Password</label>
+              <input required id="password" name="password" placeholder="Please enter your password" type="password" class="input" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$">
+              <p class="help">Password must be 8 chars long, include upper/lowercase + a number</p>
+            </div>
+
+            <div class="field">
+              <input type="submit" value="Create account" class="button is-primary is-fullwidth">
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="column"></div>
+  </div>
+</div>
+
+<script src="/js/login.js"></script>

@@ -2,6 +2,7 @@ import { Static, Type } from '@sinclair/typebox';
 
 export enum UserRole {
 	Admin = 'admin',
+	SuperUser = 'superuser',
 }
 
 export const UserForm = Type.Object({
