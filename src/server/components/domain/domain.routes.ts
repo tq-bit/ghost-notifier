@@ -13,12 +13,20 @@ router.post(
 	DomainValidator.validateDomainEntry,
 	DomainController.handleDomainCreation
 );
+
 router.post(
 	'/:id/toggle-status',
 	Authenticator.validateUserToken,
+	DomainValidator.validateDomainOwner,
 	DomainController.handleDomainStatusToggle
 );
-router.post('/:id/delete', Authenticator.validateUserToken, DomainController.handleDomainDeletion);
+
+router.post(
+	'/:id/delete',
+	Authenticator.validateUserToken,
+	DomainValidator.validateDomainOwner,
+	DomainController.handleDomainDeletion
+);
 
 router.get(
 	'/:id/notifications/subscribe',
@@ -29,6 +37,7 @@ router.get(
 router.post(
 	'/:id/notifications/delete',
 	Authenticator.validateUserToken,
+	DomainValidator.validateDomainOwner,
 	DomainValidator.validateDomainStatus,
 	notificationController.handleNotificationDeletionByDomain
 );

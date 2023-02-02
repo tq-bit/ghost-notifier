@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import jwt, { JsonWebTokenError } from 'jsonwebtoken';
 import { GN_ERROR_STATUS, GN_SUCCESS_STATUS, GN_WARNING_STATUS } from '../../../constants';
 import { GhostWebhook } from '../../../@types/ghost';
-import { DomainJwtPayload } from '../../../@types/authorization';
+import { AuthorizedRequest, DomainJwtPayload } from '../../../@types/authorization';
 import { validateDomainForm } from '../../../@types/domain';
 import DomainModel from '../../components/domain/domain.model';
 import logger from '../../util/logger.util';
@@ -93,12 +93,12 @@ export default {
 				throw new NotFoundError(`Domain with id ${domainId} not found!`);
 			}
 
-			// @ts-ignore
 			if (domain.status === 'inactive') {
 				throw new NotPermittedError(`Domain with id ${domainId} (${domain.name}) is not active!`);
 			}
 
 			// Append domain to body for usage in notificaiton.listener
+			// TODO: This should happen stateless?
 			req.body = domain;
 
 			next();
@@ -121,7 +121,45 @@ export default {
 			logger.error(error);
 			return new Responder(req.headers['content-type'] || 'text/html', {
 				onJson: () => res.status(500).send({ status: GN_ERROR_STATUS, error: error }),
-				onOther: () => res.redirect(`/signup/status=${GN_ERROR_STATUS}&message=${error}`),
+				onOther: () => res.redirect(`/signup?status=${GN_ERROR_STATUS}&message=${error}`),
+			}).send();
+		}
+	},
+
+	validateDomainOwner: async (req: Request, res: Response, next: NextFunction) => {
+		try {
+			const domainId = req?.params?.id;
+			if (!domainId) {
+				throw new ValidationError('Domain must be specified!');
+			}
+
+			const domainOwner = (req as AuthorizedRequest).userJwtPayload?.email;
+			if (!domainOwner) {
+				throw new NotAuthorizedError(`Request to validate domain owner was not authorized!`);
+			}
+			const domain = await DomainModel.getDomainByIdAndOwner(domainId, domainOwner);
+			if (!domain) {
+				throw new NotFoundError(`Domain with id ${domainId} and owner ${domainOwner} not found!`);
+			}
+
+			next();
+		} catch (error) {
+			if (error instanceof NotAuthorizedError || error instanceof NotFoundError) {
+				const {
+					options: { code },
+					message,
+				} = error;
+				return new Responder(req.headers['content-type'] || 'text/html', {
+					onJson: () => res.status(code).send({ status: GN_ERROR_STATUS, error: message }),
+					onOther: () =>
+						res.redirect(`/my-domains/home?status=${GN_ERROR_STATUS}&message=${message}`),
+				}).send();
+			}
+
+			logger.error(error);
+			return new Responder(req.headers['content-type'] || 'text/html', {
+				onJson: () => res.status(500).send({ status: GN_ERROR_STATUS, error: error }),
+				onOther: () => res.redirect(`/my-domains/home?status=${GN_ERROR_STATUS}&message=${error}`),
 			}).send();
 		}
 	},
