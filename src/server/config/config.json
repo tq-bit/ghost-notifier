@@ -1,7 +1,4 @@
 {
-	"admin": {
-		"users": {
-			"enableUserCreation": true
-		}
-	}
+	"enableUserCreation": true,
+	"wasSuperUserCreated": false
 }

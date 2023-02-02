@@ -3,12 +3,13 @@ import path from 'path';
 import { AppConfig } from '../../@types/app';
 
 export default {
-	getAppConfig: async () => {
+	readAppConfig: async () => {
 		const buffer = await fs.readFile(path.join(__dirname, 'config.json'));
-		return JSON.parse(Buffer.from(buffer).toString()) as AppConfig;
+		const appConfig: AppConfig = JSON.parse(Buffer.from(buffer).toString());
+		return appConfig;
 	},
 
-	setAppConfig: async (appConfig: AppConfig) => {
+	writeAppConfig: async (appConfig: AppConfig) => {
 		return fs.writeFile(path.join(__dirname, 'config.json'), JSON.stringify(appConfig));
 	},
 };

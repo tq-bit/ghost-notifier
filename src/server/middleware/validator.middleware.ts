@@ -147,8 +147,8 @@ export default {
 
 	validateUserCreationIsEnabled: async (req: Request, res: Response, next: NextFunction) => {
 		try {
-			const appConfig = await AppConfig.getAppConfig();
-			if (!appConfig.admin.users.enableUserCreation) {
+			const appConfig = await AppConfig.readAppConfig();
+			if (!appConfig.enableUserCreation) {
 				throw new NotPermittedError(
 					'User creation is disabled! Enable it in your admin settings before attemtping to create a new user'
 				);
