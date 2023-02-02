@@ -2,9 +2,9 @@ import { Request, Response, NextFunction } from 'express';
 import jwt, { JsonWebTokenError } from 'jsonwebtoken';
 import logger from '../util/logger.util';
 import { AuthorizedRequest, UserJwtPayload } from '../../@types/authorization';
-import { GN_COOKIE_NAME } from '../constants';
+import { GN_COOKIE_NAME } from '../../constants';
 import Responder from '../util/responder.util';
-import { GN_ERROR_STATUS } from '../constants';
+import { GN_ERROR_STATUS } from '../../constants';
 
 function extractUserTokenFromRequest(req: Request) {
 	return req.cookies[GN_COOKIE_NAME] || req.headers[GN_COOKIE_NAME];

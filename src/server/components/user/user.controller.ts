@@ -6,7 +6,7 @@ import { UserForm, UserRole, User } from '../../../@types/user';
 import UserModel from './user.model';
 import Responder from '../../util/responder.util';
 import Converter from '../../util/converter.util';
-import { GN_COOKIE_NAME, GN_ERROR_STATUS, GN_SUCCESS_STATUS } from '../../constants';
+import { GN_COOKIE_NAME, GN_ERROR_STATUS, GN_SUCCESS_STATUS } from '../../../constants';
 import NotFoundError from '../../errors/http/NotFoundError';
 
 export default {

@@ -5,7 +5,7 @@ import NotificationModel from './notification.model';
 import logger from '../../util/logger.util';
 import { NotificationType, OwnedDomain } from '../../../@types';
 import Responder from '../../util/responder.util';
-import { GN_ERROR_STATUS, GN_SUCCESS_STATUS } from '../../constants';
+import { GN_ERROR_STATUS, GN_SUCCESS_STATUS } from '../../../constants';
 
 export default {
 	handleArticleCreationNotification: async (req: Request, res: Response) => {

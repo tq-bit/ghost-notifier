@@ -5,7 +5,7 @@ import Responder from '../../util/responder.util';
 import Converter from '../../util/converter.util';
 import NotFoundError from '../../errors/http/NotFoundError';
 import { DomainStatus } from '../../../@types';
-import { GN_ERROR_STATUS, GN_SUCCESS_STATUS } from '../../constants';
+import { GN_ERROR_STATUS, GN_SUCCESS_STATUS } from '../../../constants';
 
 export default {
 	handleDomainCreation: async (req: Request, res: Response) => {
