@@ -1,13 +1,18 @@
 import { Router } from 'express';
 import DomainValidator from './domain.validator';
-import Authenticator from '../../middleware/authenticator.middleware';
 import DomainController from './domain.controller';
 import NotificationListener from '../notification/notification.listener';
 import notificationController from '../notification/notification.controller';
+import Authenticator from '../../middleware/authenticator.middleware';
 
 const router: Router = Router();
 
-router.post('/create', DomainValidator.validateDomainEntry, DomainController.handleDomainCreation);
+router.post(
+	'/create',
+	DomainValidator.validateDomainEntry,
+	Authenticator.validateUserToken,
+	DomainController.handleDomainCreation
+);
 router.post('/:id/toggle-status', DomainController.handleDomainStatusToggle);
 router.post('/:id/delete', DomainController.handleDomainDeletion);
 

@@ -6,14 +6,15 @@ import Converter from '../../util/converter.util';
 import NotFoundError from '../../errors/http/NotFoundError';
 import { DomainStatus } from '../../../@types';
 import { GN_ERROR_STATUS, GN_SUCCESS_STATUS } from '../../../constants';
+import { AuthorizedRequest } from '../../../@types/authorization';
 
 export default {
 	handleDomainCreation: async (req: Request, res: Response) => {
 		try {
-			const owner = 't.quante@outlook.com';
+			const owner = (req as AuthorizedRequest).userJwtPayload.email;
 			const ownedDomain = Converter.convertDomainFormToOwnedDomain(req.body, owner);
 
-			const existingEntry = await DomainModel.getDomainByName(ownedDomain.name);
+			const existingEntry = await DomainModel.getDomainByIdAndOwner(ownedDomain.name, owner);
 
 			if (existingEntry) {
 				throw new ConflictError(`Domain with name ${ownedDomain.name} already exists`);
