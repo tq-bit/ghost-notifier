@@ -9,12 +9,16 @@ const router: Router = Router();
 
 router.post(
 	'/create',
-	DomainValidator.validateDomainEntry,
 	Authenticator.validateUserToken,
+	DomainValidator.validateDomainEntry,
 	DomainController.handleDomainCreation
 );
-router.post('/:id/toggle-status', DomainController.handleDomainStatusToggle);
-router.post('/:id/delete', DomainController.handleDomainDeletion);
+router.post(
+	'/:id/toggle-status',
+	Authenticator.validateUserToken,
+	DomainController.handleDomainStatusToggle
+);
+router.post('/:id/delete', Authenticator.validateUserToken, DomainController.handleDomainDeletion);
 
 router.get(
 	'/:id/notifications/subscribe',
@@ -24,6 +28,7 @@ router.get(
 
 router.post(
 	'/:id/notifications/delete',
+	Authenticator.validateUserToken,
 	DomainValidator.validateDomainStatus,
 	notificationController.handleNotificationDeletionByDomain
 );
