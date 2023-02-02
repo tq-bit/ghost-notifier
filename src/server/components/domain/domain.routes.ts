@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import Validator from '../../middleware/validator.middleware';
+import Authenticator from '../../middleware/authenticator.middleware';
 import DomainController from './domain.controller';
 import NotificationListener from '../notification/notification.listener';
 import notificationController from '../notification/notification.controller';

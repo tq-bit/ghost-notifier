@@ -3,6 +3,7 @@ require('dotenv').config();
 import express from 'express';
 import cors from 'cors';
 import { engine } from 'express-handlebars';
+import cookieParser from 'cookie-parser';
 
 import notificationRouter from './components/notification/notification.routes';
 import domainRouter from './components/domain/domain.routes';
@@ -18,6 +19,7 @@ const PORT: string = process.env.API_PORT || '3001';
 const app: express.Application = express();
 
 app.use(cors());
+app.use(cookieParser());
 app.use(accessLogger);
 app.use(express.static('public'));
 app.use(express.json());
