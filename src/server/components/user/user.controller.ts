@@ -69,7 +69,7 @@ export default {
 				throw new NotFoundError(`User with Email ${userForm.email} not found`);
 			}
 
-			const passwordsMatch = bcrypt.compare(userForm.password, existingUser.passwordHash);
+			const passwordsMatch = await bcrypt.compare(userForm.password, existingUser.passwordHash);
 			if (!passwordsMatch) {
 				throw new NotFoundError(`No user found with this email/password combination`);
 			}
