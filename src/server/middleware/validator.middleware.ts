@@ -11,6 +11,8 @@ import NotPermittedError from '../errors/http/NotPermitted';
 import NotAuthorizedError from '../errors/http/NotAuthorizedError';
 import { DomainJwtPayload } from '../../@types/authorization';
 import AppConfig from '../config/app.config';
+import Responder from '../util/responder.util';
+import { GN_ERROR_STATUS, GN_SUCCESS_STATUS } from '../../constants';
 
 export default {
 	validateWebhookDomain: async (req: Request, res: Response, next: NextFunction): Promise<void> => {
@@ -120,17 +122,26 @@ export default {
 
 			next();
 		} catch (error) {
-			// TODO: Add Transponder here for HTML Form Request
 			if (
 				error instanceof ValidationError ||
 				error instanceof NotFoundError ||
 				error instanceof NotPermittedError
 			) {
-				return res.status(error.options.code).send({ error: error.message });
+				const {
+					options: { code },
+					message,
+				} = error;
+				return new Responder(req.headers['content-type'] || 'text/html', {
+					onJson: () => res.status(code).send({ status: GN_ERROR_STATUS, error: message }),
+					onOther: () => res.redirect(`/signup?status=${GN_ERROR_STATUS}&message=${message}`),
+				}).send();
 			}
 
 			logger.error(error);
-			res.status(500).send({ error });
+			return new Responder(req.headers['content-type'] || 'text/html', {
+				onJson: () => res.status(500).send({ status: GN_ERROR_STATUS, error: error }),
+				onOther: () => res.redirect(`/signup/status=${GN_ERROR_STATUS}&message=${error}`),
+			}).send();
 		}
 	},
 
@@ -145,11 +156,21 @@ export default {
 			return next();
 		} catch (error) {
 			if (error instanceof NotPermittedError) {
-				return res.status(error.options.code).send({ error: error.message });
+				const {
+					options: { code },
+					message,
+				} = error;
+				return new Responder(req.headers['content-type'] || 'text/html', {
+					onJson: () => res.status(code).send({ status: GN_ERROR_STATUS, error: message }),
+					onOther: () => res.redirect(`/signup?status=${GN_ERROR_STATUS}&message=${message}`),
+				}).send();
 			}
 
 			logger.error(error);
-			res.status(500).send({ error });
+			return new Responder(req.headers['content-type'] || 'text/html', {
+				onJson: () => res.status(500).send({ status: GN_ERROR_STATUS, error: error }),
+				onOther: () => res.redirect(`/signup/status=${GN_ERROR_STATUS}&message=${error}`),
+			}).send();
 		}
 	},
 };
