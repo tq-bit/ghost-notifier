@@ -103,4 +103,13 @@ export default {
 			}).send();
 		}
 	},
+
+	handleUserLogout: (req: Request, res: Response) => {
+		res.clearCookie(GN_COOKIE_NAME);
+		const message = 'You have successfully logged out';
+		return new Responder(req.headers['content-type'] || 'text/html', {
+			onJson: () => res.status(200).send({ status: GN_SUCCESS_STATUS, message: message }),
+			onOther: () => res.redirect(`/?status=${GN_SUCCESS_STATUS}&message=${message}`),
+		}).send();
+	},
 };
