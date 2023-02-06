@@ -1,86 +1,9 @@
-<div id="domain-notification-modal" class="modal ">
-  <div class="modal-background"></div>
-  <div class="modal-content">
-
-    <button class="modal-close is-large" aria-label="close"></button>
-    <section class="card block">
-      <div class="card-content">
-        <h2 class="title is-4">Add realtime notifications to your domain</h2>
-        <ol class="block ml-5">
-          <li class="block">
-            Visit <code>{{domain.name}}/ghost/#/settings/integrations/new</code> and click on <b>Add custom integration</b>.
-            Give it a name of your choice
-          </li>
-          <li class="block">
-            Click on the new integration and then on <b>Add Webhook</b>. Depending on what notifications you would
-            like your readers to receive, add one or many of the following entries (*)
-          </li>
-          <ul class="block">
-            <li>
-              For Event <b>Post scheduled</b>, add the following URL:
-              <pre><code>/api/notificiation/schedule?key={{domain.key}}</code></pre>
-            </li>
-            <li>
-              For Event <b>Post published</b>, add the following URL:
-              <pre><code>/api/notificiation/create?key={{domain.key}}</code></pre>
-            </li>
-            <li>
-              For Event <b>Published post updated</b>, add the following relative URL:
-              <pre><code>/api/notificiation/update?key={{domain.key}}</code></pre>
-            </li>
-
-          </ul>
-          <li class="block">
-            Use the <code>ghost-notifier</code> library or build your own logic to
-            subscribe to realtime notifications.
-            <div class="block">
-              <p><b>Subscription URL</b></p>
-              <pre><code>/api/domain/{{domain.id}}/notifications/subscribe</code></pre>
-            </div>
-          </li>
-        </ol>
-        <p class="block">(*) paths are relative to your hostname, <a href="/help#hostname">read more about it here</a></p>
-      </div>
-    </section>
-  </div>
-</div>
-
 <div class="container-fluid">
-
-  <a class="is-link" href="/my-domains/home">
-    <span class="icon-text">
-      <span class="icon">
-        <i class="gg-arrow-left-o"></i>
-      </span>
-      <span>Back to my domains</span>
-    </span>
-  </a>
-
   <header class="level mt-4 ">
     <div class="card mr-2 level-item has-text-centered">
       <div class="card-content">
         <h2 class="heading is-2">Domain </h2>
         <p class="title is-4">{{domain.name}}</p>
-      </div>
-    </div>
-    <div class="card mx-2 level-item has-text-centered">
-      <div class="card-content">
-        <h2 class="heading is-2">Status </h2>
-        <p class="title is-4">{{domain.status}}</p>
-      </div>
-    </div>
-
-    <div class="card mx-2 level-item has-text-centered">
-      <div class="card-content">
-        <h2 class="heading is-2">Access </h2>
-        <p class="title is-4">{{domain.type}}</p>
-      </div>
-    </div>
-
-    <div class="card ml-2 level-item has-text-centered">
-      <div class="card-content">
-        <p class="heading">Notifications</p>
-        <p id="domain-notification-count" class="title is-4">{{count}}</p>
       </div>
     </div>
   </header>

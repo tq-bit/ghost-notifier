@@ -29,6 +29,10 @@ export default {
 		res.render('my-domains/notifications', { domain, notifications, count: notifications.length });
 	},
 
+	renderSettingsPage: async (req: Request, res: Response) => {
+		res.render('user/settings');
+	},
+
 	renderLoginPage: (req: Request, res: Response) => {
 		res.render('user/login');
 	},

@@ -16,6 +16,7 @@ router.get(
 	Authenticator.validateUserToken,
 	ViewController.renderDomainNotificationsPage
 );
+router.get('/settings', Authenticator.validateUserToken, ViewController.renderSettingsPage);
 router.get('/my-domains', (req, res) => res.redirect('/my-domains/home'));
 router.get('/*', ViewController.renderNotFoundPage);
 
