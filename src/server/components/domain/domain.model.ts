@@ -1,4 +1,4 @@
-import { OwnedDomain } from '../../../@types';
+import { DomainStatus, OwnedDomain } from '../../../@types';
 import { domainCollection } from '../../db/dbClient';
 
 export default {
@@ -32,5 +32,13 @@ export default {
 
 	deleteDomainById: (domainId: string) => {
 		return domainCollection.deleteOne({ id: domainId });
+	},
+
+	updateMany: (domainEntries: OwnedDomain[]) => {
+		return domainCollection.updateMany({}, { $set: domainEntries });
+	},
+
+	bulkSetDomainStatusByOwner(ownerName: string, status: DomainStatus) {
+		return domainCollection.updateMany({ owner: ownerName }, { $set: { status } });
 	},
 };

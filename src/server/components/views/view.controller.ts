@@ -30,7 +30,12 @@ export default {
 	},
 
 	renderSettingsPage: async (req: Request, res: Response) => {
-		res.render('user/settings');
+		const { userJwtPayload } = req as AuthorizedRequest;
+		const adminScope = {
+			isSuperUser: userJwtPayload.role === 'superuser',
+			isAdmin: userJwtPayload.role === 'superuser' || userJwtPayload.role === 'admin',
+		};
+		res.render('user/settings', { userJwtPayload, adminScope });
 	},
 
 	renderLoginPage: (req: Request, res: Response) => {

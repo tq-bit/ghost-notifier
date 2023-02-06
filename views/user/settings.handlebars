@@ -1,8 +1,9 @@
 <div class="container-fluid">
-  <header class="level mt-4 ">
+  <h1 class="title is-2">Settings</h1>
+  <header class="level mt-4">
     <div class="card mr-2 level-item has-text-centered">
       <div class="card-content">
-        <h2 class="heading is-2">Domain </h2>
+        <h2 class="heading is-2">Registered domains</h2>
         <p class="title is-4">{{domain.name}}</p>
       </div>
     </div>
@@ -10,122 +11,61 @@
 
 
   <div class="columns">
-    <div class="column is-two-third">
+    <div class="column is-one-half">
       <div class="card block">
         <div class="card-content">
-          <h2 class="title is-4">Notifications</h2>
-          <div class="table-container">
-            <table class="table is-striped">
-              <thead>
-                <tr>
-                  <th>Ghost Title</th>
-                  <th>Ghost URL</th>
-                  <th>Ghost Visibility</th>
-                  <th>Notification Type</th>
-                  <th>Created at</th>
-                </tr>
-              </thead>
-              <tbody id="domain-notification-table-body">
-                {{#each notifications}}
-                <tr>
-                  <td>{{ghostTitle}}</td>
-                  <td>{{ghostOriginalUrl}}</td>
-                  <td>{{ghostVisibility}}</td>
-                  <td>{{type}}</td>
-                  <td>{{created}}</td>
-                </tr>
-                {{/each}}
+          <h2 class="title is-4">Account data</h2>
 
-              </tbody>
-            </table>
+          <div class="panel-block is-justify-content-space-between">
+            <p>Logged in as:</p>
+            <span>{{userJwtPayload.email}}</span>
+          </div>
+          <div class="panel-block is-justify-content-space-between">
+            <p>Assigned role: </p>
+            <span>{{userJwtPayload.role}}</span>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="column is-one-third">
+    <div class="column is-one-half">
+      <div class="card block">
+        <div class="card-content">
+          <h2 class="title is-4">Application settings</h2>
 
-      <div id="connection-panel" class="panel is-dark">
-        <header class="panel-heading">
-          Actions
-        </header>
-        <ul class="panel-tabs">
-          <li class="mx-2 my-1"><a data-panel-tab="1" class="is-active">Realtime notifications</a></li>
-          <li class="mx-2 my-1"><a data-panel-tab="2">Danger Zone</a></li>
-        </ul>
-
-        <div data-panel-tab-item="1">
-          <section class="panel-block is-justify-content-space-between">
-            <p>Connection status</p>
-            <div class="is-flex">
-              <span id="connection-indicator-text" class="tag">Connecting </>
-            </div>
-          </section>
-
-          <section class="panel-block is-justify-content-space-between">
-            <p>Learn how to connect manually</p>
-            <button id="connection-modal-button" title="Quick overview of how to connect to this domain" class="button is-primary is-small">
-              <span class="icon">
-                <i class="gg-check"></i>
-              </span>
-              <span>Get started</span>
-            </button>
-          </section>
-
-          <section id="connection-control-button" class="panel-block is-hidden is-justify-content-space-between">
-            <p><b>Lost connection</b></p>
-            <button class="button is-primary is-small">
-              <span class="icon">
-                <i class="gg-calibrate"></i>
-              </span>
-              <span>Reconnect</span>
-            </button>
-          </section>
-        </div>
-
-        <div data-panel-tab-item="2" class="is-hidden">
-          <section class="panel-block is-justify-content-space-between">
-
-            <p>Delete notification log</p>
-            <form method="POST" action="/api/domain/{{domain.id}}/notifications/delete">
-              <button title="Deletes all notifications for this domain" class="button is-danger is-small">
-                <span class="icon">
-                  <i class="gg-trash"></i>
-                </span>
-                <span>Delete notifications</span>
-              </button>
-            </form>
-
-          </section>
-          <section class="panel-block is-justify-content-space-between">
-            <p>Enable/disable notification sending</p>
-            <form method="POST" action="/api/domain/{{domain.id}}/toggle-status">
-              <button title="Changes whether your readers receive realtime notifications or not" class="button is-danger is-small">
+          {{#if adminScope.isAdmin}} {{!-- Start Admin Scope --}}
+          {{#if adminScope.isSuperUser}} {{!-- Start Superuser Scope --}}
+          <div class="panel-block is-justify-content-space-between">
+            <p>Disable all domains for this account</p>
+            <form method="POST" action="/api/domain/disable-all-domains">
+              <button title="Disables realtime notifications for all domains for which this user is a registered owner." class="button is-danger is-small">
                 <span class="icon">
                   <i class="gg-log-off"></i>
                 </span>
                 <span>Switch notifications</span>
               </button>
             </form>
-          </section>
-
-          <section class="panel-block is-justify-content-space-between">
-            <p>Delete domain (this cannot be undone!)</p>
-            <form method="POST" action="/api/domain/{{domain.id}}/delete">
-              <button title="Deletes this domain. This action cannot be undone!" class="button is-danger is-small">
+          </div>
+          <div class="panel-block is-justify-content-space-between">
+            <p>Close this account</p>
+            <form method="POST" action="/api/user/close-account">
+              <button title="Deletes all domains, notifications and this user. This cannot be undone" class="button is-danger is-small">
                 <span class="icon">
                   <i class="gg-trash"></i>
                 </span>
-                <span>Delete this domain</span>
+                <span>Close this account</span>
               </button>
             </form>
-          </section>
+          </div>
+          {{/if}}{{!-- Close Superuser Scope --}}
+
+          {{else}} {{!-- Case for non-admin user --}}
+          <p>You cannot make changes to this application.</p>
+          {{/if}} {{!-- Close Admin Scope --}}
+
 
         </div>
-
       </div>
     </div>
   </div>
 </div>
-
-<script src="/js/domain-notifications.js"></script>

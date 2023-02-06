@@ -42,6 +42,13 @@ router.post(
 	notificationController.handleNotificationDeletionByDomain
 );
 
+router.post(
+	'/disable-all-domains',
+	Authenticator.validateUserToken,
+	Authenticator.validateSuperUserRole,
+	DomainController.disableAllDomains
+);
+
 // e.g. /api/domain/:id/notifications/subscribe
 
 export default router;

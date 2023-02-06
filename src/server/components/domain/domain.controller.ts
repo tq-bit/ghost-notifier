@@ -55,7 +55,6 @@ export default {
 				throw new NotFoundError(`Domain with ID ${req.params.id} not found`);
 			}
 
-			//@ts-ignore
 			const updatedDomainEntry = {
 				...domainEntry,
 				status:
@@ -86,7 +85,7 @@ export default {
 
 			return new Responder(req.headers['content-type'] || 'text/html', {
 				onJson: () => res.status(500).send({ status: GN_ERROR_STATUS, error }),
-				onOther: () => res.redirect(`my-domains?status=${GN_ERROR_STATUS}&message=${error}`),
+				onOther: () => res.redirect(`/my-domains?status=${GN_ERROR_STATUS}&message=${error}`),
 			}).send();
 		}
 	},
@@ -131,6 +130,41 @@ export default {
 			return new Responder(req.headers['content-type'] || 'text/html', {
 				onJson: () => res.status(500).send({ status: GN_ERROR_STATUS, error }),
 				onOther: () => res.redirect(`my-domains?status=${GN_ERROR_STATUS}&message=${error}`),
+			}).send();
+		}
+	},
+
+	disableAllDomains: async (req: Request, res: Response) => {
+		try {
+			const domainOwner = (req as AuthorizedRequest).userJwtPayload.email;
+			const ownedDomains = await DomainModel.getDomainsByOwner(domainOwner);
+			if (ownedDomains.length === 0) {
+				throw new NotFoundError(`No domains found for ${domainOwner}`);
+			}
+
+			await DomainModel.bulkSetDomainStatusByOwner(domainOwner, DomainStatus.Inactive);
+
+			const message = `Disabled notifications for ${ownedDomains.length} domain(s)`;
+			return new Responder(req.headers['content-type'] || 'text/html', {
+				onJson: () => res.status(200).send({ status: GN_SUCCESS_STATUS, message: message }),
+				onOther: () => res.redirect(`/settings?status=${GN_SUCCESS_STATUS}&message=${message}`),
+			}).send();
+		} catch (error) {
+			if (error instanceof NotFoundError) {
+				const {
+					options: { code },
+					message,
+				} = error;
+
+				return new Responder(req.headers['content-type'] || 'text/html', {
+					onJson: () => res.status(code).send({ status: GN_ERROR_STATUS, error: message }),
+					onOther: () => res.redirect(`/settings?status=${GN_ERROR_STATUS}&message=${message}`),
+				}).send();
+			}
+
+			return new Responder(req.headers['content-type'] || 'text/html', {
+				onJson: () => res.status(500).send({ status: GN_ERROR_STATUS, error }),
+				onOther: () => res.redirect(`/settings?status=${GN_ERROR_STATUS}&message=${error}`),
 			}).send();
 		}
 	},

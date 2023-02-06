@@ -61,7 +61,7 @@ export default {
 	},
 
 	convertUserToUserToken(user: User): string {
-		return jwt.sign({ email: user.email }, process.env.JWT_KEY || '');
+		return jwt.sign({ email: user.email, role: user.role }, process.env.JWT_KEY || '');
 	},
 
 	convertUserTokenToUserPayload(token: string) {
