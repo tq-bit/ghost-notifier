@@ -5,6 +5,8 @@ import { AuthorizedRequest, UserJwtPayload } from '../../@types/authorization';
 import { GN_COOKIE_NAME } from '../../constants';
 import Responder from '../util/responder.util';
 import { GN_ERROR_STATUS } from '../../constants';
+import { UserRole } from '../../@types/user';
+import NotAuthorizedError from '../errors/http/NotAuthorizedError';
 
 function extractUserTokenFromRequest(req: Request) {
 	return req.cookies[GN_COOKIE_NAME] || req.headers[GN_COOKIE_NAME];
@@ -24,6 +26,60 @@ export default {
 			return new Responder(req.headers['content-type'] || 'text/html', {
 				onJson: () => res.status(status).send({ status: GN_ERROR_STATUS, error: message }),
 				onOther: () => res.redirect(`/login?status=${GN_ERROR_STATUS}&message=${message}`),
+			}).send();
+		}
+	},
+
+	validateAdminRole: (req: Request, res: Response, next: NextFunction) => {
+		try {
+			const { email, role } = (req as AuthorizedRequest).userJwtPayload;
+			if (role !== UserRole.SuperUser) {
+				throw new NotAuthorizedError(`User ${email} does not have admin role`);
+			}
+			next();
+		} catch (error) {
+			if (error instanceof NotAuthorizedError) {
+				const {
+					options: { code },
+					message,
+				} = error;
+
+				return new Responder(req.headers['content-type'] || 'text/html', {
+					onJson: () => res.status(code).send({ status: GN_ERROR_STATUS, error: message }),
+					onOther: () => res.redirect(`/settings?status=${GN_ERROR_STATUS}&message=${message}`),
+				}).send();
+			}
+
+			return new Responder(req.headers['content-type'] || 'text/html', {
+				onJson: () => res.status(500).send({ status: GN_ERROR_STATUS, error }),
+				onOther: () => res.redirect(`/settings?status=${GN_ERROR_STATUS}&message=${error}`),
+			}).send();
+		}
+	},
+
+	validateSuperUserRole: (req: Request, res: Response, next: NextFunction) => {
+		try {
+			const { email, role } = (req as AuthorizedRequest).userJwtPayload;
+			if (role !== UserRole.SuperUser) {
+				throw new NotAuthorizedError(`User ${email} does not have superuser role`);
+			}
+			next();
+		} catch (error) {
+			if (error instanceof NotAuthorizedError) {
+				const {
+					options: { code },
+					message,
+				} = error;
+
+				return new Responder(req.headers['content-type'] || 'text/html', {
+					onJson: () => res.status(code).send({ status: GN_ERROR_STATUS, error: message }),
+					onOther: () => res.redirect(`/settings?status=${GN_ERROR_STATUS}&message=${message}`),
+				}).send();
+			}
+
+			return new Responder(req.headers['content-type'] || 'text/html', {
+				onJson: () => res.status(500).send({ status: GN_ERROR_STATUS, error }),
+				onOther: () => res.redirect(`/settings?status=${GN_ERROR_STATUS}&message=${error}`),
 			}).send();
 		}
 	},
