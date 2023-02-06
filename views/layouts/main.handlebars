@@ -44,12 +44,17 @@
         <div class="navbar-item">
           <div class="buttons">
 
-            <div data-user-session="active">
+            <div class="is-flex is-justify-content-between" data-user-session="active">
+              <a href="/profile" class="button is-primary">
+                Profile
+              </a>
               <form method="POST" action="/api/user/logout">
-                <button title="End the current user session" class="button">
+                <button title="End the current user session" class="button is-light">
                   <span>Logout</span>
                 </button>
               </form>
+
+
             </div>
 
             <div data-user-session="inactive">
