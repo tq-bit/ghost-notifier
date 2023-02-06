@@ -10,7 +10,6 @@ export default {
 	},
 
 	writeAppConfig: async (appConfig: AppConfig) => {
-		console.log(appConfig);
 		return await fs.writeFile(path.join(__dirname, 'config.json'), JSON.stringify(appConfig));
 	},
 };

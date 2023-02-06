@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { AuthorizedRequest } from '../../../@types/authorization';
+import AppConfig from '../../config/app.config';
 import readPackageJsonFile from '../../util/filesystem.util';
 import DomainModel from '../domain/domain.model';
 import NotificationModel from '../notification/notification.model';
@@ -31,11 +32,13 @@ export default {
 
 	renderSettingsPage: async (req: Request, res: Response) => {
 		const { userJwtPayload } = req as AuthorizedRequest;
+		const settingsScope = await AppConfig.readAppConfig();
 		const adminScope = {
 			isSuperUser: userJwtPayload.role === 'superuser',
 			isAdmin: userJwtPayload.role === 'superuser' || userJwtPayload.role === 'admin',
 		};
-		res.render('user/settings', { userJwtPayload, adminScope });
+
+		res.render('user/settings', { userJwtPayload, adminScope, settingsScope });
 	},
 
 	renderLoginPage: (req: Request, res: Response) => {

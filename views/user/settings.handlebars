@@ -34,6 +34,19 @@
           <h2 class="title is-4">Application settings</h2>
 
           {{#if adminScope.isAdmin}} {{!-- Start Admin Scope --}}
+
+
+          <div class="panel-block is-justify-content-space-between">
+            <p>{{#if settingsScope.enableUserCreation}} Disable{{else}}Enable {{/if}} user signup</p>
+            <form method="POST" action="/api/settings/toggle-user-creation">
+              <button title="Toggles whether users can sign up on their own or not" class="button is-primary is-small">
+                <span class="icon">
+                  <i class="gg-log-off"></i>
+                </span>
+                <span>{{#if settingsScope.enableUserCreation}} Disable {{else}} Enable {{/if}} user signup </span>
+              </button>
+            </form>
+          </div>
           {{#if adminScope.isSuperUser}} {{!-- Start Superuser Scope --}}
           <div class="panel-block is-justify-content-space-between">
             <p>Disable all domains for this account</p>
