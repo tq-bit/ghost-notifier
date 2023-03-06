@@ -163,4 +163,38 @@ export default {
 			}).send();
 		}
 	},
+
+	validateDomainWebhookPayload: async (req: Request, res: Response, next: NextFunction) => {
+		try {
+			const domainId = req?.params?.id;
+			if (!domainId) {
+				throw new ValidationError('Domain must be specified!');
+			}
+
+			const token = req.body.token;
+			if (!token) {
+				throw new ValidationError(`Admin token for domain is missing!`);
+			}
+
+			next();
+		} catch (error) {
+			if (error instanceof ValidationError) {
+				const {
+					options: { code },
+					message,
+				} = error;
+				return new Responder(req.headers['content-type'] || 'text/html', {
+					onJson: () => res.status(code).send({ status: GN_ERROR_STATUS, error: message }),
+					onOther: () =>
+						res.redirect(`/my-domains/home?status=${GN_ERROR_STATUS}&message=${message}`),
+				}).send();
+			}
+
+			logger.error(error);
+			return new Responder(req.headers['content-type'] || 'text/html', {
+				onJson: () => res.status(500).send({ status: GN_ERROR_STATUS, error: error }),
+				onOther: () => res.redirect(`/my-domains/home?status=${GN_ERROR_STATUS}&message=${error}`),
+			}).send();
+		}
+	},
 };

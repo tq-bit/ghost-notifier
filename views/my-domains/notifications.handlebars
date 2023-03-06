@@ -45,6 +45,35 @@
   </div>
 </div>
 
+<div id="webhook-creation-modal" class="modal ">
+  <div class="modal-background"></div>
+  <div class="modal-content">
+
+    <button class="modal-close is-large" aria-label="close"></button>
+    <section class="card block">
+      <div class="card-content">
+        <h2 class="title is-4">Generate all necessary webhooks</h2>
+        <div class="field">
+          <label class="field-label is-normal" for="name">Domain name</label>
+          <input disabled value="http://{{domain.name}}" class="input is-light" type="url">
+        </div>
+        <form method="POST" action="/api/domain/{{domain.id}}/webhooks/generate">
+          <div class="field">
+            <label class="field-label is-normal" for="name">Admin API token</label>
+            <input required name="token" class="input is-light" type="text" placeholder="Enter your Ghost blog API token">
+          </div>
+
+          <div class="field">
+            <input class="button is-primary" type="submit" value="Submit">
+          </div>
+
+        </form>
+      </div>
+    </section>
+  </div>
+</div>
+
+
 <div class="container-fluid">
 
   <a class="is-link" href="/my-domains/home">
@@ -140,12 +169,22 @@
           </section>
 
           <section class="panel-block is-justify-content-space-between">
+            <p>Create Ghost Webhooks automatically</p>
+            <button id="webhook-modal-button" title="Enter your Ghost blog adress and API key and let Ghost Notifier do the rest" class="button is-primary is-small">
+              <span class="icon">
+                <i class="gg-check"></i>
+              </span>
+              <span>Generate webhooks</span>
+            </button>
+          </section>
+
+          <section class="panel-block is-justify-content-space-between">
             <p>Learn how to connect manually</p>
             <button id="connection-modal-button" title="Quick overview of how to connect to this domain" class="button is-primary is-small">
               <span class="icon">
                 <i class="gg-check"></i>
               </span>
-              <span>Get started</span>
+              <span>Show manual guide</span>
             </button>
           </section>
 

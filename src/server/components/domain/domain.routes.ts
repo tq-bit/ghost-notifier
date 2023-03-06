@@ -43,6 +43,14 @@ router.post(
 );
 
 router.post(
+	'/:id/webhooks/generate',
+	Authenticator.validateUserToken,
+	DomainValidator.validateDomainOwner,
+	DomainValidator.validateDomainWebhookPayload,
+	DomainController.handleWebhookGeneration
+);
+
+router.post(
 	'/disable-all-domains',
 	Authenticator.validateUserToken,
 	Authenticator.validateSuperUserRole,

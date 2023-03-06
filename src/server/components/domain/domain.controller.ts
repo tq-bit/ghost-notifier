@@ -47,6 +47,11 @@ export default {
 		}
 	},
 
+	handleWebhookGeneration: async (req: Request, res: Response) => {
+		console.log(req.body);
+		res.send('OK');
+	},
+
 	handleDomainStatusToggle: async (req: Request, res: Response) => {
 		try {
 			const domainEntry = await DomainModel.getDomainById(req.params.id);
