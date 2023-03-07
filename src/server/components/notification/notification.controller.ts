@@ -92,7 +92,7 @@ export default {
           res.status(500).send({ status: GN_ERROR_STATUS, error: error }),
         onOther: () =>
           res.redirect(
-            `/my-domains?status=${GN_ERROR_STATUS}&message=${error}`,
+            `/my-domains/home?status=${GN_ERROR_STATUS}&message=${error}`,
           ),
       }).send();
     }

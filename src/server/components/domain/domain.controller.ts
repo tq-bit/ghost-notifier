@@ -38,7 +38,7 @@ export default {
           res.status(201).send({ status: GN_SUCCESS_STATUS, message: message }),
         onOther: () =>
           res.redirect(
-            `/my-domains?status=${GN_SUCCESS_STATUS}&message=${message}`,
+            `/my-domains/home?status=${GN_SUCCESS_STATUS}&message=${message}`,
           ),
       }).send();
     } catch (error) {
@@ -53,7 +53,7 @@ export default {
             res.status(code).send({ status: GN_ERROR_STATUS, error: message }),
           onOther: () =>
             res.redirect(
-              `/my-domains?status=${GN_ERROR_STATUS}&message=${message}`,
+              `/my-domains/home?status=${GN_ERROR_STATUS}&message=${message}`,
             ),
         }).send();
       }
@@ -61,7 +61,9 @@ export default {
       return new Responder(req.headers['content-type'] || 'text/html', {
         onJson: () => res.status(500).send({ status: GN_ERROR_STATUS, error }),
         onOther: () =>
-          res.redirect(`my-domains?status=${GN_ERROR_STATUS}&message=${error}`),
+          res.redirect(
+            `my-domains/home?status=${GN_ERROR_STATUS}&message=${error}`,
+          ),
       }).send();
     }
   },
@@ -159,7 +161,7 @@ export default {
           res.status(200).send({ status: GN_SUCCESS_STATUS, message: message }),
         onOther: () =>
           res.redirect(
-            `/my-domains?status=${GN_SUCCESS_STATUS}&message=${message}`,
+            `/my-domains/home?status=${GN_SUCCESS_STATUS}&message=${message}`,
           ),
       }).send();
     } catch (error) {
@@ -174,7 +176,7 @@ export default {
             res.status(code).send({ status: GN_ERROR_STATUS, error: message }),
           onOther: () =>
             res.redirect(
-              `/my-domains?status=${GN_ERROR_STATUS}&message=${message}`,
+              `/my-domains/home?status=${GN_ERROR_STATUS}&message=${message}`,
             ),
         }).send();
       }
@@ -183,7 +185,7 @@ export default {
         onJson: () => res.status(500).send({ status: GN_ERROR_STATUS, error }),
         onOther: () =>
           res.redirect(
-            `/my-domains?status=${GN_ERROR_STATUS}&message=${error}`,
+            `/my-domains/home?status=${GN_ERROR_STATUS}&message=${error}`,
           ),
       }).send();
     }
@@ -216,7 +218,7 @@ export default {
           res.status(200).send({ status: GN_SUCCESS_STATUS, message: message }),
         onOther: () =>
           res.redirect(
-            `/my-domains?status=${GN_SUCCESS_STATUS}&message=${message}`,
+            `/my-domains/home?status=${GN_SUCCESS_STATUS}&message=${message}`,
           ),
       }).send();
     } catch (error) {
@@ -231,7 +233,7 @@ export default {
             res.status(code).send({ status: GN_ERROR_STATUS, error: message }),
           onOther: () =>
             res.redirect(
-              `/my-domains?status=${GN_ERROR_STATUS}&message=${message}`,
+              `/my-domains/home?status=${GN_ERROR_STATUS}&message=${message}`,
             ),
         }).send();
       }
@@ -239,7 +241,9 @@ export default {
       return new Responder(req.headers['content-type'] || 'text/html', {
         onJson: () => res.status(500).send({ status: GN_ERROR_STATUS, error }),
         onOther: () =>
-          res.redirect(`my-domains?status=${GN_ERROR_STATUS}&message=${error}`),
+          res.redirect(
+            `my-domains/home?status=${GN_ERROR_STATUS}&message=${error}`,
+          ),
       }).send();
     }
   },
