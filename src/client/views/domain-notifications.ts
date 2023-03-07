@@ -39,8 +39,13 @@ const connectionControlButton = new Button('#connection-control-button', {
 });
 
 const connectionModal = new Modal('#domain-notification-modal');
-const openConnectionModalButton = new Button('#connection-modal-button', {
+const webhookModal = new Modal('#webhook-creation-modal');
+
+new Button('#connection-modal-button', {
 	onClick: () => connectionModal.show(),
+});
+new Button('#webhook-modal-button', {
+	onClick: () => webhookModal.show(),
 });
 
 /**

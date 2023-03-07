@@ -171,9 +171,14 @@ export default {
 				throw new ValidationError('Domain must be specified!');
 			}
 
+			const appUrl = req.body.appUrl;
+			if (!appUrl) {
+				throw new ValidationError(`Property 'appUrl' is missing in payload!`);
+			}
+
 			const token = req.body.token;
 			if (!token) {
-				throw new ValidationError(`Admin token for domain is missing!`);
+				throw new ValidationError(`Property 'token' is missing in payload!`);
 			}
 
 			next();

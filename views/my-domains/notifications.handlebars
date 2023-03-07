@@ -53,11 +53,14 @@
     <section class="card block">
       <div class="card-content">
         <h2 class="title is-4">Generate all necessary webhooks</h2>
-        <div class="field">
-          <label class="field-label is-normal" for="name">Domain name</label>
-          <input disabled value="http://{{domain.name}}" class="input is-light" type="url">
-        </div>
+
+
         <form method="POST" action="/api/domain/{{domain.id}}/webhooks/generate">
+          <div class="field">
+            <label class="field-label is-normal" for="name">Application URL</label>
+            <input required name="appUrl" class="input is-light" type="url" placeholder="Enter this app's fully qualified domain, e.g. https://notifier.my-blog.com">
+          </div>
+
           <div class="field">
             <label class="field-label is-normal" for="name">Admin API token</label>
             <input required name="token" class="input is-light" type="text" placeholder="Enter your Ghost blog API token">

@@ -67,4 +67,7 @@ export default {
 	convertUserTokenToUserPayload(token: string) {
 		return jwt.verify(token, process.env.JWT_KEY || '') as UserJwtPayload;
 	},
+
+	// TODO: add function to convert admin key to JWT
+	// See https://ghost.org/docs/admin-api/#token-authentication
 };

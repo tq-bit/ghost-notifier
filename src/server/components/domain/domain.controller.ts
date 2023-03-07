@@ -7,6 +7,8 @@ import NotFoundError from '../../errors/http/NotFoundError';
 import { DomainStatus } from '../../../@types';
 import { GN_ERROR_STATUS, GN_SUCCESS_STATUS } from '../../../constants';
 import { AuthorizedRequest } from '../../../@types/authorization';
+import GhostApi from '../ghost/ghost.api';
+import { AxiosError } from 'axios';
 
 export default {
 	handleDomainCreation: async (req: Request, res: Response) => {
@@ -48,8 +50,62 @@ export default {
 	},
 
 	handleWebhookGeneration: async (req: Request, res: Response) => {
-		console.log(req.body);
-		res.send('OK');
+		try {
+			const { appUrl, token } = req.body;
+			const domainEntry = await DomainModel.getDomainById(req.params.id);
+
+			if (!domainEntry) {
+				throw new NotFoundError(`Domain with ID ${req.params.id} not found`);
+			}
+
+			const [err, result] = await GhostApi.postGenerateWebooks({
+				appUrl: appUrl,
+				domainKey: domainEntry.key,
+				ghostAdminToken: token,
+				ghostBlogUrl: domainEntry.name,
+			});
+
+			if (err) throw err;
+
+			const message = `Webhooks for domain ${domainEntry.name} created successfully! You can find them in your Ghost admin interface`;
+			return new Responder(req.headers['content-type'] || 'text/html', {
+				onJson: () => res.status(201).send({ status: GN_SUCCESS_STATUS, message: message }),
+				onOther: () =>
+					res.redirect(`/my-domains/home?status=${GN_SUCCESS_STATUS}&message=${message}`),
+			}).send();
+		} catch (error) {
+			if (error instanceof NotFoundError) {
+				const {
+					options: { code },
+					message,
+				} = error;
+
+				return new Responder(req.headers['content-type'] || 'text/html', {
+					onJson: () => res.status(code).send({ status: GN_ERROR_STATUS, error: message }),
+					onOther: () =>
+						res.redirect(`/my-domains/home?status=${GN_ERROR_STATUS}&message=${message}`),
+				}).send();
+			}
+
+			if (error instanceof AxiosError) {
+				const { response } = error;
+				return new Responder(req.headers['content-type'] || 'text/html', {
+					onJson: () =>
+						res
+							.status(+`${response?.status || 500}`)
+							.send({ status: GN_ERROR_STATUS, error: response?.statusText }),
+					onOther: () =>
+						res.redirect(
+							`/my-domains/home?status=${GN_ERROR_STATUS}&message=${response?.statusText}`
+						),
+				}).send();
+			}
+
+			return new Responder(req.headers['content-type'] || 'text/html', {
+				onJson: () => res.status(500).send({ status: GN_ERROR_STATUS, error }),
+				onOther: () => res.redirect(`/my-domains/home?status=${GN_ERROR_STATUS}&message=${error}`),
+			}).send();
+		}
 	},
 
 	handleDomainStatusToggle: async (req: Request, res: Response) => {
