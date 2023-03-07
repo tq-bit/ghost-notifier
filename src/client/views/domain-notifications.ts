@@ -7,7 +7,7 @@ import Alert from '../components/Alert';
 import Modal from '../components/Modal';
 import Panel from '../components/Panel';
 
-const panel = new Panel('#connection-panel');
+new Panel('#connection-panel');
 
 const domainId = location.href.split('/')[4];
 
@@ -17,7 +17,9 @@ const domainId = location.href.split('/')[4];
  * - Notification table
  */
 
-const notificationCount = document.getElementById('domain-notification-count') as HTMLElement;
+const notificationCount = document.getElementById(
+  'domain-notification-count',
+) as HTMLElement;
 const notificationTable = new Table('#domain-notification-table-body');
 
 /**
@@ -26,26 +28,29 @@ const notificationTable = new Table('#domain-notification-table-body');
  * - Domain action buttons
  * - Modal Element
  */
-const notificationSubscriber = new Subscriber(`/api/domain/${domainId}/notifications/subscribe`, {
-	statusTextElementSelector: '#connection-indicator-text',
-});
+const notificationSubscriber = new Subscriber(
+  `/api/domain/${domainId}/notifications/subscribe`,
+  {
+    statusTextElementSelector: '#connection-indicator-text',
+  },
+);
 
 const connectionControlButton = new Button('#connection-control-button', {
-	onClick: () => {
-		connectionControlButton.hide();
-		notificationSubscriber.init();
-		notificationSubscriber.on('insert', handleInsertNotification);
-	},
+  onClick: () => {
+    connectionControlButton.hide();
+    notificationSubscriber.init();
+    notificationSubscriber.on('insert', handleInsertNotification);
+  },
 });
 
 const connectionModal = new Modal('#domain-notification-modal');
 const webhookModal = new Modal('#webhook-creation-modal');
 
 new Button('#connection-modal-button', {
-	onClick: () => connectionModal.show(),
+  onClick: () => connectionModal.show(),
 });
 new Button('#webhook-modal-button', {
-	onClick: () => webhookModal.show(),
+  onClick: () => webhookModal.show(),
 });
 
 /**
@@ -54,8 +59,8 @@ new Button('#webhook-modal-button', {
  */
 
 const appAlert = new Alert('#app-alert');
-const appAlertButton = new Button('#app-alert-hide-button', {
-	onClick: () => appAlert.unset(),
+new Button('#app-alert-hide-button', {
+  onClick: () => appAlert.unset(),
 });
 
 /**
@@ -63,27 +68,34 @@ const appAlertButton = new Button('#app-alert-hide-button', {
  */
 
 function handleInsertNotification(notification: Notification) {
-	notificationTable.insertRow(notification, [
-		'ghostTitle',
-		'ghostOriginalUrl',
-		'ghostVisibility',
-		'type',
-		'created',
-	]);
-	notificationCount.innerText = `${+notificationCount.innerText + 1}`;
-	appAlert.set({ type: 'success', title: 'Success', text: 'New notification received' }).show();
+  notificationTable.insertRow(notification, [
+    'ghostTitle',
+    'ghostOriginalUrl',
+    'ghostVisibility',
+    'type',
+    'created',
+  ]);
+  notificationCount.innerText = `${+notificationCount.innerText + 1}`;
+  appAlert
+    .set({
+      type: 'success',
+      title: 'Success',
+      text: 'New notification received',
+    })
+    .show();
 }
 
 function main() {
-	new Lifecycle({
-		onPageReady: () => {
-			appAlert.setByUrl();
-			notificationSubscriber.on('insert', handleInsertNotification);
-			notificationSubscriber.onError((err) => {
-				connectionControlButton.show();
-			});
-		},
-	});
+  new Lifecycle({
+    onPageReady: () => {
+      appAlert.setByUrl();
+      notificationSubscriber.on('insert', handleInsertNotification);
+      notificationSubscriber.onError((err) => {
+        console.error(err);
+        connectionControlButton.show();
+      });
+    },
+  });
 }
 
 main();

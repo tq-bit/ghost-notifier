@@ -97,7 +97,7 @@ class Table {
     insertRow(data, fields) {
         const row = document.createElement('tr');
         fields.forEach((field) => {
-            for (let key in data) {
+            for (const key in data) {
                 if (field === key) {
                     const col = document.createElement('td');
                     col.innerText = data[key];
@@ -153,7 +153,7 @@ class Alert {
     setByUrl() {
         const query = new URLSearchParams(location.search);
         const status = query.get('status');
-        if (!!status) {
+        if (status) {
             const message = query.get('message');
             const title = `${status.charAt(0).toUpperCase()}${status.substring(1, status.length)}!`;
             return this.set({ type: status, title: title, text: message }).show();
@@ -167,7 +167,7 @@ class Alert {
     }
     unset() {
         this.hide();
-        for (let key in this.alertTypeMap) {
+        for (const key in this.alertTypeMap) {
             this.alertElement.classList.remove(this.alertTypeMap[key]);
         }
         return this;
@@ -285,7 +285,13 @@ function handleInsertNotification(notification) {
         'created',
     ]);
     notificationCount.innerText = `${+notificationCount.innerText + 1}`;
-    appAlert.set({ type: 'success', title: 'Success', text: 'New notification received' }).show();
+    appAlert
+        .set({
+        type: 'success',
+        title: 'Success',
+        text: 'New notification received',
+    })
+        .show();
 }
 function main() {
     new Lifecycle({
@@ -293,6 +299,7 @@ function main() {
             appAlert.setByUrl();
             notificationSubscriber.on('insert', handleInsertNotification);
             notificationSubscriber.onError((err) => {
+                console.error(err);
                 connectionControlButton.show();
             });
         },

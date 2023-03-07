@@ -9,24 +9,24 @@ const router: Router = Router();
 router.get('/subscribe', NotificationListener.subscribeToArticleNotifications);
 
 router.post(
-	'/article/create',
-	NotificationValidator.validateGhostWebhook,
-	DomainValidator.validateWebhookDomain,
-	NotificationController.handleArticleCreationNotification
+  '/article/create',
+  NotificationValidator.validateGhostWebhook,
+  DomainValidator.validateWebhookDomain,
+  NotificationController.handleArticleCreationNotification,
 );
 
 router.post(
-	'/article/update',
-	NotificationValidator.validateGhostWebhook,
-	DomainValidator.validateWebhookDomain,
-	NotificationController.handleArticleUpdateNotification
+  '/article/update',
+  NotificationValidator.validateGhostWebhook,
+  DomainValidator.validateWebhookDomain,
+  NotificationController.handleArticleUpdateNotification,
 );
 
 router.post(
-	'/article/schedule',
-	NotificationValidator.validateGhostWebhook,
-	DomainValidator.validateWebhookDomain,
-	NotificationController.handleArticleScheduleNotification
+  '/article/schedule',
+  NotificationValidator.validateGhostWebhook,
+  DomainValidator.validateWebhookDomain,
+  NotificationController.handleArticleScheduleNotification,
 );
 
 export default router;

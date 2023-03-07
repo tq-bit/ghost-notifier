@@ -15,7 +15,7 @@ var SessionState = {
         const activeElementsOutSession = document.querySelectorAll('[data-user-session="inactive"]');
         const userToken = getCookie(GN_COOKIE_NAME);
         console.log(userToken);
-        if (!!userToken) {
+        if (userToken) {
             activeElementsOutSession.forEach((element) => element.remove());
         }
         else {

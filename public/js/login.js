@@ -20,7 +20,7 @@ class Alert {
     setByUrl() {
         const query = new URLSearchParams(location.search);
         const status = query.get('status');
-        if (!!status) {
+        if (status) {
             const message = query.get('message');
             const title = `${status.charAt(0).toUpperCase()}${status.substring(1, status.length)}!`;
             return this.set({ type: status, title: title, text: message }).show();
@@ -34,7 +34,7 @@ class Alert {
     }
     unset() {
         this.hide();
-        for (let key in this.alertTypeMap) {
+        for (const key in this.alertTypeMap) {
             this.alertElement.classList.remove(this.alertTypeMap[key]);
         }
         return this;

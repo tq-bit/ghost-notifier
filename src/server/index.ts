@@ -1,4 +1,5 @@
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
 
 import express from 'express';
 import cors from 'cors';
@@ -37,10 +38,8 @@ app.use('/api/settings', settingsRouter);
 app.use('/', viewRouter);
 
 app.listen(PORT, () => {
-	dbClient.connect().then(() => {
-		logger.verbose('Connected to MongoDB');
-	});
-	logger.verbose(`Server listening on http://${HOST}:${PORT}`);
+  dbClient.connect().then(() => {
+    logger.verbose('Connected to MongoDB');
+  });
+  logger.verbose(`Server listening on http://${HOST}:${PORT}`);
 });
-
-import Config from './config/app.config';

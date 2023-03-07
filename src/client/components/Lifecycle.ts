@@ -1,44 +1,44 @@
 type LifecycleOptions = {
-	onDomReady?: () => any;
-	onPageReady?: () => any;
-	onPageUnload?: () => any;
+  onDomReady?: () => void;
+  onPageReady?: () => void;
+  onPageUnload?: () => void;
 };
 
 export default class Lifecycle {
-	isDomReady: boolean = false;
-	isPageReady: boolean = false;
+  isDomReady = false;
+  isPageReady = false;
 
-	constructor({ onDomReady, onPageReady, onPageUnload }: LifecycleOptions) {
-		if (onDomReady) {
-			this.handleDomReady(onDomReady);
-		}
+  constructor({ onDomReady, onPageReady, onPageUnload }: LifecycleOptions) {
+    if (onDomReady) {
+      this.handleDomReady(onDomReady);
+    }
 
-		if (onPageReady) {
-			this.handlePageReady(onPageReady);
-		}
+    if (onPageReady) {
+      this.handlePageReady(onPageReady);
+    }
 
-		if (onPageUnload) {
-			this.handlePageUnload(onPageUnload);
-		}
-	}
+    if (onPageUnload) {
+      this.handlePageUnload(onPageUnload);
+    }
+  }
 
-	private handleDomReady(cb: () => any) {
-		document.addEventListener('DOMContentLoaded', () => {
-			cb();
-			this.isDomReady = true;
-		});
-	}
+  private handleDomReady(cb: () => void) {
+    document.addEventListener('DOMContentLoaded', () => {
+      cb();
+      this.isDomReady = true;
+    });
+  }
 
-	private handlePageReady(cb: () => any) {
-		window.onload = () => {
-			cb();
-			this.isPageReady = true;
-		};
-	}
+  private handlePageReady(cb: () => void) {
+    window.onload = () => {
+      cb();
+      this.isPageReady = true;
+    };
+  }
 
-	private handlePageUnload(cb: () => any) {
-		window.onbeforeunload = () => {
-			cb();
-		};
-	}
+  private handlePageUnload(cb: () => void) {
+    window.onbeforeunload = () => {
+      cb();
+    };
+  }
 }

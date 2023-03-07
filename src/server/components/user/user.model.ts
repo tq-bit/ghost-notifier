@@ -1,17 +1,16 @@
-import bcrypt from 'bcrypt';
-import { User, UserForm } from '../../../@types/user';
+import { User } from '../../../@types/user';
 import { userCollection } from '../../db/dbClient';
 
 export default {
-	createUser: (user: User) => {
-		return userCollection.insertOne(user);
-	},
+  createUser: (user: User) => {
+    return userCollection.insertOne(user);
+  },
 
-	getUserById: (userId: string) => {
-		return userCollection.findOne({ id: userId });
-	},
+  getUserById: (userId: string) => {
+    return userCollection.findOne({ id: userId });
+  },
 
-	getUserByEmail: async (userMail: string) => {
-		return userCollection.findOne({ email: userMail });
-	},
+  getUserByEmail: async (userMail: string) => {
+    return userCollection.findOne({ email: userMail });
+  },
 };

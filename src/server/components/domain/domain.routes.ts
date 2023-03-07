@@ -8,53 +8,53 @@ import Authenticator from '../../middleware/authenticator.middleware';
 const router: Router = Router();
 
 router.post(
-	'/create',
-	Authenticator.validateUserToken,
-	DomainValidator.validateDomainEntry,
-	DomainController.handleDomainCreation
+  '/create',
+  Authenticator.validateUserToken,
+  DomainValidator.validateDomainEntry,
+  DomainController.handleDomainCreation,
 );
 
 router.post(
-	'/:id/toggle-status',
-	Authenticator.validateUserToken,
-	DomainValidator.validateDomainOwner,
-	DomainController.handleDomainStatusToggle
+  '/:id/toggle-status',
+  Authenticator.validateUserToken,
+  DomainValidator.validateDomainOwner,
+  DomainController.handleDomainStatusToggle,
 );
 
 router.post(
-	'/:id/delete',
-	Authenticator.validateUserToken,
-	DomainValidator.validateDomainOwner,
-	DomainController.handleDomainDeletion
+  '/:id/delete',
+  Authenticator.validateUserToken,
+  DomainValidator.validateDomainOwner,
+  DomainController.handleDomainDeletion,
 );
 
 router.get(
-	'/:id/notifications/subscribe',
-	DomainValidator.validateDomainStatus,
-	NotificationListener.subscribeToDomainNotifications
+  '/:id/notifications/subscribe',
+  DomainValidator.validateDomainStatus,
+  NotificationListener.subscribeToDomainNotifications,
 );
 
 router.post(
-	'/:id/notifications/delete',
-	Authenticator.validateUserToken,
-	DomainValidator.validateDomainOwner,
-	DomainValidator.validateDomainStatus,
-	notificationController.handleNotificationDeletionByDomain
+  '/:id/notifications/delete',
+  Authenticator.validateUserToken,
+  DomainValidator.validateDomainOwner,
+  DomainValidator.validateDomainStatus,
+  notificationController.handleNotificationDeletionByDomain,
 );
 
 router.post(
-	'/:id/webhooks/generate',
-	Authenticator.validateUserToken,
-	DomainValidator.validateDomainOwner,
-	DomainValidator.validateDomainWebhookPayload,
-	DomainController.handleWebhookGeneration
+  '/:id/webhooks/generate',
+  Authenticator.validateUserToken,
+  DomainValidator.validateDomainOwner,
+  DomainValidator.validateDomainWebhookPayload,
+  DomainController.handleWebhookGeneration,
 );
 
 router.post(
-	'/disable-all-domains',
-	Authenticator.validateUserToken,
-	Authenticator.validateSuperUserRole,
-	DomainController.disableAllDomains
+  '/disable-all-domains',
+  Authenticator.validateUserToken,
+  Authenticator.validateSuperUserRole,
+  DomainController.disableAllDomains,
 );
 
 // e.g. /api/domain/:id/notifications/subscribe

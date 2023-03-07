@@ -1,7 +1,7 @@
 import SessionState from './stateful/session';
 
 function main() {
-	SessionState.toggleElementsByUserSessionState();
+  SessionState.toggleElementsByUserSessionState();
 }
 
 main();

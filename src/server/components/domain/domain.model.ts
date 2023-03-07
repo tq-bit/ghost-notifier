@@ -2,43 +2,46 @@ import { DomainStatus, OwnedDomain } from '../../../@types';
 import { domainCollection } from '../../db/dbClient';
 
 export default {
-	createDomain: (domain: OwnedDomain) => {
-		return domainCollection.insertOne(domain);
-	},
+  createDomain: (domain: OwnedDomain) => {
+    return domainCollection.insertOne(domain);
+  },
 
-	getDomainById: (domainId: string) => {
-		return domainCollection.findOne({ id: domainId });
-	},
+  getDomainById: (domainId: string) => {
+    return domainCollection.findOne({ id: domainId });
+  },
 
-	getDomainByName: (domainName: string) => {
-		return domainCollection.findOne({ name: domainName });
-	},
+  getDomainByName: (domainName: string) => {
+    return domainCollection.findOne({ name: domainName });
+  },
 
-	getDomainByIdAndOwner(domainId: string, domainOwner: string) {
-		return domainCollection.findOne({ id: domainId, owner: domainOwner });
-	},
+  getDomainByIdAndOwner(domainId: string, domainOwner: string) {
+    return domainCollection.findOne({ id: domainId, owner: domainOwner });
+  },
 
-	getDomainsByOwner: async (ownerName: string): Promise<OwnedDomain[]> => {
-		const cursor = domainCollection.find({ owner: ownerName });
-		let results: any = [];
-		await cursor.forEach((entry) => results.push(entry));
+  getDomainsByOwner: async (ownerName: string): Promise<OwnedDomain[]> => {
+    const cursor = domainCollection.find({ owner: ownerName });
+    const results: any = [];
+    await cursor.forEach((entry) => results.push(entry));
 
-		return Promise.all(results) as Promise<OwnedDomain[]>;
-	},
+    return Promise.all(results) as Promise<OwnedDomain[]>;
+  },
 
-	updateDomainById: (domainId: string, domainEntry: OwnedDomain) => {
-		return domainCollection.updateOne({ id: domainId }, { $set: domainEntry });
-	},
+  updateDomainById: (domainId: string, domainEntry: OwnedDomain) => {
+    return domainCollection.updateOne({ id: domainId }, { $set: domainEntry });
+  },
 
-	deleteDomainById: (domainId: string) => {
-		return domainCollection.deleteOne({ id: domainId });
-	},
+  deleteDomainById: (domainId: string) => {
+    return domainCollection.deleteOne({ id: domainId });
+  },
 
-	updateMany: (domainEntries: OwnedDomain[]) => {
-		return domainCollection.updateMany({}, { $set: domainEntries });
-	},
+  updateMany: (domainEntries: OwnedDomain[]) => {
+    return domainCollection.updateMany({}, { $set: domainEntries });
+  },
 
-	bulkSetDomainStatusByOwner(ownerName: string, status: DomainStatus) {
-		return domainCollection.updateMany({ owner: ownerName }, { $set: { status } });
-	},
+  bulkSetDomainStatusByOwner(ownerName: string, status: DomainStatus) {
+    return domainCollection.updateMany(
+      { owner: ownerName },
+      { $set: { status } },
+    );
+  },
 };

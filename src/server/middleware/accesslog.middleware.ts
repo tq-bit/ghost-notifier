@@ -1,4 +1,4 @@
-import {Request, Response, NextFunction} from 'express'
+import { Request, Response, NextFunction } from 'express';
 import logger from '../util/logger.util';
 
 function accessLogger(req: Request, res: Response, next: NextFunction): void {
