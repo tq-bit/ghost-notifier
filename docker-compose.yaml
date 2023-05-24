@@ -8,3 +8,13 @@ services:
     environment:
       url: http://localhost:2368
       NODE_ENV: 'development'
+  mongo:
+    image: mongo
+    restart: always
+    env_file:
+      - ./.env
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: $MONGO_USER
+      MONGO_INITDB_ROOT_PASSWORD: $MONGO_PASSWORD
+    ports:
+      - "27017:27017"
