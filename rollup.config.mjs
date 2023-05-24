@@ -13,6 +13,7 @@ export default [
       format: 'cjs',
     },
     external: [
+      'axios',
       'cookie-parser',
       'jsonwebtoken',
       'fs/promises',
