@@ -5,6 +5,7 @@
  *  @property	{string}  postVisibility;
  *  @property	{string}  ghostOriginalUrl;
  *  @property	{string}  postPrimaryTag;
+ *  @property {'post-published' | 'post-updated'} type
  */
 
 const NOTIFICATION_URL = 'http://localhost:3000/api/notification/subscribe';
