@@ -122,9 +122,10 @@ function renderNotificationListItem(sseMessage) {
 
   li.classList.add('notification_dropdown__drawer__item');
   li.dataset.postId = ghostNotification.postId;
-
   title.textContent =
-    sseMessage.type === 'replace' ? 'Article updated' : 'Article published';
+    ghostNotification.type === 'post-updated'
+      ? 'Article updated'
+      : 'Article published';
 
   text.textContent = ghostNotification.postTitle;
   text.classList.add('notification_dropdown__text');
