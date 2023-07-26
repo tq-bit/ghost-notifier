@@ -13,6 +13,12 @@
     <img alt="License" src="https://img.shields.io/github/license/tq-bit/ville-de-cuisines?style=plastic&logo=MIT"/>
     <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/tq-bit/ghost-notifier?style=plastic&logo=git"/>
   </div>
+
+  <a href="https://dev.to/devteam/mongodb-atlas-hackathon-2022-winners-announced-iib">
+    <div align="center">
+      <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--Rc2eEGZs--/c_limit,f_auto,fl_progressive,q_80,w_180/https://dev-to-uploads.s3.amazonaws.com/uploads/badge/badge_image/207/mongowinner.png" />
+    </div>
+  </a>
 </div>
 
 ## About the Project
